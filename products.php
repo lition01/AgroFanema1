@@ -1,9 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sq">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products | GreenGrow Fertilizers</title>
+    <title>Katalogu i Produkteve | AgroFanema - Plehra Organike</title>
+    <meta name="description" content="Eksploroni koleksionin tonë të plehrave organike premium. AgroFanema ofron zgjidhje të avancuara për çdo lloj kulture bujqësore.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agrofanema.com/products.php">
+    <meta property="og:title" content="Katalogu i Produkteve | AgroFanema">
+    <meta property="og:description" content="Eksploroni gamën tonë të plotë të plehrave organike dhe zgjidhjeve bujqësore.">
+    <meta property="og:image" content="https://agrofanema.com/images/logo.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Katalogu i Produkteve | AgroFanema">
+    <meta property="twitter:description" content="Zbuloni plehrat tona organike premium.">
+    <meta property="twitter:image" content="https://agrofanema.com/images/logo.svg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="apple-touch-icon" href="images/favicon.svg">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,28 +45,19 @@
         body {
             font-family: 'Outfit', sans-serif;
             overflow-x: hidden;
-            background: #F5F2EA;
+            background-color: #F5F2EA !important; /* Force Panna Background */
             color: #1A1A1A;
         }
     </style>
 </head>
 <body>
     <?php include "essentials/navbar.php" ?>
-    <?php include "page-sections/products-section/categories-section.php" ?>
-    <?php include "page-sections/products-section/all-products-grid.php" ?>
+    
+    <main>
+        <?php include "page-sections/products-sections/product-list.php" ?>
+    </main>
+    
     <?php include "essentials/footer.php" ?>
-
-    <script>
-        // Update active navlink for Products page
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.gg-nav-scope .nav-links a, .gg-nav-scope .dropdown-menu a');
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === 'products.php') {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
+</body>
 </body>
 </html>

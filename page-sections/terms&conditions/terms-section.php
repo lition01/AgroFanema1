@@ -180,7 +180,7 @@
 <body>
    
 
-    <main class="terms-container">
+    <main class="terms-container" id="terms" aria-label="Kushtet dhe Termat - AgroFanema">
         <header class="terms-header">
             <span class="terms-eyebrow">Legal Agreement</span>
             <h1 class="terms-title">Terms of Conditions</h1>

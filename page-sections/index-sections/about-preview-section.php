@@ -1,11 +1,6 @@
-<?php // About Preview Section — GreenGrow Fertilizers ?>
+<?php // About Section Preview — AgroFanema ?>
 
-<!-- Google Fonts — load once per page -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-<section class="gg-about-scope" aria-label="About GreenGrow">
+<section class="gg-about-scope" id="gg-about-preview" aria-label="About AgroFanema Preview">
 <style>
   /* ══════════════════════════════════════════════════════
      ALL styles scoped to .gg-about-scope
@@ -67,7 +62,7 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 1280px;
+    max-width: 1400px; /* Expanded from 1280px */
     margin: 0 auto;
     padding: clamp(72px, 9vw, 120px) var(--ab-h-pad);
     display: grid;
@@ -321,10 +316,10 @@
 
   .gg-about-scope .ab-pill {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row; /* Row instead of column */
+    align-items: center; /* Center horizontally */
     gap: 12px;
-    padding: 20px;
+    padding: 16px 20px;
     background: #FFFFFF;
     border: 1px solid var(--ab-border);
     border-radius: 8px;
@@ -382,7 +377,7 @@
     font-family: var(--ab-font-body);
     font-size: .82rem; font-weight: 600;
     letter-spacing: .1em; text-transform: uppercase;
-    text-decoration: none; border-radius: 3px;
+    text-decoration: none; border-radius: 100px;
     overflow: hidden;
     transition: box-shadow .3s var(--ab-ease), transform .25s var(--ab-ease), color .35s var(--ab-ease);
   }
@@ -397,7 +392,6 @@
   .gg-about-scope .ab-btn:hover {
     color: var(--ab-green-deep);
     box-shadow: 0 10px 34px rgba(200,168,75,.3);
-    transform: translateY(-2px);
   }
 
   .gg-about-scope .ab-btn:hover::before { transform: translateX(0); }
@@ -429,7 +423,7 @@
     transition: transform .25s var(--ab-ease);
   }
 
-  .gg-about-scope .ab-link:hover { color: var(--ab-green-vivid); border-color: var(--ab-green-vivid); }
+  .gg-about-scope .ab-link:hover { color: var(--ab-green-vivid); border-color: var(--ab-green-vivid); background: rgba(0,0,0,0.02); }
   .gg-about-scope .ab-link:hover svg { transform: translateX(3px); }
 
   /* Side label */
@@ -646,11 +640,11 @@
   @media (max-width: 380px) {
     .gg-about-scope { --ab-h-pad: 16px; }
     .gg-about-scope .ab-pills { grid-template-columns: 1fr; } /* Stack on very tiny screens */
-    .gg-about-scope .ab-pill { padding: 14px 16px; flex-direction: row; align-items: center; }
+    .gg-about-scope .ab-pill { padding: 14px 16px; }
   }
 </style>
 
-  <span class="ab-side-label" aria-hidden="true">GreenGrow Fertilizer Co. — Est. 2004</span>
+  <span class="ab-side-label" aria-hidden="true">AgroFanema — <?php echo t('est'); ?> 1994</span>
 
   <div class="ab-inner">
 
@@ -703,10 +697,10 @@
       <div class="ab-rule" aria-hidden="true"></div>
 
       <p class="ab-body">
-        Founded in 2004, <strong>GreenGrow Fertilizer Co.</strong> has spent two decades at the
-        intersection of agricultural science and sustainable chemistry. We develop
-        precision-engineered nutrient formulas that work in harmony with the soil — not
-        against it — boosting yields while preserving the ecosystem your crops depend on.
+        <?php echo t('founded'); ?> 1994, <strong>AgroFanema</strong> has spent decades at the
+        forefront of agricultural innovation. We specialize in developing nutrient-rich
+        organic fertilizers that empower farmers to grow healthier crops while preserving
+        the planet's most vital resource: the soil.
       </p>
 
       <p class="ab-body">
@@ -736,14 +730,14 @@
       </div>
 
       <div class="ab-cta-wrap">
-        <a href="/about" class="ab-btn">
+        <a href="about.php" class="ab-btn">
           <span>Read More</span>
           <svg viewBox="0 0 24 24">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="12 5 19 12 12 19"/>
           </svg>
         </a>
-        <a href="/contact" class="ab-link">
+        <a href="contact.php" class="ab-link">
           Talk to an Expert
           <svg viewBox="0 0 24 24">
             <line x1="5" y1="12" x2="19" y2="12"/>

@@ -1,6 +1,6 @@
-<?php // Benefits Section — GreenGrow Fertilizers ?>
+<?php // Benefits Section — AgroFanema ?>
 
-<section class="gg-ben-scope" aria-label="Product Benefits">
+<section class="gg-ben-scope" id="benefits" aria-label="Përfitimet e AgroFanema">
 <style>
   /* ══════════════════════════════════════════════════════════
      BENEFITS SECTION (Scoped)
@@ -213,12 +213,10 @@
 </style>
 
   <div class="ben-inner">
-    <header class="ben-header">
-      <h2 class="ben-headline">Built for Better Harvests</h2>
-      <p class="ben-subline">
-        With a lot of powerful features, we guarantee simplicity and clarity.
-      </p>
-    </header>
+    <div class="ben-header">
+      <span class="ben-eyebrow"><?php echo t('benefits'); ?></span>
+      <h2 class="ben-title">Why Choose <em>AgroFanema</em>?</h2>
+    </div>
 
     <div class="ben-container">
       <!-- Horizontal background bar -->

@@ -1,6 +1,6 @@
-<?php // Hero Section — GreenGrow Fertilizers ?>
+<?php // Hero Section — AgroFanema ?>
 
-<section class="gg-hero-scope" aria-label="Hero">
+<section class="gg-hero-scope" id="gg-hero" aria-label="AgroFanema Hero Section">
   <style>
     /* ══════════════════════════════════════════
        HERO SECTION (Scoped to .gg-hero-scope)
@@ -24,8 +24,8 @@
 
       position: relative;
       width: 100%;
-      height: 100svh;
-      min-height: 600px;
+      height: calc(100vh - 68px); /* Account for the fixed 68px navbar height */
+      height: calc(100svh - 68px); /* Use dynamic viewport height for better mobile fit */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -150,9 +150,9 @@
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 1240px;
-      margin: auto auto 0;
-      padding: 100px var(--gg-hero-h-pad) 40px;
+      max-width: 1400px; /* Expanded from 1240px */
+      margin: 0 auto;
+      padding: 60px var(--gg-hero-h-pad) 20px;
     }
 
     .gg-hero-scope .hero-eyebrow {
@@ -161,8 +161,7 @@
       gap: 12px;
       margin-bottom: clamp(12px, 2.5vh, 28px);
       opacity: 0;
-      transform: translateY(20px);
-      animation: gg-hero-reveal 0.7s var(--gg-hero-ease-out) 0.5s forwards;
+      animation: gg-hero-reveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.5s forwards;
     }
 
     .gg-hero-scope .eyebrow-line {
@@ -189,8 +188,7 @@
       max-width: 820px;
       margin-bottom: clamp(16px, 3.2vh, 36px);
       opacity: 0;
-      transform: translateY(28px);
-      animation: gg-hero-reveal 0.8s var(--gg-hero-ease-out) 0.75s forwards;
+      animation: gg-hero-reveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.7s forwards;
     }
 
     .gg-hero-scope .hero-headline em {
@@ -212,8 +210,7 @@
       max-width: 560px;
       margin-bottom: clamp(24px, 4.8vh, 56px);
       opacity: 0;
-      transform: translateY(24px);
-      animation: gg-hero-reveal 0.8s var(--gg-hero-ease-out) 1.0s forwards;
+      animation: gg-hero-reveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.9s forwards;
     }
 
     .gg-hero-scope .hero-desc strong {
@@ -227,8 +224,7 @@
       gap: 24px;
       flex-wrap: wrap;
       opacity: 0;
-      transform: translateY(20px);
-      animation: gg-hero-reveal 0.8s var(--gg-hero-ease-out) 1.2s forwards;
+      animation: gg-hero-reveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) 1.1s forwards;
     }
 
     .gg-hero-scope .btn-primary,
@@ -238,7 +234,7 @@
       justify-content: center;
       height: var(--gg-hero-btn-h);
       padding: 0 36px;
-      border-radius: 4px;
+      border-radius: 100px;
       font-family: var(--gg-hero-font-body);
       font-size: 0.875rem;
       font-weight: 600;
@@ -254,26 +250,13 @@
       background: var(--gg-hero-gold);
       color: var(--gg-hero-green-deep);
       border: none;
-      overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     }
 
-    .gg-hero-scope .btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--gg-hero-green-dark);
-      transform: translateX(-101%);
-      transition: transform 0.45s cubic-bezier(0.7,0,0.2,1);
-    }
-
     .gg-hero-scope .btn-primary:hover {
-      color: var(--gg-hero-gold);
-      box-shadow: 0 12px 30px rgba(200,168,75,0.3);
-      transform: translateY(-2px);
+      background: var(--gg-hero-green-mid);
+      color: var(--gg-hero-white);
     }
-
-    .gg-hero-scope .btn-primary:hover::before { transform: translateX(0); }
 
     .gg-hero-scope .btn-primary span,
     .gg-hero-scope .btn-primary svg { position: relative; z-index: 1; }
@@ -306,25 +289,23 @@
     .gg-hero-scope .btn-ghost:hover {
       border-color: var(--gg-hero-white);
       background: rgba(255,255,255,0.05);
-      transform: translateY(-2px);
     }
 
     /* ══════════════════════════════════════════
        STATS
        Desktop  → single row, 4 columns
-       ≤ 640px  → 2 × 2 grid, perfectly aligned
-       ≤ 380px  → 2 × 2 grid, tighter
+       ≤ 860px  → 2 × 2 grid, perfectly aligned
+       ≤ 480px  → 2 × 2 grid, tighter
     ══════════════════════════════════════════ */
     .gg-hero-scope .hero-stats {
       position: relative;
       width: 100%;
-      max-width: 1240px;
+      max-width: 1400px; /* Expanded from 1240px */
       margin: 0 auto;
-      padding: 0 var(--gg-hero-h-pad) clamp(36px, 7vh, 60px);
+      padding: 0 var(--gg-hero-h-pad) clamp(32px, 5vh, 60px);
       z-index: 10;
       opacity: 0;
-      transform: translateY(16px);
-      animation: gg-hero-reveal 0.8s var(--gg-hero-ease-out) 1.5s forwards;
+      animation: gg-hero-reveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) 1.3s forwards;
 
       /* 4-column grid — each column equal width */
       display: grid;
@@ -347,21 +328,23 @@
     }
 
     .gg-hero-scope .stat-num {
-      font-family: var(--gg-hero-font-display);
-      font-size: clamp(1.9rem, 3.6vh, 3.4rem);
+      font-family: var(--gg-hero-font-body);
+      font-size: clamp(2rem, 4vw, 2.6rem);
       font-weight: 700;
       color: var(--gg-hero-white);
       line-height: 1;
-      margin-bottom: 6px;
       display: flex;
-      align-items: baseline;
-      gap: 2px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+      font-variant-numeric: tabular-nums;
     }
 
     .gg-hero-scope .stat-num span {
+      font-size: 0.9rem; /* Slightly smaller suffix */
+      font-weight: 400;
       color: var(--gg-hero-gold);
-      font-size: 0.58em;
-      font-weight: 600;
+      margin-left: 3px;
     }
 
     .gg-hero-scope .stat-label {
@@ -373,52 +356,17 @@
       line-height: 1.35;
     }
 
-    /* ── Scroll hint ────────────────────────── */
-    .gg-hero-scope .scroll-hint {
-      position: absolute;
-      bottom: 56px;
-      right: var(--gg-hero-h-pad);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      z-index: 10;
-      opacity: 0;
-      animation: gg-hero-reveal 1s var(--gg-hero-ease-out) 1.8s forwards;
-    }
-
-    .gg-hero-scope .scroll-hint-label {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gg-hero-text-muted);
-      writing-mode: vertical-rl;
-    }
-
-    .gg-hero-scope .scroll-track {
-      width: 1px; height: 60px;
-      background: rgba(255,255,255,0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .gg-hero-scope .scroll-track::after {
-      content: '';
-      position: absolute;
-      top: -40%; left: 0;
-      width: 100%; height: 40%;
-      background: var(--gg-hero-gold);
-      animation: gg-hero-scroll-run 2.2s ease-in-out infinite;
-    }
-
-    @keyframes gg-hero-scroll-run {
-      0%   { top: -40%; }
-      100% { top: 140%; }
-    }
-
     @keyframes gg-hero-reveal {
-      to { opacity:1; transform:translateY(0); }
+      0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.96);
+        filter: blur(12px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
     }
 
     /* ══════════════════════════════════════════
@@ -427,11 +375,33 @@
     @media (max-width: 1024px) {
       .gg-hero-scope { --gg-hero-h-pad: 48px; }
       .gg-hero-scope .hero-content { padding-top: 80px; }
-      .gg-hero-scope .scroll-hint  { display: none; }
+    }
+
+    @media (max-width: 991px) {
+      .gg-hero-scope {
+        justify-content: center;
+        align-items: center;
+      }
+      .gg-hero-scope .hero-content {
+        margin: 0;
+        padding: 40px var(--gg-hero-h-pad);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .gg-hero-scope .hero-stats {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
     }
 
     @media (max-width: 860px) {
       .gg-hero-scope { --gg-hero-h-pad: 40px; }
+      .gg-hero-scope .hero-content { padding-top: clamp(80px, 12vh, 140px); padding-bottom: 40px; }
+      
       /* Hide decorative nodes on mid-size screens */
       .gg-hero-scope .node-1,
       .gg-hero-scope .node-2,
@@ -439,81 +409,61 @@
       .gg-hero-scope .node-4,
       .gg-hero-scope .node-5,
       .gg-hero-scope .node-lines { display: none; }
-    }
-
-    /* ── 2 × 2 grid for small screens ────────
-       Triggers at 640px. Each cell is exactly
-       half the container width, so all four
-       stats form a perfectly aligned square.
-    ───────────────────────────────────────── */
-    @media (max-width: 640px) {
-      .gg-hero-scope { --gg-hero-h-pad: 28px; }
 
       .gg-hero-scope .hero-stats {
-        /* Switch to 2-column grid */
-        grid-template-columns: 1fr 1fr;
-        gap: 0;
-        /* Extra bottom padding so content doesn't crowd the edge */
-        padding-bottom: clamp(32px, 7vw, 52px);
+        grid-template-columns: repeat(2, 1fr);
+        padding-bottom: clamp(24px, 4vh, 48px);
       }
 
-      /* Row divider between top and bottom rows */
       .gg-hero-scope .stat-item {
-        padding: clamp(16px, 4vw, 24px) clamp(12px, 4vw, 24px);
+        padding: 16px;
         border-left: none;
         border-top: 1px solid rgba(255,255,255,0.1);
+        align-items: center;
+        text-align: center;
       }
 
-      /* Top-left: no top border */
-      .gg-hero-scope .stat-item:nth-child(1) {
-        border-top: none;
-        padding-left: 0;
-      }
+      .gg-hero-scope .stat-item:nth-child(1),
+      .gg-hero-scope .stat-item:nth-child(2) { border-top: none; }
+      
+      .gg-hero-scope .stat-item:nth-child(even) { border-left: 1px solid rgba(255,255,255,0.1); }
+    }
 
-      /* Top-right: vertical divider on left, no top border */
-      .gg-hero-scope .stat-item:nth-child(2) {
-        border-top: none;
-        border-left: 1px solid rgba(255,255,255,0.1);
-      }
-
-      /* Bottom-left: only top border */
-      .gg-hero-scope .stat-item:nth-child(3) {
-        padding-left: 0;
-      }
-
-      /* Bottom-right: top border + vertical divider */
-      .gg-hero-scope .stat-item:nth-child(4) {
-        border-left: 1px solid rgba(255,255,255,0.1);
-      }
-
-      .gg-hero-scope .stat-num   { font-size: clamp(1.7rem, 7vw, 2.2rem); }
-      .gg-hero-scope .stat-label { font-size: clamp(0.6rem, 2.4vw, 0.72rem); }
-
+    @media (max-width: 640px) {
+      .gg-hero-scope { --gg-hero-h-pad: 28px; }
+      .gg-hero-scope .hero-content { padding-top: clamp(70px, 10vh, 100px); }
+      .gg-hero-scope .hero-headline { font-size: clamp(2.2rem, 8vh, 3.2rem); margin-bottom: 16px; }
+      .gg-hero-scope .hero-desc { font-size: 0.95rem; margin-bottom: 24px; line-height: 1.5; }
+      .gg-hero-scope .hero-stats { padding-bottom: 24px; }
+      .gg-hero-scope .stat-num { font-size: 1.8rem; }
+      .gg-hero-scope .stat-label { font-size: 0.6rem; }
+      
       /* Stack CTA buttons */
-      .gg-hero-scope .hero-cta-group { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .gg-hero-scope .hero-cta-group { flex-direction: row; justify-content: flex-start; gap: 12px; }
       .gg-hero-scope .btn-primary,
-      .gg-hero-scope .btn-ghost      { width: 100%; max-width: 340px; }
+      .gg-hero-scope .btn-ghost { padding: 0 20px; height: 48px; font-size: 0.75rem; }
     }
 
     @media (max-width: 480px) {
       .gg-hero-scope { --gg-hero-h-pad: 20px; }
-      .gg-hero-scope .hero-content { padding-top: 70px; padding-bottom: 32px; }
-      .gg-hero-scope .hero-headline { font-size: clamp(2rem, 8vw, 2.4rem); }
-
-      .gg-hero-scope .stat-item {
-        padding: clamp(14px, 3.5vw, 20px) clamp(10px, 3.5vw, 18px);
-      }
-
-      .gg-hero-scope .stat-item:nth-child(1),
-      .gg-hero-scope .stat-item:nth-child(3) { padding-left: 0; }
-
-      .gg-hero-scope .stat-num   { font-size: clamp(1.5rem, 6.5vw, 1.9rem); }
-      .gg-hero-scope .stat-label { font-size: clamp(0.58rem, 2.2vw, 0.68rem); }
+      .gg-hero-scope .hero-content { padding-top: 80px; padding-bottom: 20px; }
+      .gg-hero-scope .hero-headline { font-size: clamp(1.8rem, 7vh, 2.4rem); }
+      .gg-hero-scope .hero-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 20px; }
+      
+      .gg-hero-scope .stat-item { padding: 12px 8px; }
+      .gg-hero-scope .stat-num { font-size: 1.5rem; }
+      .gg-hero-scope .stat-num span { font-size: 0.7rem; }
+      
+      .gg-hero-scope .hero-cta-group { gap: 8px; }
+      .gg-hero-scope .btn-primary,
+      .gg-hero-scope .btn-ghost { flex: 1; padding: 0 12px; font-size: 0.7rem; letter-spacing: 0.05em; }
     }
 
-    @media (max-width: 360px) {
-      .gg-hero-scope .stat-num   { font-size: 1.4rem; }
-      .gg-hero-scope .stat-label { font-size: 0.58rem; letter-spacing: 0.06em; }
+    /* Extra safety for very short screens (landscape phones etc) */
+    @media (max-height: 500px) {
+      .gg-hero-scope .hero-desc { display: none; }
+      .gg-hero-scope .hero-content { padding-top: 60px; }
+      .gg-hero-scope .hero-stats { display: none; }
     }
   </style>
 
@@ -539,31 +489,27 @@
   </div>
 
   <div class="hero-content">
-    <div class="hero-eyebrow" aria-label="Category">
+    <div class="hero-eyebrow">
       <span class="eyebrow-line"></span>
-      <span class="eyebrow-text">Advanced Agricultural Chemistry</span>
+      <span class="eyebrow-text"><?php echo t('since'); ?> 1994</span>
     </div>
 
     <h1 class="hero-headline">
-      Cultivate the&nbsp;<em>Future</em><br>
-      of <span class="hl-green">Sustainable</span><br>
-      Agriculture
+      <?php echo t('hero_title'); ?>
     </h1>
 
     <p class="hero-desc">
-      Precision-engineered fertilizers that <strong>increase crop yields by up to 40%</strong>
-      while restoring soil microbiome health — delivering measurable results across
-      every season, every climate, every crop.
+      <?php echo t('hero_desc'); ?>
     </p>
 
     <div class="hero-cta-group">
-      <a href="#products" class="btn-primary">
-        <span>Explore Products</span>
-        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      <a href="products.php" class="btn-primary">
+        <span><?php echo t('explore_products'); ?></span>
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <a href="#research" class="btn-ghost">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-        Watch Field Results
+      <a href="about.php" class="btn-ghost">
+        <span><?php echo t('learn_more'); ?></span>
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
       </a>
     </div>
   </div>
@@ -571,26 +517,23 @@
   <div class="hero-stats" aria-label="Key figures">
     <div class="stat-item">
       <div class="stat-num" data-target="40"  data-suffix="%">40<span>%</span></div>
-      <div class="stat-label">Avg. Yield Increase</div>
+      <div class="stat-label"><?php echo t('yield_increase'); ?></div>
     </div>
     <div class="stat-item">
       <div class="stat-num" data-target="120" data-suffix="+">120<span>+</span></div>
-      <div class="stat-label">Crop Varieties Tested</div>
+      <div class="stat-label"><?php echo t('varieties_tested'); ?></div>
     </div>
     <div class="stat-item">
       <div class="stat-num" data-target="58"  data-suffix="K">58<span>K</span></div>
-      <div class="stat-label">Hectares Improved</div>
+      <div class="stat-label"><?php echo t('hectares_improved'); ?></div>
     </div>
     <div class="stat-item">
       <div class="stat-num" data-target="99"  data-suffix="%">99<span>%</span></div>
-      <div class="stat-label">Soil Safety Rating</div>
+      <div class="stat-label"><?php echo t('safety_rating'); ?></div>
     </div>
   </div>
 
-  <div class="scroll-hint" aria-hidden="true">
-    <span class="scroll-hint-label">Scroll</span>
-    <div class="scroll-track"></div>
-  </div>
+
 
   <script>
     (function () {

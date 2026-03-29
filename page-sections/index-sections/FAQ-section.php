@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GreenGrow — FAQ</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
-</head>
-<body style="margin:0;background:#F5F2EA;">
+<?php // FAQ Section — AgroFanema ?>
 
-<section class="gg-faq-scope" aria-label="Frequently Asked Questions">
+<section class="gg-faq-scope" id="faq" aria-label="Pyetje të Shpeshta - AgroFanema">
 <style>
   .gg-faq-scope {
     --fq-bg:           #F5F2EA;
@@ -27,7 +17,7 @@
     background: var(--fq-bg);
     color: var(--fq-text);
     font-family: var(--fq-font-body);
-    padding: clamp(80px, 10vw, 120px) 0;
+    padding: clamp(60px, 8vw, 100px) 0; /* Reduced padding */
     position: relative;
     overflow: hidden;
   }
@@ -267,9 +257,9 @@
   <div class="fq-inner">
 
     <header class="fq-header">
-      <span class="fq-eyebrow">Support Center</span>
-      <h2 class="fq-title">Frequently Asked <em>Questions</em></h2>
-      <p class="fq-sub">Everything you need to know about our organic fertilizers and how they work to restore your soil's health.</p>
+      <span class="fq-eyebrow"><?php echo t('support_center'); ?></span>
+      <h2 class="fq-title"><?php echo t('faq'); ?></h2>
+      <p class="fq-sub"><?php echo t('faq_sub'); ?></p>
     </header>
 
     <div class="fq-grid">
@@ -380,7 +370,5 @@
       });
     });
   })();
-  </script>
+</script>
 </section>
-</body>
-</html>

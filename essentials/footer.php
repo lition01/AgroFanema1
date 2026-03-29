@@ -1,36 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon_atoms.ico" type="image/x-icon">
-    <title>AgroFanema — GreenGrow Fertilizers</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-   <style>
-/* ══════════════════════════════════════════
-   GLOBAL RESET & PAGE STYLES
-══════════════════════════════════════════ */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    min-height: 100vh;
-    font-family: 'Outfit', sans-serif;
-    background: #0D2117;
-    color: #FFFFFF;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-}
-
+<style>
 /* ══════════════════════════════════════════
    FOOTER (Scoped)
 ══════════════════════════════════════════ */
@@ -98,64 +66,68 @@ body {
     margin-bottom: 32px;
 }
 
-/* ─── LOGO: DigiFlow-style structure ─── */
+/* ─── LOGO ─── */
 .ft-brand-logo {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 0;
     text-decoration: none;
     margin-bottom: 25px;
+    flex-shrink: 0;
 }
 
 .ft-logo-mark {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, rgba(200, 168, 75, 0.3) 0%, rgba(224, 199, 106, 0.2) 100%);
-    border: 2px solid rgba(200, 168, 75, 0.5);
-    border-radius: 12px;
+    width: 86px; /* Increased from 78px */
+    height: 86px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    box-shadow: 0 0 20px rgba(200, 168, 75, 0.3);
+    border-radius: 0;
+    background: none;
+    transition: transform 0.35s var(--ft-ease);
+    margin-left: -8px; /* Pull the logo slightly more left */
 }
 
 .ft-brand-logo:hover .ft-logo-mark {
-    box-shadow: 0 8px 30px rgba(200, 168, 75, 0.5);
-    border-color: rgba(224, 199, 106, 0.6);
-}
-
-.ft-brand-logo:hover .ft-logo-mark img {
-    transform: scale(1.1);
+    transform: scale(1.04);
 }
 
 .ft-logo-mark img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     display: block;
-    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.ft-logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    margin-left: -12px; /* Pull the text closer to the logo image */
 }
 
 .ft-logo-name {
     font-family: var(--ft-font-display);
-    font-size: 28px;
+    font-size: 1.4rem;
     font-weight: 700;
-    line-height: 1;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(200, 168, 75, 0.95) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 0 20px rgba(200, 168, 75, 0.3));
+    color: var(--ft-primary);
+    letter-spacing: 0.02em;
+    transition: color 0.3s var(--ft-ease);
+}
+
+.ft-brand-logo:hover .ft-logo-name {
+    color: var(--ft-accent);
 }
 
 .ft-brand-desc {
-    font-size: 0.95rem;
-    line-height: 1.7;
+    font-size: 0.82rem;
+    line-height: 1.6;
     color: var(--ft-text-muted);
-    max-width: 300px;
+    margin-bottom: 24px;
+    max-width: 280px;
 }
 
 /* ─── Nav Links ─── */
@@ -251,27 +223,51 @@ a.ft-contact-value:hover { color: #FFFFFF; }
 }
 
 .ft-social-link {
-    color: var(--ft-text-muted);
-    transition: all 0.3s var(--ft-ease);
+    position: relative;
+    color: rgba(255, 255, 255, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--ft-border);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: color 0.35s var(--ft-ease),
+                background 0.35s var(--ft-ease),
+                border-color 0.35s var(--ft-ease),
+                transform 0.35s var(--ft-ease),
+                box-shadow 0.35s var(--ft-ease);
+    overflow: hidden;
+}
+
+/* Shimmer layer on hover */
+.ft-social-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200, 168, 75, 0.18) 0%, rgba(200, 168, 75, 0.04) 100%);
+    opacity: 0;
+    transition: opacity 0.35s var(--ft-ease);
+    border-radius: inherit;
+}
+
+.ft-social-link:hover::before {
+    opacity: 1;
 }
 
 .ft-social-link:hover {
-    color: var(--ft-bg);
-    background: var(--ft-accent);
-    border-color: var(--ft-accent);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(200, 168, 75, 0.25);
+    color: var(--ft-accent);
+    border-color: rgba(200, 168, 75, 0.45);
+    transform: translateY(-3px) scale(1.08);
+    box-shadow:
+        0 8px 24px rgba(200, 168, 75, 0.2),
+        0 0 0 1px rgba(200, 168, 75, 0.12) inset;
 }
 
-.ft-social-link svg { width: 18px; height: 18px; fill: currentColor; }
+.ft-social-link svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.35s var(--ft-ease); position: relative; z-index: 1; }
+
+.ft-social-link:hover svg { transform: scale(1.1); }
 
 /* Privacy / Legal links */
 .ft-legal {
@@ -342,13 +338,6 @@ a.ft-contact-value:hover { color: #FFFFFF; }
         gap: 48px;
         padding: 60px 0;
     }
-    .ft-logo-mark {
-        width: 50px;
-        height: 50px;
-    }
-    .ft-logo-name {
-        font-size: 24px;
-    }
     .ft-bottom {
         flex-direction: column;
         align-items: center;
@@ -362,124 +351,117 @@ a.ft-contact-value:hover { color: #FFFFFF; }
         margin-left: 0;
     }
 }
-    </style>
-  </head>
+</style>
 
-<body>
-    <!-- Footer Section — GreenGrow Fertilizers -->
-    <footer class="gg-footer-scope">
-        <div class="ft-inner">
-            <!-- MAIN GRID -->
-            <div class="ft-main">
-                <!-- Brand -->
+<!-- Footer Section — GreenGrow Fertilizers -->
+<footer class="gg-footer-scope">
+    <div class="ft-inner">
+        <!-- MAIN GRID -->
+        <div class="ft-main">
+            <!-- Brand -->
                 <div class="ft-col ft-brand-col">
-                    <a href="#" class="ft-brand-logo">
+                    <a href="index.php" class="ft-brand-logo">
                         <div class="ft-logo-mark">
                             <img src="images/logo.svg" alt="AgroFanema Logo">
                         </div>
-                        <span class="ft-logo-name">AgroFanema</span>
+                        <div class="ft-logo-text">
+                            <span class="ft-logo-name">AgroFanema</span>
+                        </div>
                     </a>
                     <p class="ft-brand-desc">
-                        Crafting premium organic fertilizers that nourish plants and restore the earth's natural microbiome.
+                        <?php echo t('footer_desc'); ?>
                     </p>
                 </div>
 
                 <!-- Links 1 -->
                 <div class="ft-col">
-                    <div class="ft-col-title">Navigation</div>
+                    <div class="ft-col-title"><?php echo t('quick_links'); ?></div>
                     <ul class="ft-nav">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Our Process</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="index.php"><?php echo t('home'); ?></a></li>
+                        <li><a href="products.php"><?php echo t('products'); ?></a></li>
+                        <li><a href="about.php"><?php echo t('about'); ?></a></li>
+                        <li><a href="contact.php"><?php echo t('contact'); ?></a></li>
                     </ul>
                 </div>
 
                 <!-- Links 2 -->
                 <div class="ft-col">
-                    <div class="ft-col-title">Support</div>
+                    <div class="ft-col-title"><?php echo t('about_us'); ?></div>
                     <ul class="ft-nav">
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Wholesale</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="contact.php">Help Center</a></li>
+                        <li><a href="contact.php">Shipping</a></li>
+                        <li><a href="contact.php">Wholesale</a></li>
+                        <li><a href="contact.php">Expert Advice</a></li>
                     </ul>
                 </div>
 
-                <!-- Contact -->
-                <div class="ft-col">
-                    <div class="ft-col-title">Contact</div>
-                    <ul class="ft-contact-list">
-                        <li class="ft-contact-item">
-                            <span class="ft-contact-label">Email</span>
-                            <a href="mailto:hello@greengrow.com" class="ft-contact-value">hello@greengrow.com</a>
-                        </li>
-                        <li class="ft-contact-item">
-                            <span class="ft-contact-label">Office</span>
-                            <span class="ft-contact-value">Portland, Oregon, USA</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- BOTTOM BAR -->
-            <div class="ft-bottom">
-                <p class="ft-copy">© 2026 <span>GreenGrow Fertilizers</span>. All rights reserved.</p>
-
-                <div class="ft-legal">
-                    <a href="#" class="ft-legal-link">Terms of Conditions</a>
-                </div>
-
-                <div class="ft-socials">
-                    <a href="#" class="ft-social-link" aria-label="Instagram">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                        </svg>
-                    </a>
-                    <a href="#" class="ft-social-link" aria-label="LinkedIn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                            <rect x="2" y="9" width="4" height="12" />
-                            <circle cx="4" cy="4" r="2" />
-                        </svg>
-                    </a>
-                    <a href="#" class="ft-social-link" aria-label="Facebook">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                        </svg>
-                    </a>
-                </div>
+            <!-- Contact -->
+            <div class="ft-col">
+                <div class="ft-col-title"><?php echo t('contact'); ?></div>
+                <ul class="ft-contact-list">
+                    <li class="ft-contact-item">
+                        <span class="ft-contact-label">Email</span>
+                        <a href="mailto:agrofanema@gmail.com" class="ft-contact-value">agrofanema@gmail.com</a>
+                    </li>
+                    <li class="ft-contact-item">
+                        <span class="ft-contact-label">Phone</span>
+                        <a href="tel:+355693334644" class="ft-contact-value">+355 693334644</a>
+                        <a href="tel:+355682071125" class="ft-contact-value">+355 682071125</a>
+                    </li>
+                    <li class="ft-contact-item">
+                        <span class="ft-contact-label">Office</span>
+                        <span class="ft-contact-value">Kozare, Kuçovë</span>
+                    </li>
+                </ul>
             </div>
         </div>
-    </footer>
 
-    <script>
-      // Footer scroll-reveal animation
+        <!-- BOTTOM BAR -->
+        <div class="ft-bottom">
+            <p class="ft-copy">© <?php echo date('Y'); ?> <span>AgroFanema</span>. <?php echo t('est'); ?> 1994. <?php echo t('all_rights_reserved'); ?></p>
+
+            <div class="ft-legal">
+                <a href="terms-of-conditions.php" class="ft-legal-link">Terms of Conditions</a>
+            </div>
+
+            <div class="ft-socials">
+                <a href="https://www.instagram.com/agrofanema?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="ft-social-link" aria-label="Instagram" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                </a>
+                <a href="https://www.facebook.com/people/Agro-Fanema/100063887894308/?locale=sq_AL#" class="ft-social-link" aria-label="Facebook" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+  // Footer scroll-reveal animation
 (function () {
-    const scope = document.querySelector('.gg-footer-scope');
-    if (!scope) return;
+const scope = document.querySelector('.gg-footer-scope');
+if (!scope) return;
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    scope.classList.add('ft-visible');
-                    observer.disconnect();
-                }
-            });
-        },
-        { threshold: 0.15 }
-    );
+const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                scope.classList.add('ft-visible');
+                observer.disconnect();
+            }
+        });
+    },
+    { threshold: 0.15 }
+);
 
-    observer.observe(scope);
+observer.observe(scope);
 })();
-    </script>
-</body>
-
-</html>
+</script>

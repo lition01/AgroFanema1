@@ -1,0 +1,77 @@
+<?php
+$lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
+
+$translations = [
+    'en' => [
+        'home' => 'Home',
+        'products' => 'Products',
+        'about' => 'About',
+        'contact' => 'Contact',
+        'select_language' => 'Select Language',
+        'since' => 'Since',
+        'est' => 'Est.',
+        'founded' => 'Founded in',
+        'hero_title' => 'Premium Organic <em>Fertilizers</em> for a <span class="hl-green">Greener Future</span>',
+        'hero_desc' => '<strong>AgroFanema</strong> provides high-performance organic solutions for modern agriculture. Boost your harvest with our tested, eco-friendly fertilizers.',
+        'explore_products' => 'Explore Products',
+        'learn_more' => 'Learn More',
+        'yield_increase' => 'Avg. Yield Increase',
+        'varieties_tested' => 'Crop Varieties Tested',
+        'hectares_improved' => 'Hectares Improved',
+        'safety_rating' => 'Soil Safety Rating',
+        'footer_desc' => 'Pioneers in organic agricultural solutions since 1994. We provide high-quality fertilizers for sustainable growth and maximum yield.',
+        'quick_links' => 'Quick Links',
+        'contact_us' => 'Contact Us',
+        'all_rights_reserved' => 'All rights reserved.',
+        'about_us' => 'About Us',
+        'our_impact' => 'Our Impact',
+        'trusted_farmers' => 'Trusted by 5,000+ Farmers',
+        'countries_served' => '40+ Countries Served',
+        'organic_cert' => '100% Organic Certified',
+        'best_sellers' => 'Best Sellers',
+        'view_details' => 'View Details',
+        'benefits' => 'Our Benefits',
+        'faq' => 'Frequently Asked Questions',
+        'support_center' => 'Support Center',
+        'faq_sub' => 'Everything you need to know about our organic fertilizers and how they work to restore your soil\'s health.',
+    ],
+    'sq' => [
+        'home' => 'Kreu',
+        'products' => 'Produkte',
+        'about' => 'Rreth Nesh',
+        'contact' => 'Kontakt',
+        'select_language' => 'Zgjidh Gjuhën',
+        'since' => 'Që nga',
+        'est' => 'Themeluar në',
+        'founded' => 'Themeluar në',
+        'hero_title' => '<em>Plehra</em> Organike Premium për një <span class="hl-green">të Ardhme më të Gjelbër</span>',
+        'hero_desc' => '<strong>AgroFanema</strong> ofron zgjidhje organike me performancë të lartë për bujqësinë moderne. Rrisni prodhimin tuaj me plehrat tona të testuara dhe ekologjike.',
+        'explore_products' => 'Eksploro Produktet',
+        'learn_more' => 'Mëso Më Shumë',
+        'yield_increase' => 'Rritja Mesatare e Prodhimit',
+        'varieties_tested' => 'Varietete Kulturash të Testuara',
+        'hectares_improved' => 'Hektarë të Përmirësuar',
+        'safety_rating' => 'Vlerësimi i Sigurisë së Tokës',
+        'footer_desc' => 'Pionierë në zgjidhjet bujqësore organike që nga viti 1994. Ne ofrojmë plehra të cilësisë së lartë për rritje të qëndrueshme dhe prodhim maksimal.',
+        'quick_links' => 'Linqe të Shpejta',
+        'contact_us' => 'Na Kontaktoni',
+        'all_rights_reserved' => 'Të gjitha të drejtat e rezervuara.',
+        'about_us' => 'Rreth Nesh',
+        'our_impact' => 'Ndikimi Ynë',
+        'trusted_farmers' => 'Besuar nga 5,000+ Fermerë',
+        'countries_served' => '40+ Shtete të Shërbyera',
+        'organic_cert' => '100% Certifikuar Organik',
+        'best_sellers' => 'Produktet Më të Shitura',
+        'view_details' => 'Shiko Detajet',
+        'benefits' => 'Përfitimet Tona',
+        'faq' => 'Pyetje të Shpeshta',
+        'support_center' => 'Qendra e Suportit',
+        'faq_sub' => 'Gjithçka që duhet të dini rreth plehrave tona organike dhe se si ato funksionojnë për të rikthyer shëndetin e tokës suaj.',
+    ]
+];
+
+function t($key) {
+    global $translations, $lang;
+    return isset($translations[$lang][$key]) ? $translations[$lang][$key] : $translations['en'][$key];
+}
+?>

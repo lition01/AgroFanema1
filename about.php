@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Conditions | AgroFanema</title>
-    <meta name="description" content="Lexoni kushtet dhe termat e përdorimit të shërbimeve dhe produkteve të AgroFanema.">
+    <title>About Us | AgroFanema</title>
+    <meta name="description" content="Mësoni më shumë rreth AgroFanema dhe misionit tonë për të ofruar plehra organike të cilësisë së lartë.">
+    <meta name="keywords" content="AgroFanema, rreth nesh, plehra organike, bujqësi">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://agrofanema.com/terms-of-conditions.php">
-    <meta property="og:title" content="Kushtet e Përdorimit | AgroFanema">
-    <meta property="og:description" content="Informacion rreth termave dhe kushteve tona.">
+    <meta property="og:url" content="https://agrofanema.com/about.php">
+    <meta property="og:title" content="Rreth Nesh | AgroFanema">
+    <meta property="og:description" content="Misioni ynë është të mbështesim fermerët me zgjidhje organike të qëndrueshme.">
     <meta property="og:image" content="https://agrofanema.com/images/logo.svg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Kushtet e Përdorimit | AgroFanema">
-    <meta property="twitter:description" content="Lexoni kushtet tona të përdorimit.">
+    <meta property="twitter:title" content="Rreth Nesh | AgroFanema">
+    <meta property="twitter:description" content="Zbuloni rrugëtimin tonë në prodhimin e plehrave organike.">
     <meta property="twitter:image" content="https://agrofanema.com/images/logo.svg">
 
     <!-- Favicon -->
@@ -51,8 +52,8 @@
     </style>
 </head>
 <body>
-    <?php include "essentials/navbar.php" ?> 
-    <?php include "page-sections/terms&conditions/terms-section.php" ?>
+     <?php include "essentials/navbar.php" ?>
+    <?php include "page-sections/about-sections/about-us-section.php" ?>
     <?php include "essentials/footer.php" ?>
     
 </body>
