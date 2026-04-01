@@ -220,25 +220,7 @@
       letter-spacing: -0.02em;
     }
 
-    .product-price-block {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
 
-    .product-price {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    .product-price-original {
-      font-size: 1.2rem;
-      color: var(--muted);
-      text-decoration: line-through;
-    }
 
     .product-description {
       font-size: 1.05rem;
@@ -499,9 +481,7 @@
         font-size: 2rem;
       }
 
-      .product-price {
-        font-size: 1.6rem;
-      }
+
 
       .features-grid {
         grid-template-columns: 1fr;
@@ -544,9 +524,7 @@
         margin-bottom: 16px;
       }
 
-      .product-price-block {
-        margin-bottom: 24px;
-      }
+
 
       .product-description {
         font-size: 0.95rem;
@@ -625,43 +603,8 @@
 
           <div class="product-features">
             <h3 class="features-title">Why Choose This Product</h3>
-            <div class="features-grid">
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-                </div>
-                <div class="feature-content">
-                  <h4>100% Organic</h4>
-                  <p>Certified organic ingredients with no synthetic additives</p>
-                </div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/></svg>
-                </div>
-                <div class="feature-content">
-                  <h4>Nutrient Rich</h4>
-                  <p>Packed with essential macro and micronutrients</p>
-                </div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <svg viewBox="0 0 24 24"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
-                </div>
-                <div class="feature-content">
-                  <h4>Eco-Friendly</h4>
-                  <p>Sustainably sourced and environmentally conscious</p>
-                </div>
-              </div>
-              <div class="feature-item">
-                <div class="feature-icon">
-                  <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                </div>
-                <div class="feature-content">
-                  <h4>Slow Release</h4>
-                  <p>Provides nutrients over extended periods</p>
-                </div>
-              </div>
+            <div class="features-grid" id="product-features-grid">
+              <!-- Features rendered by JS -->
             </div>
           </div>
 
@@ -685,21 +628,6 @@
   </section>
 
   <script>
-    const products = [
-      { id: 1, name: "Premium Organic Compost", category: "organic", price: 34.99, image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&h=1000&fit=crop", badge: "new", description: "Elevate your garden with our premium organic compost, carefully crafted from the finest natural ingredients. Rich in essential nutrients and beneficial microorganisms, it transforms ordinary soil into a thriving ecosystem for your plants." },
-      { id: 2, name: "Rose Garden Fertilizer", category: "specialty", price: 29.99, image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&h=1000&fit=crop", badge: "", description: "Specially formulated for roses and flowering plants, this premium fertilizer promotes abundant blooms with vibrant colors. The balanced nutrient profile ensures healthy root development and long-lasting flower displays." },
-      { id: 3, name: "Liquid Seaweed Extract", category: "liquid", price: 24.99, image: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=800&h=1000&fit=crop", badge: "", description: "Harness the power of the ocean with our concentrated seaweed extract. This natural growth enhancer strengthens plant immunity, improves stress tolerance, and promotes lush, healthy foliage." },
-      { id: 4, name: "All-Purpose Plant Food", category: "granular", price: 19.99, originalPrice: 24.99, image: "https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=800&h=1000&fit=crop", badge: "sale", description: "A versatile granular fertilizer perfect for all plants in your garden. The slow-release formula provides consistent nutrition throughout the growing season, making gardening effortless." },
-      { id: 5, name: "Bone Meal Organic", category: "organic", price: 22.99, image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=800&h=1000&fit=crop", badge: "", description: "Premium organic bone meal enriched with phosphorus for strong root development and prolific flowering. Perfect for bulbs, roses, and vegetable gardens seeking natural nutrition." },
-      { id: 6, name: "Orchid Bloom Booster", category: "specialty", price: 39.99, image: "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=800&h=1000&fit=crop", badge: "new", description: "Designed exclusively for orchids, this specialized formula encourages spectacular blooms and healthy growth. The precise nutrient balance mimics orchids' natural tropical environment." },
-      { id: 7, name: "Fish Emulsion Liquid", category: "liquid", price: 27.99, image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&h=1000&fit=crop", badge: "", description: "Traditional organic fish emulsion packed with nitrogen for rapid green growth. Perfect for vegetables and leafy plants that need a quick nutritional boost." },
-      { id: 8, name: "Vegetable Garden Mix", category: "organic", price: 32.99, image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&h=1000&fit=crop", badge: "", description: "Complete organic nutrition for your vegetable garden. This premium blend promotes abundant harvests with vegetables that are more nutritious and flavorful." },
-      { id: 9, name: "Slow Release Granules", category: "granular", price: 44.99, image: "https://images.unsplash.com/photo-1516253593875-bd7ba052b5f4?w=800&h=1000&fit=crop", badge: "", description: "Professional-grade slow-release fertilizer that feeds your plants for up to 6 months. Perfect for busy gardeners who want beautiful results with minimal effort." },
-      { id: 10, name: "Citrus Tree Formula", category: "specialty", price: 36.99, image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&h=1000&fit=crop", badge: "", description: "Tailored nutrition for citrus trees including lemons, oranges, and limes. The specialized formula prevents yellowing leaves and promotes abundant, juicy fruit production." },
-      { id: 11, name: "Concentrated Grow Liquid", category: "liquid", price: 49.99, image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&h=1000&fit=crop", badge: "new", description: "Ultra-concentrated liquid fertilizer for maximum growth and productivity. Just a small amount delivers powerful nutrition that transforms your plants' performance." },
-      { id: 12, name: "Worm Castings Pure", category: "organic", price: 28.99, image: "https://images.unsplash.com/photo-1592419044706-39796d40f98c?w=800&h=1000&fit=crop", badge: "", description: "Pure, premium worm castings teeming with beneficial microbes. This living fertilizer improves soil structure, water retention, and provides gentle, balanced nutrition." }
-    ];
-
     const categoryIcons = {
       organic: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/></svg>',
       specialty: '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
@@ -707,26 +635,67 @@
       granular: '<svg viewBox="0 0 24 24"><circle cx="7.5" cy="7.5" r="1.5"/><circle cx="16.5" cy="7.5" r="1.5"/><circle cx="7.5" cy="16.5" r="1.5"/><circle cx="16.5" cy="16.5" r="1.5"/><circle cx="12" cy="12" r="1.5"/></svg>'
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
+    const featureIcons = [
+      '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/></svg>',
+      '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>'
+    ];
+
+    document.addEventListener('DOMContentLoaded', async () => {
       // Get product ID from URL
       const urlParams = new URLSearchParams(window.location.search);
-      const productId = parseInt(urlParams.get('id')) || 1;
+      const productId = urlParams.get('id');
 
-      // Find the product
-      const product = products.find(p => p.id === productId) || products[0];
+      if (!productId) {
+        window.location.href = 'products.php';
+        return;
+      }
+
+      // Fetch all products from API
+      let product = null;
+      try {
+        const res = await fetch('essentials/product-api.php?action=list');
+        const data = await res.json();
+        if (data.success) {
+          product = data.products.find(p => p.id === productId);
+        }
+      } catch (e) { console.error(e); }
+
+      if (!product) {
+        document.body.innerHTML = '<div style="padding: 100px; text-align: center;"><h1>Product Not Found</h1><a href="products.php">Back to products</a></div>';
+        return;
+      }
 
       // Update page content
-      document.title = `${product.name} | GreenGrow Fertilizers`;
+      document.title = `${product.name_en} | GreenGrow Fertilizers`;
       
-      document.getElementById('product-title').textContent = product.name;
-      document.getElementById('main-image').src = product.image;
-      document.getElementById('main-image').alt = product.name;
-      document.getElementById('product-description').textContent = product.description;
-      document.getElementById('category-text').textContent = product.category.charAt(0).toUpperCase() + product.category.slice(1);
-
-      // Update category icon
+      document.getElementById('product-title').textContent = product.name_en;
+      document.getElementById('main-image').src = product.image || '';
+      document.getElementById('main-image').alt = product.name_en;
+      document.getElementById('product-description').textContent = product.desc_en || '';
+      
+      // Update category
+      const categoryText = product.category.charAt(0).toUpperCase() + product.category.slice(1);
       const categoryTag = document.getElementById('product-category');
-      categoryTag.innerHTML = categoryIcons[product.category] + `<span id="category-text">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</span>`;
+      categoryTag.innerHTML = (categoryIcons[product.category] || categoryIcons.organic) + `<span id="category-text">${categoryText}</span>`;
+
+      // Render Features
+      const featuresGrid = document.getElementById('product-features-grid');
+      featuresGrid.innerHTML = '';
+      const features = product.features_en || [];
+      features.forEach((feature, i) => {
+        const icon = featureIcons[i % featureIcons.length];
+        featuresGrid.innerHTML += `
+          <div class="feature-item">
+            <div class="feature-icon">${icon}</div>
+            <div class="feature-content">
+              <h4>${feature}</h4>
+              <p>Key quality of our premium product line.</p>
+            </div>
+          </div>
+        `;
+      });
 
       // Generate thumbnail gallery (using same image with different crops for demo)
       const thumbsContainer = document.getElementById('gallery-thumbs');

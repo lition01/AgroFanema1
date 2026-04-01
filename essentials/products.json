@@ -1,0 +1,74 @@
+[
+    {
+        "id": "69cd515d9f19b",
+        "name_sq": "fdgfgfg",
+        "name_en": "fgfgfgf",
+        "desc_sq": "gfggfgfg",
+        "desc_en": "fgfgffgfgf",
+        "quantity": 15,
+        "category": "organic",
+        "features_sq": [
+            "gfgfgfgfgfgfgf"
+        ],
+        "features_en": [
+            "fgfgfgfgfgfg"
+        ],
+        "image": "images\/products\/prod_69cd521457e6e.jpg",
+        "created_at": "2026-04-01 19:09:49"
+    },
+    {
+        "id": "69cd5320451c0",
+        "name_sq": "fdgfgfg",
+        "name_en": "fgfgfgf",
+        "desc_sq": "fdfdf",
+        "desc_en": "dfdfd",
+        "quantity": 2,
+        "category": "liquid",
+        "features_sq": [
+            "fdf"
+        ],
+        "features_en": [
+            "dfdfdf"
+        ],
+        "image": "images\/products\/prod_69cd532044f81.jpg",
+        "created_at": "2026-04-01 19:17:20"
+    },
+    {
+        "id": "69cd5a3fe3a02",
+        "name_sq": "jhjhjhjhjhjhjh",
+        "name_en": "hjhjhjhjhj",
+        "desc_sq": "hjhjhjhjhjhjhjh",
+        "desc_en": "hjhjhjhjhjhjhj",
+        "quantity": 0,
+        "category": "granular",
+        "features_sq": [
+            "hjhjhjhj",
+            "jkjkjkjjkjk",
+            "jkjkjkjkjjk"
+        ],
+        "features_en": [
+            "kkjkjkjkj",
+            "kljk",
+            "jkjkjkjkjkjk"
+        ],
+        "image": "",
+        "created_at": "2026-04-01 19:47:43"
+    },
+    {
+        "id": "69cd5ff851911",
+        "name_sq": "gfgfgfgf",
+        "name_en": "iiiiiiiiiiiii",
+        "desc_sq": "iiiiiiiiiii",
+        "desc_en": "iiiiii",
+        "quantity": 0,
+        "category": "liquid",
+        "features_sq": [
+            "iiiiiiiiiii"
+        ],
+        "features_en": [
+            "iiiiiiiiiiiii"
+        ],
+        "image": "",
+        "created_at": "2026-04-01 20:12:08"
+    }
+]

@@ -126,9 +126,9 @@
 
     .gg-nav-scope .nav-links a {
       text-decoration: none;
-      color: var(--gg-nav-text-muted);
-      font-weight: 500;
-      font-size: 0.82rem;
+      color: #000000;
+      font-weight: 700;
+      font-size: 0.95rem;
       letter-spacing: 0.03em;
       padding: 6px 12px;
       position: relative;
