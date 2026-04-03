@@ -15,7 +15,7 @@
   --pad:clamp(28px,7vw,100px);
   --fdis:'Cormorant Garamond',Georgia,serif;
   --fbody:'Outfit',sans-serif;
-  
+
   font-family: var(--fbody);
   background: var(--bg);
   color: var(--text);
@@ -24,7 +24,6 @@
 
 .gg-about-us-scope .ds{background:var(--deep);color:#fff;}
 .gg-about-us-scope .ls{background:var(--bg);color:var(--text);}
-
 
 @keyframes fadeUp  {from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
 @keyframes fadeIn  {from{opacity:0}to{opacity:1}}
@@ -45,8 +44,8 @@
 /* ════ HERO ════ */
 .hero{
   position:relative;
-  height: calc(100svh - 78px); /* Exactly fills the remaining viewport height */
-  display:flex;flex-direction:column;justify-content:center; 
+  height: calc(100svh - 78px);
+  display:flex;flex-direction:column;justify-content:center;
   overflow:hidden;isolation:isolate;
 }
 .hero__bg{
@@ -98,13 +97,11 @@
   content:'';display:block;width:1px;height:56px;
   background:linear-gradient(to bottom,transparent,rgba(255,255,255,.22));
 }
-
 .hero__content{
   position:relative;z-index:4;
-  padding:0 var(--pad); /* Remove bottom padding to center correctly */
+  padding:0 var(--pad);
   max-width:860px;
 }
-
 .hero__eyebrow{
   display:inline-flex;align-items:center;gap:14px;
   font-size:10px;font-weight:600;letter-spacing:.34em;text-transform:uppercase;
@@ -142,8 +139,6 @@
   max-width:460px;margin-bottom:42px;
   animation:fadeUp .9s .24s cubic-bezier(0,0,.2,1) both;
 }
-
-/* Hero Badges */
 .hero__badges{
   display:flex;gap:32px;margin-top:24px;
   animation:fadeUp .9s .36s cubic-bezier(0,0,.2,1) both;
@@ -164,7 +159,6 @@
   line-height:1.3;
 }
 .hero__badge-text strong{display:block;color:var(--goldlt);font-weight:700}
-
 .hero__tagline-extra{
   display:none;
   font-size:13.5px;line-height:1.85;
@@ -172,7 +166,6 @@
   max-width:100%;margin-bottom:32px;margin-top:-18px;
   animation:fadeUp .9s .3s cubic-bezier(0,0,.2,1) both;
 }
-/* Scroll cue hidden */
 
 /* ════ STORY ════ */
 .story{padding:120px var(--pad);position:relative}
@@ -280,6 +273,8 @@
   font-weight:500;
 }
 .collaborators__link:hover{text-decoration:underline}
+
+/* ════ MISSION / VALUES ════ */
 .mv{
   padding:120px var(--pad);
   background:var(--card);
@@ -291,8 +286,6 @@
     radial-gradient(ellipse 55% 55% at 0% 50%,rgba(200,168,75,.06),transparent 60%),
     radial-gradient(ellipse 45% 45% at 100% 50%,rgba(46,125,79,.04),transparent 60%);
 }
-
-/* Section header */
 .mv__header{
   text-align:center;
   margin-bottom:72px;
@@ -317,16 +310,12 @@
   color:var(--muted);font-weight:300;
   max-width:500px;margin:0 auto;
 }
-
-/* Two-column layout */
 .mv__cols{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:24px;
   position:relative;z-index:1;
 }
-
-/* Each panel */
 .mv__panel{
   padding:52px 48px;
   border-radius:12px;
@@ -341,8 +330,6 @@
   box-shadow:0 12px 48px rgba(10,27,16,.07);
   transform:translateY(-3px);
 }
-
-/* Gold top bar on hover */
 .mv__panel::before{
   content:'';
   position:absolute;top:0;left:0;right:0;height:2px;
@@ -351,8 +338,6 @@
   opacity:0;transition:opacity .4s;
 }
 .mv__panel:hover::before{opacity:1}
-
-/* Icon */
 .mv__icon{
   width:48px;height:48px;border-radius:10px;
   background:rgba(46,125,79,.09);
@@ -367,60 +352,435 @@
   stroke:var(--vivid);stroke-width:1.6;
   fill:none;stroke-linecap:round;stroke-linejoin:round;
 }
-
-/* Tag */
 .mv__tag{
   font-size:9.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
   color:var(--gold);margin-bottom:12px;
   display:flex;align-items:center;gap:8px;
 }
 .mv__tag::before{content:'';display:block;width:16px;height:1px;background:var(--gold)}
-
-/* Heading */
 .mv__heading{
   font-family:var(--fdis);
   font-size:clamp(26px,2.8vw,38px);
   font-weight:300;color:var(--deep);
   line-height:1.1;margin-bottom:18px;
 }
-
-/* Body */
 .mv__text{
   font-size:15px;line-height:1.88;
   color:var(--muted);
   font-weight:300;
 }
 
-/* ════ PARTNERS ════ */
-.partners{background:var(--dark);padding:90px var(--pad);position:relative;overflow:hidden}
-.partners::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(46,125,79,.07),transparent 65%);pointer-events:none}
-.partners__fade-l,.partners__fade-r{position:absolute;top:0;bottom:0;width:180px;z-index:2;pointer-events:none}
-.partners__fade-l{left:0;background:linear-gradient(90deg,var(--dark),transparent)}
-.partners__fade-r{right:0;background:linear-gradient(270deg,var(--dark),transparent)}
-.partners__header{text-align:center;margin-bottom:52px;position:relative;z-index:1}
-.partners__label{font-size:10.5px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px}
-.partners__label::before,.partners__label::after{content:'';display:block;width:24px;height:1px;background:var(--gold)}
-.partners__title{font-family:var(--fdis);font-size:clamp(28px,3vw,42px);color:#fff;font-weight:300;margin-bottom:10px}
-.partners__sub{font-size:14.5px;color:rgba(255,255,255,.38);font-weight:300;max-width:400px;margin:0 auto}
-.rule{display:flex;align-items:center;margin-bottom:44px}
-.rule__track{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,168,75,.22),transparent)}
-.rule__dot{width:5px;height:5px;border-radius:50%;background:var(--gold);margin:0 14px;box-shadow:0 0 10px rgba(200,168,75,.5)}
-.rule--btm{margin-bottom:0;margin-top:44px}
-.marquee{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;cursor:grab}
-.marquee:active{cursor:grabbing}
-.marquee::-webkit-scrollbar{display:none}
-.marquee__track{display:flex;width:max-content;animation:marquee 35s linear infinite} /* Adjusted speed for larger items */
-.marquee__track:hover{animation-play-state:paused}
-.marquee__set{display:flex;align-items:center}
-.pitem{display:flex;align-items:center;gap:24px;padding:0 80px;position:relative;opacity:.45;transition:opacity .4s, transform .4s;cursor:default;white-space:nowrap}
-.pitem::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:1px;height:48px;background:rgba(255,255,255,.1)}
-.pitem:hover{opacity:1;transform:scale(1.02)}
-.pitem__icon{width:72px;height:72px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .4s,border-color .4s,transform .4s,box-shadow .4s}
-.pitem:hover .pitem__icon{background:rgba(200,168,75,.18);border-color:rgba(200,168,75,.4);transform:rotate(-2deg) scale(1.1);box-shadow:0 15px 35px rgba(0,0,0,0.3)}
-.pitem__icon img{width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1) opacity(.7);transition:filter .4s, transform .4s}
-.pitem:hover .pitem__icon img{filter:brightness(1) invert(0) opacity(1);transform:scale(1.1)}
-.pitem__name{font-family:var(--fdis);font-size:32px;font-weight:500;letter-spacing:.02em;color:#FFFFFF;text-shadow:0 0 20px rgba(255,255,255,0.1);transition:color .4s, text-shadow .4s}
-.pitem:hover .pitem__name{color:var(--goldlt);text-shadow:0 0 25px rgba(226,196,114,0.3)}
+/* ════ PARTNERS CAROUSEL ════ */
+.partners {
+  background: #0B1E12;
+  padding: 50px var(--pad); 
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Noise texture */
+.partners::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+  opacity: .028;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ambient glow blobs */
+.partners::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 60% at 8%  20%, rgba(46,125,79,.11)  0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 92% 80%, rgba(200,168,75,.08) 0%, transparent 55%),
+    radial-gradient(ellipse 30% 40% at 50%  0%, rgba(61,170,104,.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.partners__header {
+  text-align: center;
+  margin-bottom: 30px; 
+  position: relative;
+  z-index: 1;
+}
+
+.partners__label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .46em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 16px; /* Reduced from 22px */
+}
+.partners__label::before,
+.partners__label::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.partners__label::after {
+  background: linear-gradient(270deg, transparent, var(--gold));
+}
+
+.partners__title {
+  font-family: var(--fdis);
+  font-size: clamp(44px, 5.5vw, 76px);
+  color: #fff;
+  font-weight: 300;
+  line-height: .97;
+  margin-bottom: 16px; /* Reduced from 22px */
+  letter-spacing: -.022em;
+}
+.partners__title em {
+  font-style: italic;
+  color: var(--goldlt);
+}
+
+.partners__sub {
+  font-size: 15.5px;
+  color: rgba(255,255,255,.38);
+  font-weight: 300;
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.85;
+}
+
+/* ── Viewport & track ── */
+.carousel-container {
+  position: relative;
+  z-index: 1;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+  cursor: grab;
+  mask-image: linear-gradient(90deg,
+    transparent 0%,
+    #000 7%,
+    #000 93%,
+    transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg,
+    transparent 0%,
+    #000 7%,
+    #000 93%,
+    transparent 100%);
+  padding: 10px 0 14px; 
+  user-select: none;
+}
+.carousel-viewport:active { cursor: grabbing; }
+
+.carousel-track {
+  display: flex;
+  gap: 22px;
+  transition: transform .85s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+}
+
+/* ── Slides ── */
+.carousel-slide {
+  flex: 0 0 calc(25% - 17px);
+  min-width: 210px;
+  opacity: .38;
+  transform: scale(.93) translateY(6px);
+  transition:
+    opacity   .75s cubic-bezier(.16,1,.3,1),
+    transform .75s cubic-bezier(.16,1,.3,1);
+}
+.carousel-slide.is-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* ── Card ── */
+.pitem__card {
+  position: relative;
+  border-radius: 20px;
+  padding: 24px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(255,255,255,.07);
+  transition:
+    transform    .55s cubic-bezier(.16,1,.3,1),
+    border-color .45s ease,
+    background   .45s ease,
+    box-shadow   .55s cubic-bezier(.16,1,.3,1);
+  overflow: hidden;
+}
+.pitem__card:hover {
+  transform: translateY(-11px);
+  border-color: rgba(200,168,75,.22);
+  background: rgba(255,255,255,.058);
+  box-shadow:
+    0 32px 64px rgba(0,0,0,.38),
+    0  2px 16px rgba(200,168,75,.07),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Inner shimmer highlight */
+.pitem__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,.055) 0%,
+    transparent            45%,
+    rgba(200,168,75,.04)   100%
+  );
+  opacity: .7;
+  pointer-events: none;
+  transition: opacity .45s ease;
+}
+
+/* Gold top edge line */
+.pitem__card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, var(--gold), var(--goldlt), var(--gold), transparent);
+  opacity: 0;
+  transition: opacity .45s ease, left .45s ease, right .45s ease;
+}
+
+.pitem__card:hover::before { opacity: 1; }
+.pitem__card:hover::after  { opacity: 1; left: 10%; right: 10%; }
+
+/* ── Logo ring ── */
+.pitem__icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  flex-shrink: 0;
+  transition:
+    border-color .5s ease,
+    transform    .5s cubic-bezier(.16,1,.3,1),
+    background   .5s ease;
+}
+
+/* Outer orbit ring */
+.pitem__icon::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,168,75,.12);
+  opacity: 0;
+  transition: opacity .5s ease, inset .5s ease;
+}
+
+.pitem__card:hover .pitem__icon {
+  border-color: rgba(200,168,75,.38);
+  background: rgba(255,255,255,.07);
+  transform: scale(1.06);
+}
+.pitem__card:hover .pitem__icon::before {
+  opacity: 1;
+  inset: -10px;
+}
+
+.pitem__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: filter .5s ease, transform .5s cubic-bezier(.16,1,.3,1);
+}
+.pitem__card:hover .pitem__icon img {
+  transform: scale(1.06);
+}
+
+/* ── Name ── */
+.pitem__name {
+  font-family: var(--fdis);
+  font-size: 19px;
+  font-weight: 300;
+  color: rgba(255,255,255,.8);
+  margin-bottom: 7px;
+  letter-spacing: .015em;
+  line-height: 1.15;
+  transition: color .35s ease;
+}
+.pitem__card:hover .pitem__name { color: #fff; }
+
+/* ── Type tag ── */
+.pitem__type {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: rgba(200,168,75,.48);
+  margin-bottom: 22px;
+  transition: color .35s ease;
+}
+.pitem__card:hover .pitem__type { color: var(--gold); }
+
+/* ── Divider ── */
+.pitem__divider {
+  width: 24px;
+  height: 1px;
+  background: rgba(200,168,75,.2);
+  margin-bottom: 22px;
+  transition: width .45s cubic-bezier(.16,1,.3,1), background .35s ease;
+}
+.pitem__card:hover .pitem__divider {
+  width: 42px;
+  background: rgba(200,168,75,.5);
+}
+
+/* ── Link ── */
+.pitem__link {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.22);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    color     .38s ease,
+    gap       .35s ease,
+    opacity   .4s  cubic-bezier(.16,1,.3,1),
+    transform .4s  cubic-bezier(.16,1,.3,1);
+}
+.pitem__link svg {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform .32s ease;
+}
+.pitem__card:hover .pitem__link {
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--goldlt);
+  gap: 11px;
+}
+.pitem__card:hover .pitem__link svg {
+  transform: translate(2px,-2px);
+}
+
+/* ── Nav buttons ── */
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+.carousel-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background    .38s ease,
+    border-color  .38s ease,
+    color         .38s ease,
+    transform     .38s cubic-bezier(.16,1,.3,1);
+}
+.carousel-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.carousel-btn:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--deep);
+  transform: scale(1.1);
+}
+.carousel-btn:disabled {
+  opacity: .22;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Dots ── */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  position: relative;
+  z-index: 1;
+}
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.25);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition: 
+    background .4s ease, 
+    transform .4s cubic-bezier(.16,1,.3,1), 
+    width .4s cubic-bezier(.16,1,.3,1),
+    box-shadow .4s ease;
+}
+.carousel-dot::after {
+  content: ''; position: absolute; inset: -10px; border-radius: 50%;
+}
+.carousel-dot:hover {
+  background: rgba(255,255,255,.8);
+  transform: scale(1.4);
+  box-shadow: 0 0 12px rgba(255,255,255,.4);
+}
+.carousel-dot.is-active {
+  background: var(--gold);
+  width: 32px;
+  border-radius: 12px;
+  transform: scale(1.1);
+  box-shadow: 
+    0 0 16px rgba(200,168,75,.6),
+    inset 0 0 4px rgba(255,255,255,.6);
+}
 
 /* ════ CTA ════ */
 .cta{padding:130px var(--pad);text-align:center;position:relative;overflow:hidden}
@@ -443,6 +803,9 @@
 .btn--outline:hover{border-color:var(--mid);background:rgba(0,0,0,0.03);}
 
 /* ════ RESPONSIVE ════ */
+@media(max-width:1100px){
+  .carousel-slide { flex: 0 0 calc(33.333% - 15px); }
+}
 @media(max-width:900px){
   .hero__side-label{display:none}
   .hero__content{padding-top:40px}
@@ -450,8 +813,8 @@
   .story__grid{grid-template-columns:1fr;gap:48px}
   .story__photos{height:400px;order:-1}
   .mv__cols{grid-template-columns:1fr;gap:16px}
+  .carousel-slide { flex: 0 0 calc(50% - 11px); }
 }
-
 @media(max-width:640px){
   .hero__title{font-size:clamp(50px,14vw,80px)}
   .hero__tagline{font-size:14px;max-width:100%}
@@ -467,8 +830,17 @@
   .cta__btns{flex-direction:column;align-items:center}
   .btn{width:100%;justify-content:center}
   .collaborators__item{width:180px}
+  .partners { padding: 40px var(--pad); }
+  .partners__title { font-size: clamp(32px, 8vw, 44px); }
+  .partners__sub { font-size: 14.5px; }
+  .pitem__card { padding: 24px 16px 20px; }
+  .pitem__icon { width: 100px; height: 100px; margin-bottom: 16px; }
+  .pitem__name { font-size: 20px; }
+  .carousel-slide { flex: 0 0 100%; }
 }
-
+@media(max-width:480px){
+  .pitem__link { opacity: 1; transform: none; }
+}
 @media(max-width:420px){
   .hero__title{font-size:clamp(44px,15vw,68px)}
   .hero__pills{gap:7px}
@@ -476,10 +848,18 @@
   .mv__panel{padding:32px 24px}
   .collaborators__item{width:160px;padding:16px}
   .collaborators__track{gap:20px}
+  .pitem__icon { width: 90px; height: 90px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track,
+  .carousel-slide,
+  .pitem__card,
+  .pitem__icon,
+  .pitem__link,
+  .carousel-dot { transition-duration: .01ms !important; animation: none !important; }
 }
 </style>
-</head>
-<body>
 
 <!-- HERO -->
 <div class="ds">
@@ -517,7 +897,6 @@
     <p class="hero__tagline">
       Bridging ancestral soil wisdom with modern organic science to nourish the earth and empower growers worldwide.
     </p>
-    
     <div class="hero__badges">
       <div class="hero__badge-item">
         <div class="hero__badge-icon">
@@ -570,48 +949,33 @@
 </div>
 </div>
 
-
-
-<!-- PARTNERS -->
+<!-- PARTNERS & CERTIFICATIONS -->
 <div class="ds">
-<section class="partners">
-  <div class="partners__fade-l"></div>
-  <div class="partners__fade-r"></div>
+<section class="partners" aria-label="Partners and Certifications">
+
   <div class="partners__header rv">
     <div class="partners__label">Trusted Network</div>
-    <h2 class="partners__title">Partners &amp; Certifications</h2>
-    <p class="partners__sub">Independently verified by the world's leading organic and sustainability bodies.</p>
+    <h2 class="partners__title">Partners &amp; <em>Certifications</em></h2>
+    <p class="partners__sub">Independently verified by the world's leading organic and sustainability bodies to ensure the highest standards.</p>
   </div>
-  <div class="rule rv"><div class="rule__track"></div><div class="rule__dot"></div><div class="rule__track"></div></div>
-  <div class="marquee">
-    <div class="marquee__track">
-      <div class="marquee__set">
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Ecocert_logo.svg" alt="ECOCERT"></div><span class="pitem__name">ECOCERT</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://www.ifoam.bio/sites/default/files/styles/medium/public/2020-04/ifoam_organics_international_logo_0.png" alt="IFOAM"></div><span class="pitem__name">IFOAM</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/EU-Organic-Logo.svg" alt="EU Organic"></div><span class="pitem__name">EU Organic</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/1/12/USDA_Organic_seal.svg" alt="USDA Organic"></div><span class="pitem__name">USDA</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Certified_B_Corporation_Logo.svg" alt="B Corp"></div><span class="pitem__name">B Corp</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/SGS_logo.svg" alt="SGS"></div><span class="pitem__name">SGS Cert</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/en/6/62/Rainforest_Alliance_Certified_logo.svg" alt="Rainforest Alliance"></div><span class="pitem__name">Rainforest</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Fairtrade_International_logo.svg" alt="Fairtrade"></div><span class="pitem__name">Fairtrade</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://www.nsf.org/themes/custom/nsf/logo.svg" alt="NSF"></div><span class="pitem__name">NSF Intl</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://www.globalgap.org/export/system/.modules/org.globalgap.site.online/resources/img/globalgap-logo.svg" alt="GlobalG.A.P"></div><span class="pitem__name">GlobalG.A.P</span></div>
-      </div>
-      <div class="marquee__set" aria-hidden="true">
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Ecocert_logo.svg" alt="ECOCERT"></div><span class="pitem__name">ECOCERT</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://www.ifoam.bio/sites/default/files/styles/medium/public/2020-04/ifoam_organics_international_logo_0.png" alt="IFOAM"></div><span class="pitem__name">IFOAM</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/EU-Organic-Logo.svg" alt="EU Organic"></div><span class="pitem__name">EU Organic</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/1/12/USDA_Organic_seal.svg" alt="USDA Organic"></div><span class="pitem__name">USDA</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Certified_B_Corporation_Logo.svg" alt="B Corp"></div><span class="pitem__name">B Corp</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/SGS_logo.svg" alt="SGS"></div><span class="pitem__name">SGS Cert</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/en/6/62/Rainforest_Alliance_Certified_logo.svg" alt="Rainforest Alliance"></div><span class="pitem__name">Rainforest</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Fairtrade_International_logo.svg" alt="Fairtrade"></div><span class="pitem__name">Fairtrade</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://www.nsf.org/themes/custom/nsf/logo.svg" alt="NSF"></div><span class="pitem__name">NSF Intl</span></div>
-        <div class="pitem"><div class="pitem__icon"><img src="https://www.globalgap.org/export/system/.modules/org.globalgap.site.online/resources/img/globalgap-logo.svg" alt="GlobalG.A.P"></div><span class="pitem__name">GlobalG.A.P</span></div>
+
+  <div class="carousel-container rv d2">
+    <div class="carousel-viewport" id="partnersCarousel">
+      <div class="carousel-track">
+        <!-- injected by JS -->
       </div>
     </div>
+    <div class="carousel-nav">
+      <button class="carousel-btn" id="partnersPrev" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="carousel-btn" id="partnersNext" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="carousel-dots"></div>
   </div>
-  <div class="rule rule--btm"><div class="rule__track"></div><div class="rule__dot"></div><div class="rule__track"></div></div>
+
 </section>
 </div>
 
@@ -629,88 +993,181 @@
 </div>
 </div>
 
-<!-- COLLABORATORS -->
-<div class="ds">
-<section class="collaborators">
-  <div class="collaborators__header rv">
-    <div class="collaborators__label">Our Partners</div>
-    <h2 class="collaborators__title">Collaborating for a <em>Greener Future</em></h2>
-    <p class="collaborators__intro">We work closely with leading companies in agriculture and sustainability to bring you the best organic solutions.</p>
-  </div>
-  <div class="collaborators__carousel">
-    <div class="collaborators__track" id="collaboratorsTrack">
-      <!-- Collaborators will be loaded here -->
-    </div>
-  </div>
-</section>
-</div>
-
 <script>
-  (()=>{
-    const io=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}});
-    },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
-    document.querySelectorAll('.rv,.rvs').forEach(el=>io.observe(el));
-
-    // Marquee Drag Scroll
-    const marquee = document.querySelector('.marquee');
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    marquee.addEventListener('mousedown', (e) => {
-      isDown = true;
-      marquee.classList.add('active');
-      startX = e.pageX - marquee.offsetLeft;
-      scrollLeft = marquee.scrollLeft;
+(()=>{
+  /* ── Scroll-reveal ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); }
     });
-    marquee.addEventListener('mouseleave', () => {
-      isDown = false;
-    });
-    marquee.addEventListener('mouseup', () => {
-      isDown = false;
-    });
-    marquee.addEventListener('mousemove', (e) => {
-      if(!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - marquee.offsetLeft;
-      const walk = (x - startX) * 2;
-      marquee.scrollLeft = scrollLeft - walk;
-    });
+  }, { threshold: .08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.rv,.rvs').forEach(el => io.observe(el));
 
-    // Load Collaborators
-    const loadCollaborators = () => {
-      const collaborators = JSON.parse(localStorage.getItem('agro_collaborators_v1') || '[]');
-      const track = document.getElementById('collaboratorsTrack');
-      if (!track) return;
+  /* ── Partners carousel ── */
+  const initPartnersCarousel = async () => {
+    let data = [];
+    try {
+      const res    = await fetch('essentials/collaborator-api.php?action=list');
+      const result = await res.json();
+      data = result.collaborators || [];
+    } catch(err) {
+      console.error('Partners fetch error:', err);
+    }
 
-      if (collaborators.length === 0) {
-        track.innerHTML = '<div style="width:100%; text-align:center; padding:40px; color:var(--muted);">No collaborators yet.</div>';
-        return;
-      }
+    const carousel = document.getElementById('partnersCarousel');
+    if (!carousel) return;
 
-      // Duplicate for seamless loop
-      const allItems = [...collaborators, ...collaborators];
-      track.innerHTML = allItems.map(c => `
-        <div class="collaborators__item">
-          <div class="collaborators__logo">
-            <img src="${c.logo}" alt="${c.name} logo" loading="lazy">
+    const track  = carousel.querySelector('.carousel-track');
+    const dotsEl = document.querySelector('.carousel-dots');
+    const prevBtn = document.getElementById('partnersPrev');
+    const nextBtn = document.getElementById('partnersNext');
+
+    if (data.length === 0) {
+      track.innerHTML = '<div style="width:100%;text-align:center;padding:60px 0;color:rgba(255,255,255,.28);font-family:var(--fbody);font-size:14px;letter-spacing:.1em;">No partners available yet.</div>';
+      return;
+    }
+
+    /* Render slides */
+    track.innerHTML = data.map(item => `
+      <div class="carousel-slide">
+        <div class="pitem__card">
+          <div class="pitem__icon">
+            <img src="${item.logo}" alt="${item.name}" loading="lazy" onerror="this.style.display='none'">
           </div>
-          <div class="collaborators__name">${c.name}</div>
-          <div class="collaborators__desc">${c.description || ''}</div>
-          <a href="${c.website}" target="_blank" class="collaborators__link">Visit Website</a>
+          <div class="pitem__name">${item.name}</div>
+          <div class="pitem__type">${item.type || 'Partner'}</div>
+          <div class="pitem__divider"></div>
+          ${item.website ? `
+            <a href="${item.website}" target="_blank" rel="noopener" class="pitem__link">
+              Learn more
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor">
+                <line x1="2" y1="10" x2="10" y2="2"/>
+                <polyline points="4 2 10 2 10 8"/>
+              </svg>
+            </a>` : ''}
         </div>
-      `).join('');
+      </div>
+    `).join('');
+
+    const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+
+    /* State */
+    let cur    = 0;
+    let ipv    = 4;
+    let isDrag = false;
+    let startX = 0;
+    let prevTX = 0;
+    let curTX  = 0;
+    let autoTimer;
+
+    const getIPV = () => {
+      const w = window.innerWidth;
+      if (w <= 640)  return 1;
+      if (w <= 900)  return 2;
+      if (w <= 1100) return 3;
+      return 4;
+    };
+    const maxIdx = () => Math.max(0, data.length - ipv);
+
+    /* Dots */
+    const renderDots = () => {
+      const n = Math.ceil(data.length / ipv);
+      const isMax = cur >= maxIdx();
+      const getActive = () => isMax && n > 1 ? n - 1 : Math.floor(cur / ipv);
+
+      dotsEl.innerHTML = Array.from({length: n}, (_, i) =>
+        `<button class="carousel-dot${i === getActive() ? ' is-active' : ''}" aria-label="Page ${i+1}"></button>`
+      ).join('');
+      dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.onclick = () => { cur = i * ipv; update(); resetAuto(); };
+      });
     };
 
-    loadCollaborators();
+    /* Update */
+    const update = () => {
+      if (cur > maxIdx()) cur = maxIdx();
+      if (cur < 0) cur = 0;
+      const slideW = 100 / ipv;
+      const gapPx  = 22;
+      track.style.transform = `translateX(calc(${-cur * slideW}% - ${cur * gapPx / ipv}px))`;
+      slides.forEach((s, i) =>
+        s.classList.toggle('is-active', i >= cur && i < cur + ipv)
+      );
+      
+      const isMax = cur >= maxIdx();
+      const numDots = dotsEl.children.length;
+      dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        const activeIdx = isMax && numDots > 1 ? numDots - 1 : Math.floor(cur / ipv);
+        d.classList.toggle('is-active', i === activeIdx);
+      });
+      prevBtn.disabled = cur === 0;
+      nextBtn.disabled = isMax;
+    };
 
-    // Listen for storage changes to update collaborators dynamically
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'agro_collaborators_v1') {
-        loadCollaborators();
-      }
+    const next = () => { cur < maxIdx() ? cur++ : cur = 0; update(); };
+    const prev = () => { cur > 0 ? cur-- : cur = maxIdx(); update(); };
+
+    prevBtn.onclick = () => { prev(); resetAuto(); };
+    nextBtn.onclick = () => { next(); resetAuto(); };
+
+    /* Auto-play */
+    const startAuto = () => {
+      if (data.length > ipv) autoTimer = setInterval(next, 4200);
+    };
+    const resetAuto = () => { clearInterval(autoTimer); startAuto(); };
+
+    /* Drag / touch */
+    const getX = e => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+
+    const onDragStart = e => {
+      isDrag = true;
+      startX = getX(e);
+      prevTX = -cur * (carousel.offsetWidth / ipv);
+      track.style.transition = 'none';
+      clearInterval(autoTimer);
+    };
+    const onDragEnd = () => {
+      if (!isDrag) return;
+      isDrag = false;
+      const moved = curTX - prevTX;
+      track.style.transition = 'transform .85s cubic-bezier(.16,1,.3,1)';
+      if      (moved < -80) next();
+      else if (moved > 80)  prev();
+      else                  update();
+      startAuto();
+    };
+    const onDragMove = e => {
+      if (!isDrag) return;
+      curTX = prevTX + getX(e) - startX;
+      track.style.transform = `translateX(${curTX}px)`;
+    };
+
+    carousel.addEventListener('mousedown',  onDragStart);
+    carousel.addEventListener('mouseup',    onDragEnd);
+    carousel.addEventListener('mouseleave', onDragEnd);
+    carousel.addEventListener('mousemove',  onDragMove);
+    carousel.addEventListener('touchstart', onDragStart, { passive: true });
+    carousel.addEventListener('touchend',   onDragEnd);
+    carousel.addEventListener('touchmove',  onDragMove,  { passive: true });
+    carousel.addEventListener('dragstart',  e => e.preventDefault());
+
+    /* Keyboard */
+    carousel.setAttribute('tabindex', '0');
+    carousel.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { next(); resetAuto(); }
+      if (e.key === 'ArrowLeft')  { prev(); resetAuto(); }
     });
-  })();
-  </script>
-</section>
+
+    /* Resize */
+    window.addEventListener('resize', () => { ipv = getIPV(); renderDots(); update(); });
+
+    /* Init */
+    ipv = getIPV();
+    renderDots();
+    update();
+    startAuto();
+  };
+
+  initPartnersCarousel();
+})();
+</script>

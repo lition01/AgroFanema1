@@ -2198,9 +2198,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         <div class="sidebar-header">
             <div class="logo" style="gap: 0; align-items: center; display: flex;">
                 <div class="logo-icon" style="background: none; width: 44px; height: 44px;">
-                    <img src="images/logo.svg" alt="AgroFanema Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    <img src="images/logo.svg" alt="AgroFanema Logo"
+                        style="width: 100%; height: 100%; object-fit: contain;">
                 </div>
-                <span style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 800; color: #000000; margin-left: -5px; line-height: 1;">AgroFanema</span>
+                <span
+                    style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 800; color: #000000; margin-left: -5px; line-height: 1;">AgroFanema</span>
             </div>
         </div>
         <nav class="nav-section">
@@ -2288,7 +2290,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 </svg>
                 <span>Logout</span>
             </div>
-            <a href="index.php" class="nav-item" style="text-decoration: none; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 16px;">
+            <a href="index.php" class="nav-item"
+                style="text-decoration: none; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 16px;">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -2309,21 +2312,29 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         <header class="topbar">
             <div class="topbar-left"></div>
             <div class="topbar-actions">
-                <div class="date-label" id="currentDate" style="display: flex; align-items: center; background: var(--bg-primary); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); margin-right: 8px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 10px; color: var(--accent-gold);">
+                <div class="date-label" id="currentDate"
+                    style="display: flex; align-items: center; background: var(--bg-primary); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); margin-right: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="margin-right: 10px; color: var(--accent-gold);">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                         <line x1="16" y1="2" x2="16" y2="6"></line>
                         <line x1="8" y1="2" x2="8" y2="6"></line>
                         <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
-                    <span id="dateText" style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading date...</span>
+                    <span id="dateText"
+                        style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading
+                        date...</span>
                 </div>
-                <div class="time-label" id="currentTime" style="display: flex; align-items: center; background: var(--bg-primary); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); margin-right: 16px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 10px; color: var(--accent-gold);">
+                <div class="time-label" id="currentTime"
+                    style="display: flex; align-items: center; background: var(--bg-primary); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); margin-right: 16px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="margin-right: 10px; color: var(--accent-gold);">
                         <circle cx="12" cy="12" r="10"></circle>
                         <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
-                    <span id="clockText" style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading time...</span>
+                    <span id="clockText"
+                        style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading
+                        time...</span>
                 </div>
                 <div class="user-avatar" style="width:32px;height:32px;font-size:12px;" id="topbarAvatar">JD</div>
             </div>
@@ -2470,7 +2481,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     </div>
                 </div>
 
-                <div class="filter-container" id="categoryFilters" style="display:flex;gap:12px;margin-bottom:32px;overflow-x:auto;padding-bottom:8px;">
+                <div class="filter-container" id="categoryFilters"
+                    style="display:flex;gap:12px;margin-bottom:32px;overflow-x:auto;padding-bottom:8px;">
                     <div class="filter-pill active" data-category="all">All Categories</div>
                     <div class="filter-pill" data-category="biostimulants">Biostimulants</div>
                     <div class="filter-pill" data-category="crystalline">Crystalline Fertilizers</div>
@@ -2839,7 +2851,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button class="btn btn-primary btn-sm" onclick="showAddCollaboratorModal()">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
                                 <line x1="12" y1="5" x2="12" y2="19"></line>
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                             </svg>
@@ -2850,12 +2863,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
                 <div class="sales-table-card">
                     <div class="sales-table-header">
-                        <div class="sales-table-title">Collaborators <span class="sales-count-badge" id="collaboratorCountBadge">0</span></div>
+                        <div class="sales-table-title">Collaborators <span class="sales-count-badge"
+                                id="collaboratorCountBadge">0</span></div>
                     </div>
                     <div id="collaboratorsTableContainer" style="overflow-x:auto;">
                         <!-- Collaborators table will be rendered here -->
                         <div class="sales-empty">
-                            <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
                                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                                     <circle cx="9" cy="7" r="4"></circle>
                                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -2939,9 +2954,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button class="btn btn-secondary btn-sm" onclick="clearAllMessages()">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
                                     </polyline>
                             </svg>
                             Clear All
@@ -2951,13 +2968,16 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
                 <div class="sales-table-card">
                     <div class="sales-table-header">
-                        <div class="sales-table-title">Recent Inquiries <span class="sales-count-badge" id="messageCountBadge">0</span></div>
+                        <div class="sales-table-title">Recent Inquiries <span class="sales-count-badge"
+                                id="messageCountBadge">0</span></div>
                     </div>
                     <div id="messagesTableContainer" style="overflow-x:auto;">
                         <!-- Messages table will be rendered here -->
                         <div class="sales-empty">
-                            <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                     <polyline points="22,6 12,13 2,6" />
                                 </svg></div>
                             <h4>No Messages Yet</h4>
@@ -2993,21 +3013,28 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
                     <!-- Danger Zone Section -->
                     <div class="settings-section" style="margin-top: 48px;">
-                        <h3 class="settings-section-title" style="color:var(--danger); border-color: rgba(239,68,68,0.2);">Danger Zone</h3>
-                        <div style="border:1px solid rgba(239,68,68,0.3); border-radius:12px; overflow:hidden; background: rgba(239,68,68,0.02);">
-                            <div style="padding:20px; border-bottom:1px solid rgba(239,68,68,0.1); display:flex; align-items:center; justify-content:space-between;">
+                        <h3 class="settings-section-title"
+                            style="color:var(--danger); border-color: rgba(239,68,68,0.2);">Danger Zone</h3>
+                        <div
+                            style="border:1px solid rgba(239,68,68,0.3); border-radius:12px; overflow:hidden; background: rgba(239,68,68,0.02);">
+                            <div
+                                style="padding:20px; border-bottom:1px solid rgba(239,68,68,0.1); display:flex; align-items:center; justify-content:space-between;">
                                 <div>
                                     <div style="font-size:14px; font-weight:600;">Clear All Sales Data</div>
-                                    <div style="font-size:12px; color:var(--text-muted);">Permanently delete all recorded sales history</div>
+                                    <div style="font-size:12px; color:var(--text-muted);">Permanently delete all
+                                        recorded sales history</div>
                                 </div>
                                 <button class="btn btn-danger btn-sm" onclick="clearSalesHistory()">Clear Data</button>
                             </div>
                             <div style="padding:20px; display:flex; align-items:center; justify-content:space-between;">
                                 <div>
                                     <div style="font-size:14px; font-weight:600;">Delete All Products</div>
-                                    <div style="font-size:12px; color:var(--text-muted);">Remove every product from your inventory</div>
+                                    <div style="font-size:12px; color:var(--text-muted);">Remove every product from your
+                                        inventory</div>
                                 </div>
-                                <button class="btn btn-danger btn-sm" onclick="if(confirm('Delete ALL products? This cannot be undone.')){products=[];saveProducts();renderProducts();renderSalesProductSelector();updateAllMetrics();showToast('All products deleted','error');}">Delete All</button>
+                                <button class="btn btn-danger btn-sm"
+                                    onclick="if(confirm('Delete ALL products? This cannot be undone.')){products=[];saveProducts();renderProducts();renderSalesProductSelector();updateAllMetrics();showToast('All products deleted','error');}">Delete
+                                    All</button>
                             </div>
                         </div>
                     </div>
@@ -3022,12 +3049,17 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     <!-- Edit Product Modal -->
     <div class="modal-overlay" id="editProductModal">
         <div class="modal" style="max-width:1000px; width:95%; padding:0; overflow:hidden;">
-            <div class="modal-header" style="padding:20px 30px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+            <div class="modal-header"
+                style="padding:20px 30px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--text-primary);">Edit Product</h2>
-                    <p style="font-size:13px; color:var(--text-muted);" id="editModalSubtitle">Update product information</p>
+                    <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--text-primary);">
+                        Edit Product</h2>
+                    <p style="font-size:13px; color:var(--text-muted);" id="editModalSubtitle">Update product
+                        information</p>
                 </div>
-                <button class="btn-close" onclick="closeEditModal()" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="btn-close" onclick="closeEditModal()"
+                    style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><svg width="24"
+                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg></button>
@@ -3045,10 +3077,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                     <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
                                 </div>
                                 <div class="lang-content active" id="edit-name-sq-content">
-                                    <div class="form-group"><label class="form-label">Product Name (Albanian)</label><input type="text" name="name_sq" id="edit_name_sq" class="form-input" required></div>
+                                    <div class="form-group"><label class="form-label">Product Name
+                                            (Albanian)</label><input type="text" name="name_sq" id="edit_name_sq"
+                                            class="form-input" required></div>
                                 </div>
                                 <div class="lang-content" id="edit-name-en-content">
-                                    <div class="form-group"><label class="form-label">Product Name (English)</label><input type="text" name="name_en" id="edit_name_en" class="form-input" required></div>
+                                    <div class="form-group"><label class="form-label">Product Name
+                                            (English)</label><input type="text" name="name_en" id="edit_name_en"
+                                            class="form-input" required></div>
                                 </div>
 
                                 <div class="form-section-divider"><span>Descriptions</span></div>
@@ -3057,47 +3093,60 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                     <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
                                 </div>
                                 <div class="lang-content active" id="edit-desc-sq-content">
-                                    <div class="form-group"><label class="form-label">Description (Albanian)</label><textarea name="desc_sq" id="edit_desc_sq" class="form-input" style="height:90px;resize:vertical;"></textarea></div>
+                                    <div class="form-group"><label class="form-label">Description
+                                            (Albanian)</label><textarea name="desc_sq" id="edit_desc_sq"
+                                            class="form-input" style="height:90px;resize:vertical;"></textarea></div>
                                 </div>
                                 <div class="lang-content" id="edit-desc-en-content">
-                                    <div class="form-group"><label class="form-label">Description (English)</label><textarea name="desc_en" id="edit_desc_en" class="form-input" style="height:90px;resize:vertical;"></textarea></div>
+                                    <div class="form-group"><label class="form-label">Description
+                                            (English)</label><textarea name="desc_en" id="edit_desc_en"
+                                            class="form-input" style="height:90px;resize:vertical;"></textarea></div>
                                 </div>
 
                                 <div class="form-section-divider"><span>Product Image</span></div>
                                 <div class="image-upload-zone" id="editUploadZone">
-                                    <input type="file" name="image" id="editImageInput" accept="image/*" onchange="handleEditImagePreview(event)">
+                                    <input type="file" name="image" id="editImageInput" accept="image/*"
+                                        onchange="handleEditImagePreview(event)">
                                     <div id="editUploadPlaceholder">
-                                        <div class="upload-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <div class="upload-icon"><svg width="26" height="26" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2">
                                                 <rect x="3" y="3" width="18" height="18" rx="2" />
                                                 <circle cx="8.5" cy="8.5" r="1.5" />
                                                 <polyline points="21,15 16,10 5,21" />
                                             </svg></div>
                                         <div class="upload-title">Click to change image</div>
                                     </div>
-                                    <div class="upload-preview" id="editUploadPreview"><img id="editPreviewImg" src="" alt="Preview"><button type="button" class="upload-preview-remove" onclick="removeEditPreview()">✕</button></div>
+                                    <div class="upload-preview" id="editUploadPreview"><img id="editPreviewImg" src=""
+                                            alt="Preview"><button type="button" class="upload-preview-remove"
+                                            onclick="removeEditPreview()">✕</button></div>
                                 </div>
                             </div>
                         </div>
                         <div class="product-sidebar-panel">
                             <div class="sidebar-widget">
-                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M4 6h16M4 12h16M4 18h7" />
                                     </svg>Category</div>
                                 <div class="sidebar-widget-body">
                                     <div class="category-grid" id="editCategoryGrid">
-                                        <label class="category-option"><input type="radio" name="category" value="biostimulants">
+                                        <label class="category-option"><input type="radio" name="category"
+                                                value="biostimulants">
                                             <div class="category-option-icon">🧬</div>
                                             <div class="category-option-name">Biostimulants</div>
                                         </label>
-                                        <label class="category-option"><input type="radio" name="category" value="crystalline">
+                                        <label class="category-option"><input type="radio" name="category"
+                                                value="crystalline">
                                             <div class="category-option-icon">💎</div>
                                             <div class="category-option-name">Crystalline Fertilizers</div>
                                         </label>
-                                        <label class="category-option"><input type="radio" name="category" value="granular">
+                                        <label class="category-option"><input type="radio" name="category"
+                                                value="granular">
                                             <div class="category-option-icon">🌾</div>
                                             <div class="category-option-name">Granular Fertilizers</div>
                                         </label>
-                                        <label class="category-option"><input type="radio" name="category" value="soil_improvers">
+                                        <label class="category-option"><input type="radio" name="category"
+                                                value="soil_improvers">
                                             <div class="category-option-icon">🪴</div>
                                             <div class="category-option-name">Soil Improvers</div>
                                         </label>
@@ -3105,16 +3154,24 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </div>
                             </div>
                             <div class="sidebar-widget">
-                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
                                     </svg>Stock Quantity</div>
                                 <div class="sidebar-widget-body">
-                                    <div class="qty-control"><button type="button" class="qty-btn" onclick="adjustEditQty(-1)">−</button><input type="number" name="quantity" id="edit_quantity" class="qty-input" value="0" min="0"><button type="button" class="qty-btn" onclick="adjustEditQty(1)">+</button></div>
+                                    <div class="qty-control"><button type="button" class="qty-btn"
+                                            onclick="adjustEditQty(-1)">−</button><input type="number" name="quantity"
+                                            id="edit_quantity" class="qty-input" value="0" min="0"><button type="button"
+                                            class="qty-btn" onclick="adjustEditQty(1)">+</button></div>
                                 </div>
                             </div>
-                            <div style="margin-top:auto; padding-top:20px; display:flex; flex-direction:column; gap:12px;">
-                                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Save Changes</button>
-                                <button type="button" class="btn btn-secondary" onclick="closeEditModal()" style="width:100%; justify-content:center;">Cancel</button>
+                            <div
+                                style="margin-top:auto; padding-top:20px; display:flex; flex-direction:column; gap:12px;">
+                                <button type="submit" class="btn btn-primary"
+                                    style="width:100%; justify-content:center;">Save Changes</button>
+                                <button type="button" class="btn btn-secondary" onclick="closeEditModal()"
+                                    style="width:100%; justify-content:center;">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -3234,7 +3291,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         }
 
         document.querySelectorAll('.nav-item[data-section]').forEach(item => {
-            item.addEventListener('click', function() {
+            item.addEventListener('click', function () {
                 const s = this.dataset.section;
                 if (s === 'logout') {
                     document.getElementById('logoutModal').classList.add('active');
@@ -3259,7 +3316,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             if (st) st.checked = dark;
             localStorage.setItem('admin-theme', dark ? 'dark' : 'light');
         }
-        document.getElementById('settingsThemeToggle')?.addEventListener('change', function() {
+        document.getElementById('settingsThemeToggle')?.addEventListener('change', function () {
             dark = this.checked;
             applyTheme();
         });
@@ -3316,7 +3373,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             const tabs = document.getElementById(tabsId);
             if (!tabs) return;
             tabs.querySelectorAll('.lang-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
+                tab.addEventListener('click', function () {
                     tabs.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     const lang = this.dataset.lang;
@@ -3333,7 +3390,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
            CATEGORY SELECTOR
         ═══════════════════════════════════════════════════ */
         document.querySelectorAll('.category-option').forEach(opt => {
-            opt.addEventListener('click', function() {
+            opt.addEventListener('click', function () {
                 document.querySelectorAll('.category-option').forEach(o => o.classList.remove('selected'));
                 this.classList.add('selected');
                 this.querySelector('input[type="radio"]').checked = true;
@@ -3500,39 +3557,23 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         /* ═══════════════════════════════════════════════════
            COLLABORATORS
         ═══════════════════════════════════════════════════ */
-        let collaborators = loadFromStorage('agro_collaborators_v1') || [];
+        let collaborators = [];
 
-        // Add default collaborators if none exist
-        if (collaborators.length === 0) {
-            collaborators = [
-                {
-                    id: 'collab_default_1',
-                    name: 'GreenTech Solutions',
-                    description: 'Leading provider of sustainable agricultural technologies and organic farming solutions.',
-                    website: 'https://example.com/greentech',
-                    logo: 'https://via.placeholder.com/100x60/2E7D4F/FFFFFF?text=GreenTech'
-                },
-                {
-                    id: 'collab_default_2',
-                    name: 'Organic Farms Co.',
-                    description: 'Certified organic farming products and expert agricultural consulting services.',
-                    website: 'https://example.com/organicfarms',
-                    logo: 'https://via.placeholder.com/100x60/3DAA68/FFFFFF?text=Organic'
-                },
-                {
-                    id: 'collab_default_3',
-                    name: 'EcoHarvest Inc.',
-                    description: 'Sustainable harvesting solutions and eco-friendly agricultural equipment.',
-                    website: 'https://example.com/ecoharvest',
-                    logo: 'https://via.placeholder.com/100x60/C8A84B/FFFFFF?text=EcoHarvest'
+        async function fetchCollaborators() {
+            try {
+                const r = await fetch('essentials/collaborator-api.php?action=list');
+                const d = await r.json();
+                if (d.success) {
+                    collaborators = d.collaborators;
                 }
-            ];
-            saveCollaborators(); // Save the defaults
+            } catch (err) {
+                console.error('Error fetching collaborators:', err);
+            }
+            renderCollaboratorsTable();
         }
 
-        function saveCollaborators() {
-            saveToStorage('agro_collaborators_v1', collaborators);
-        }
+        // Initialize collaborators
+        fetchCollaborators();
 
         function renderCollaboratorsTable() {
             const container = document.getElementById('collaboratorsTableContainer');
@@ -3599,6 +3640,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     </div>
                     <div class="modal-body" style="padding:30px;">
                         <form id="collaboratorForm">
+                            <input type="hidden" name="action" value="add">
                             <div class="form-group" style="margin-bottom:20px;">
                                 <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Company Name *</label>
                                 <input type="text" name="name" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
@@ -3612,8 +3654,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 <input type="url" name="website" required placeholder="https://example.com" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
                             </div>
                             <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Logo URL *</label>
-                                <input type="url" name="logo" required placeholder="https://example.com/logo.png" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Logo Image *</label>
+                                <input type="file" name="logo" accept="image/*" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
                             </div>
                         </form>
                     </div>
@@ -3644,6 +3686,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     </div>
                     <div class="modal-body" style="padding:30px;">
                         <form id="collaboratorForm">
+                            <input type="hidden" name="action" value="edit">
+                            <input type="hidden" name="id" value="${id}">
                             <div class="form-group" style="margin-bottom:20px;">
                                 <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Company Name *</label>
                                 <input type="text" name="name" value="${collab.name}" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
@@ -3657,14 +3701,15 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 <input type="url" name="website" value="${collab.website}" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
                             </div>
                             <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Logo URL *</label>
-                                <input type="url" name="logo" value="${collab.logo}" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Logo Image (leave empty to keep current)</label>
+                                <input type="file" name="logo" accept="image/*" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                                <div style="margin-top:8px;"><img src="${collab.logo}" alt="Current Logo" style="height:30px; object-fit:contain; border-radius:4px; opacity:0.6;"></div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer" style="padding:20px 30px; background:var(--bg-secondary); border-top:1px solid var(--border-color); display:flex; justify-content:flex-end; gap:12px;">
                         <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
-                        <button class="btn btn-primary" onclick="updateCollaborator('${id}')">Update Collaborator</button>
+                        <button class="btn btn-primary" onclick="updateCollaborator()">Update Collaborator</button>
                     </div>
                 </div>
             `;
@@ -3672,7 +3717,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             setTimeout(() => modal.classList.add('active'), 10);
         }
 
-        function saveCollaborator() {
+        async function saveCollaborator() {
             const form = document.getElementById('collaboratorForm');
             if (!form.checkValidity()) {
                 form.reportValidity();
@@ -3680,22 +3725,26 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             }
 
             const formData = new FormData(form);
-            const newCollab = {
-                id: 'collab_' + Date.now(),
-                name: formData.get('name'),
-                description: formData.get('description'),
-                website: formData.get('website'),
-                logo: formData.get('logo')
-            };
-
-            collaborators.push(newCollab);
-            saveCollaborators();
-            renderCollaboratorsTable();
-            document.querySelector('.modal-overlay').remove();
-            showToast('Collaborator added successfully', 'success');
+            try {
+                const res = await fetch('essentials/collaborator-api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const d = await res.json();
+                if (d.success) {
+                    await fetchCollaborators();
+                    document.querySelector('.modal-overlay').remove();
+                    showToast('Collaborator added successfully', 'success');
+                } else {
+                    showToast(d.error || 'Error adding collaborator', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Server error', 'error');
+            }
         }
 
-        function updateCollaborator(id) {
+        async function updateCollaborator() {
             const form = document.getElementById('collaboratorForm');
             if (!form.checkValidity()) {
                 form.reportValidity();
@@ -3703,26 +3752,46 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             }
 
             const formData = new FormData(form);
-            const collab = collaborators.find(c => c.id === id);
-            if (collab) {
-                collab.name = formData.get('name');
-                collab.description = formData.get('description');
-                collab.website = formData.get('website');
-                collab.logo = formData.get('logo');
-                saveCollaborators();
-                renderCollaboratorsTable();
-                document.querySelector('.modal-overlay').remove();
-                showToast('Collaborator updated successfully', 'success');
+            try {
+                const res = await fetch('essentials/collaborator-api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const d = await res.json();
+                if (d.success) {
+                    await fetchCollaborators();
+                    document.querySelector('.modal-overlay').remove();
+                    showToast('Collaborator updated successfully', 'success');
+                } else {
+                    showToast(d.error || 'Error updating collaborator', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Server error', 'error');
             }
         }
 
-        function deleteCollaborator(id) {
+        async function deleteCollaborator(id) {
             if (!confirm('Delete this collaborator?')) return;
-            collaborators = collaborators.filter(c => c.id !== id);
-            saveCollaborators();
-            renderCollaboratorsTable();
-            showToast('Collaborator deleted', 'error');
+            const formData = new FormData();
+            formData.append('action', 'delete');
+            formData.append('id', id);
+
+            try {
+                const res = await fetch('essentials/collaborator-api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const d = await res.json();
+                if (d.success) {
+                    await fetchCollaborators();
+                    showToast('Collaborator deleted', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
+
 
         /* ═══════════════════════════════════════════════════
            PRODUCTS CRUD
@@ -3773,12 +3842,12 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             });
 
             document.querySelectorAll('.edit-product').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     openModalForEdit(products[+this.dataset.index]);
                 });
             });
             document.querySelectorAll('.delete-product').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     if (!confirm('Delete this product?')) return;
                     const id = +this.dataset.id;
                     products = products.filter(p => p.id !== id);
@@ -3888,7 +3957,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     showToast('Product updated', 'success');
                     return;
                 }
-            } catch {}
+            } catch { }
 
             // Fallback
             let imageData = '';
@@ -3965,7 +4034,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     showToast('Product added', 'success');
                     return;
                 }
-            } catch {}
+            } catch { }
 
             // Fallback: local storage
             let imageData = '';
@@ -4007,7 +4076,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     products = d.products;
                     saveProducts();
                 }
-            } catch {}
+            } catch { }
             nextProductId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
             renderProducts();
             renderSalesProductSelector();
@@ -4209,7 +4278,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
         // View Sales filter chips
         document.querySelectorAll('.filter-chip[data-vsfilter]').forEach(chip => {
-            chip.addEventListener('click', function() {
+            chip.addEventListener('click', function () {
                 document.querySelectorAll('.filter-chip[data-vsfilter]').forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
                 vsFilter = this.dataset.vsfilter;
@@ -4641,7 +4710,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     products = d.products;
                     saveProducts();
                 }
-            } catch {}
+            } catch { }
 
             nextProductId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
             renderProducts();
