@@ -34,6 +34,11 @@ $translations = [
         'faq' => 'Frequently Asked Questions',
         'support_center' => 'Support Center',
         'faq_sub' => 'Everything you need to know about our organic fertilizers and how they work to restore your soil\'s health.',
+        'cat_biostimulants' => 'Biostimulants',
+        'cat_crystalline' => 'Crystalline Fertilizers',
+        'cat_granular' => 'Granular Fertilizers',
+        'cat_soil_improvers' => 'Soil Improvers',
+        'back_to_products' => 'Back to Products',
     ],
     'sq' => [
         'home' => 'Kreu',
@@ -45,7 +50,7 @@ $translations = [
         'est' => 'Themeluar në',
         'founded' => 'Themeluar në',
         'hero_title' => '<em>Plehra</em> Organike Premium për një <span class="hl-green">të Ardhme më të Gjelbër</span>',
-        'hero_desc' => '<strong>AgroFanema</strong> ofron zgjidhje organike me performancë të lartë për bujqësinë moderne. Rrisni prodhimin tuaj me plehrat tona të testuara dhe ekologjike.',
+        'hero_desc' => '<strong>AgroFanema</strong> ofron zgjidhje organike me performancë të lartë për bujqësinë moderne. Rrisni prodhimun tuaj me plehrat tona të testuara dhe ekologjike.',
         'explore_products' => 'Eksploro Produktet',
         'learn_more' => 'Mëso Më Shumë',
         'yield_increase' => 'Rritja Mesatare e Prodhimit',
@@ -67,6 +72,11 @@ $translations = [
         'faq' => 'Pyetje të Shpeshta',
         'support_center' => 'Qendra e Suportit',
         'faq_sub' => 'Gjithçka që duhet të dini rreth plehrave tona organike dhe se si ato funksionojnë për të rikthyer shëndetin e tokës suaj.',
+        'cat_biostimulants' => 'Biostimulues',
+        'cat_crystalline' => 'Plehra Kristalinë',
+        'cat_granular' => 'Plehra Granularë',
+        'cat_soil_improvers' => 'Përmirësues Tokë',
+        'back_to_products' => 'Kthehu te Produktet',
     ]
 ];
 

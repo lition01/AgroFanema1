@@ -629,10 +629,10 @@
 
   <script>
     const categoryIcons = {
-      organic: '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/></svg>',
-      specialty: '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
-      liquid: '<svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>',
-      granular: '<svg viewBox="0 0 24 24"><circle cx="7.5" cy="7.5" r="1.5"/><circle cx="16.5" cy="7.5" r="1.5"/><circle cx="7.5" cy="16.5" r="1.5"/><circle cx="16.5" cy="16.5" r="1.5"/><circle cx="12" cy="12" r="1.5"/></svg>'
+      biostimulants: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 3.5-2 3.5s2.24-.5 3.5-2M19.5 7.5c1.5-1.26 2-3.5 2-3.5s-2.24.5-3.5 2M8 12a4 4 0 1 0 8 0 4 4 0 1 0-8 0M2 2l20 20"/></svg>',
+      crystalline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 12L2 9zM11 3v18M22 9H2M4.5 6h15M16.5 18L18 9M7.5 18L6 9"/></svg>',
+      granular: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="1"/><circle cx="17" cy="7" r="1"/><circle cx="7" cy="17" r="1"/><circle cx="17" cy="17" r="1"/><circle cx="12" cy="12" r="1"/></svg>',
+      soil_improvers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10V3M12 10a4 4 0 1 0 0 8 4 4 0 1 0 0-8ZM3 21h18M7 21v-3M17 21v-3M12 21v-3"/></svg>'
     };
 
     const featureIcons = [
@@ -678,7 +678,7 @@
       // Update category
       const categoryText = product.category.charAt(0).toUpperCase() + product.category.slice(1);
       const categoryTag = document.getElementById('product-category');
-      categoryTag.innerHTML = (categoryIcons[product.category] || categoryIcons.organic) + `<span id="category-text">${categoryText}</span>`;
+      categoryTag.innerHTML = (categoryIcons[product.category] || categoryIcons.granular) + `<span id="category-text">${categoryText}</span>`;
 
       // Render Features
       const featuresGrid = document.getElementById('product-features-grid');

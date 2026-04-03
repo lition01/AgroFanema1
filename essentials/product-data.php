@@ -15,7 +15,7 @@ $products = [
     'uan-nitro-boost' => [
         'id' => 'uan-nitro-boost',
         'name' => 'UAN Nitro Boost',
-        'category' => 'liquid',
+        'category' => 'crystalline',
         'price' => 38.50,
         'image' => 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200&q=80',
         'description' => 'Fast-uptake nitrogen solution for rapid vegetative growth and immediate crop response.',
@@ -26,7 +26,7 @@ $products = [
     'bio-root-enhancer' => [
         'id' => 'bio-root-enhancer',
         'name' => 'Bio-Root Enhancer',
-        'category' => 'organic',
+        'category' => 'biostimulants',
         'price' => 52.00,
         'image' => 'https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=1200&q=80',
         'description' => '100% natural organic blend for strong root systems and sustainable soil health.',
@@ -37,7 +37,7 @@ $products = [
     'microshield-trace' => [
         'id' => 'microshield-trace',
         'name' => 'MicroShield Trace',
-        'category' => 'specialty',
+        'category' => 'soil_improvers',
         'price' => 29.00,
         'image' => 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&q=80',
         'description' => 'Chelated micronutrients for improved crop quality and deficiency correction.',

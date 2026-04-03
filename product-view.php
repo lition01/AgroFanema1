@@ -2,7 +2,32 @@
 include "essentials/product-data.php";
 
 $product_id = isset($_GET['id']) ? $_GET['id'] : null;
-$product = ($product_id && isset($products[$product_id])) ? $products[$product_id] : null;
+$product = null;
+
+// First check mock database
+if ($product_id && isset($products[$product_id])) {
+    $product = $products[$product_id];
+} else {
+    // Then check JSON database
+    $jsonFile = __DIR__ . '/essentials/products.json';
+    if (file_exists($jsonFile)) {
+        $jsonProducts = json_decode(file_get_contents($jsonFile), true) ?: [];
+        foreach ($jsonProducts as $p) {
+            if ($p['id'] === $product_id) {
+                // Map JSON fields to match the expected structure
+                $product = [
+                    'id' => $p['id'],
+                    'name' => (isset($_COOKIE['lang']) && $_COOKIE['lang'] === 'sq') ? ($p['name_sq'] ?: $p['name_en']) : ($p['name_en'] ?: $p['name_sq']),
+                    'category' => $p['category'],
+                    'image' => $p['image'],
+                    'full_details' => (isset($_COOKIE['lang']) && $_COOKIE['lang'] === 'sq') ? ($p['desc_sq'] ?: $p['desc_en']) : ($p['desc_en'] ?: $p['desc_sq']),
+                    'features' => (isset($_COOKIE['lang']) && $_COOKIE['lang'] === 'sq') ? ($p['features_sq'] ?: $p['features_en']) : ($p['features_en'] ?: $p['features_sq'])
+                ];
+                break;
+            }
+        }
+    }
+}
 
 if (!$product) {
     header("Location: products.php");
@@ -274,7 +299,7 @@ if (!$product) {
     <main class="gg-product-view">
         <a href="products.php" class="back-link">
             <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to Collection
+            <?php echo t('back_to_products'); ?>
         </a>
 
         <div class="product-container">
@@ -285,7 +310,9 @@ if (!$product) {
             </div>
 
             <div class="product-details">
-                <span class="product-category"><?php echo $product['category']; ?> Solutions</span>
+                <span class="product-category">
+                    <?php echo t('cat_' . $product['category']); ?>
+                </span>
                 <h1 class="product-title"><?php echo $product['name']; ?></h1>
                 
                 <p class="product-desc-long">
@@ -294,7 +321,7 @@ if (!$product) {
 
                 <div class="action-group">
                     <button class="order-now-btn" id="order-btn-view">
-                        Proceed to Order
+                        <?php echo t('contact_us'); ?>
                         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </button>
                 </div>

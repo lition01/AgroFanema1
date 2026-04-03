@@ -726,22 +726,21 @@ if (file_exists($dataFile)) {
 
             <?php
             $catIcons = [
-              'granular' => '<svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><circle cx="8" cy="16" r="3"/><circle cx="16" cy="16" r="3"/></svg>',
-              'liquid' => '<svg viewBox="0 0 24 24"><path d="M12 2C12 2 5 10 5 15a7 7 0 0 0 14 0C19 10 12 2 12 2z"/></svg>',
-              'organic' => '<svg viewBox="0 0 24 24"><path d="M12 22V12M12 12C12 7 17 3 21 3c0 4-2 9-9 9zM12 12C12 7 7 3 3 3c0 4 2 9 9 9z"/></svg>',
-              'specialty' => '<svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>',
+              'biostimulants' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 3.5-2 3.5s2.24-.5 3.5-2M19.5 7.5c1.5-1.26 2-3.5 2-3.5s-2.24.5-3.5 2M8 12a4 4 0 1 0 8 0 4 4 0 1 0-8 0M2 2l20 20"/></svg>',
+              'crystalline' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 12L2 9zM11 3v18M22 9H2M4.5 6h15M16.5 18L18 9M7.5 18L6 9"/></svg>',
+              'granular' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="1"/><circle cx="17" cy="7" r="1"/><circle cx="7" cy="17" r="1"/><circle cx="17" cy="17" r="1"/><circle cx="12" cy="12" r="1"/></svg>',
+              'soil_improvers' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10V3M12 10a4 4 0 1 0 0 8 4 4 0 1 0 0-8ZM3 21h18M7 21v-3M17 21v-3M12 21v-3"/></svg>',
             ];
-            $defaultIcon = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>';
-            $categories = array_unique(array_column($products, 'category'));
+            $defaultIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>';
+            $categories = ['biostimulants', 'crystalline', 'granular', 'soil_improvers'];
             foreach ($categories as $cat):
-              $count = count(array_filter($products, function ($p) use ($cat) {
-                return $p['category'] === $cat; }));
+              $catLabel = t('cat_' . $cat);
               $icon = isset($catIcons[$cat]) ? $catIcons[$cat] : $defaultIcon;
               ?>
               <button class="filter-option" role="option" data-filter="<?php echo $cat; ?>"
-                data-label="<?php echo ucfirst($cat); ?>" aria-selected="false">
+                data-label="<?php echo $catLabel; ?>" aria-selected="false">
                 <?php echo $icon; ?>
-                <?php echo ucfirst($cat); ?>
+                <?php echo $catLabel; ?>
               </button>
             <?php endforeach; ?>
 
@@ -813,21 +812,23 @@ if (file_exists($dataFile)) {
 
       <?php
       $idx = 0;
-      foreach ($products as $id => $p):
+      $lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'sq';
+      foreach ($products as $p):
         $idx++;
-        $catLabel = ucfirst($p['category']);
+        $catLabel = t('cat_' . $p['category']);
+        $p_id = isset($p['id']) ? $p['id'] : '';
+        $p_name = ($lang === 'sq') ? ($p['name_sq'] ?: $p['name_en']) : ($p['name_en'] ?: $p['name_sq']);
         ?>
-        <a href="product-view.php?id=<?php echo $id; ?>" class="product-card"
-          data-category="<?php echo $p['category']; ?>" data-name="<?php echo htmlspecialchars($p['name']); ?>"
-          data-id="<?php echo $id; ?>"
+        <a href="product-view.php?id=<?php echo $p_id; ?>" class="product-card"
+          data-category="<?php echo $p['category']; ?>" data-name="<?php echo htmlspecialchars($p_name); ?>"
+          data-id="<?php echo $p_id; ?>"
           style="animation-delay: <?php echo $idx * 0.07; ?>s">
           <div class="product-img-wrap">
             <span class="card-badge"><?php echo $catLabel; ?></span>
-            <img src="<?php echo $p['image']; ?>" alt="<?php echo $p['name']; ?>" loading="lazy">
+            <img src="<?php echo $p['image']; ?>" alt="<?php echo htmlspecialchars($p_name); ?>" loading="lazy">
           </div>
           <div class="product-info">
-            <h3 class="product-name"><?php echo $p['name']; ?></h3>
-
+            <h3 class="product-name"><?php echo $p_name; ?></h3>
           </div>
         </a>
       <?php endforeach; ?>
@@ -864,7 +865,9 @@ if (file_exists($dataFile)) {
       const countNum = document.getElementById('product-count-num');
       const noResults = document.getElementById('no-results');
 
-      let currentFilter = 'all';
+      // Initialize from URL if present
+      const urlParams = new URLSearchParams(window.location.search);
+      let currentFilter = urlParams.get('filter') || 'all';
       let currentSort = 'default';
 
       /* ── Generic Dropdown Toggle ──────────────── */
@@ -955,6 +958,15 @@ if (file_exists($dataFile)) {
       });
 
       /* Initial state */
+      if (currentFilter !== 'all') {
+        const initialOpt = filterWrapper.querySelector(`.filter-option[data-filter="${currentFilter}"]`);
+        if (initialOpt) {
+          filterOptions.forEach(o => { o.classList.remove('active'); o.setAttribute('aria-selected', 'false'); });
+          initialOpt.classList.add('active');
+          initialOpt.setAttribute('aria-selected', 'true');
+          filterCurrentLabel.textContent = initialOpt.dataset.label;
+        }
+      }
       applySort();
       applyFilter();
     });

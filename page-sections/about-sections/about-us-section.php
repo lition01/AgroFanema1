@@ -198,7 +198,88 @@
 .story__badge-num{font-family:var(--fdis);font-size:26px;font-weight:600;color:var(--deep);line-height:1}
 .story__badge-txt{font-size:8.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--deep);opacity:.7;text-align:center;line-height:1.4;margin-top:2px}
 
-/* ════ MISSION & VISION — CLEAN PANNA ════ */
+/* ════ COLLABORATORS ════ */
+.collaborators{
+  padding:120px var(--pad);
+  background:var(--bg);
+  position:relative;
+}
+.collaborators__header{
+  text-align:center;
+  margin-bottom:60px;
+}
+.collaborators__label{
+  font-size:10.5px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--vivid);
+  display:inline-flex;align-items:center;gap:12px;
+  margin-bottom:18px;
+}
+.collaborators__label::before,.collaborators__label::after{content:'';display:block;width:24px;height:1px;background:var(--vivid)}
+.collaborators__title{
+  font-family:var(--fdis);
+  font-size:clamp(38px,4.5vw,60px);
+  font-weight:300;color:var(--deep);line-height:1.05;
+  margin-bottom:16px;
+}
+.collaborators__title em{font-style:italic;color:var(--gold)}
+.collaborators__intro{
+  font-size:15px;line-height:1.85;
+  color:var(--muted);font-weight:300;
+  max-width:500px;margin:0 auto;
+}
+.collaborators__carousel{
+  position:relative;
+  overflow:hidden;
+}
+.collaborators__track{
+  display:flex;
+  gap:40px;
+  animation:marquee 30s linear infinite;
+}
+.collaborators__track:hover{animation-play-state:paused}
+.collaborators__item{
+  flex-shrink:0;
+  width:200px;
+  text-align:center;
+  padding:20px;
+  background:#fff;
+  border-radius:12px;
+  border:1px solid var(--border);
+  transition:transform .3s, box-shadow .3s;
+}
+.collaborators__item:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 30px rgba(10,27,16,.1);
+}
+.collaborators__logo{
+  width:80px;height:80px;
+  margin:0 auto 16px;
+  border-radius:8px;
+  overflow:hidden;
+  background:#f8f8f8;
+}
+.collaborators__logo img{
+  width:100%;height:100%;object-fit:contain;
+}
+.collaborators__name{
+  font-weight:600;
+  color:var(--deep);
+  margin-bottom:8px;
+}
+.collaborators__desc{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.4;
+}
+.collaborators__link{
+  display:inline-block;
+  margin-top:12px;
+  font-size:12px;
+  color:var(--gold);
+  text-decoration:none;
+  font-weight:500;
+}
+.collaborators__link:hover{text-decoration:underline}
 .mv{
   padding:120px var(--pad);
   background:var(--card);
@@ -385,6 +466,7 @@
   .mv__panel{padding:36px 28px}
   .cta__btns{flex-direction:column;align-items:center}
   .btn{width:100%;justify-content:center}
+  .collaborators__item{width:180px}
 }
 
 @media(max-width:420px){
@@ -392,6 +474,8 @@
   .hero__pills{gap:7px}
   .hero__pill{font-size:10px;padding:8px 14px}
   .mv__panel{padding:32px 24px}
+  .collaborators__item{width:160px;padding:16px}
+  .collaborators__track{gap:20px}
 }
 </style>
 </head>
@@ -545,6 +629,22 @@
 </div>
 </div>
 
+<!-- COLLABORATORS -->
+<div class="ds">
+<section class="collaborators">
+  <div class="collaborators__header rv">
+    <div class="collaborators__label">Our Partners</div>
+    <h2 class="collaborators__title">Collaborating for a <em>Greener Future</em></h2>
+    <p class="collaborators__intro">We work closely with leading companies in agriculture and sustainability to bring you the best organic solutions.</p>
+  </div>
+  <div class="collaborators__carousel">
+    <div class="collaborators__track" id="collaboratorsTrack">
+      <!-- Collaborators will be loaded here -->
+    </div>
+  </div>
+</section>
+</div>
+
 <script>
   (()=>{
     const io=new IntersectionObserver(entries=>{
@@ -576,6 +676,40 @@
       const x = e.pageX - marquee.offsetLeft;
       const walk = (x - startX) * 2;
       marquee.scrollLeft = scrollLeft - walk;
+    });
+
+    // Load Collaborators
+    const loadCollaborators = () => {
+      const collaborators = JSON.parse(localStorage.getItem('agro_collaborators_v1') || '[]');
+      const track = document.getElementById('collaboratorsTrack');
+      if (!track) return;
+
+      if (collaborators.length === 0) {
+        track.innerHTML = '<div style="width:100%; text-align:center; padding:40px; color:var(--muted);">No collaborators yet.</div>';
+        return;
+      }
+
+      // Duplicate for seamless loop
+      const allItems = [...collaborators, ...collaborators];
+      track.innerHTML = allItems.map(c => `
+        <div class="collaborators__item">
+          <div class="collaborators__logo">
+            <img src="${c.logo}" alt="${c.name} logo" loading="lazy">
+          </div>
+          <div class="collaborators__name">${c.name}</div>
+          <div class="collaborators__desc">${c.description || ''}</div>
+          <a href="${c.website}" target="_blank" class="collaborators__link">Visit Website</a>
+        </div>
+      `).join('');
+    };
+
+    loadCollaborators();
+
+    // Listen for storage changes to update collaborators dynamically
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'agro_collaborators_v1') {
+        loadCollaborators();
+      }
     });
   })();
   </script>

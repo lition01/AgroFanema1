@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -79,8 +86,12 @@
         }
 
         .sidebar-header {
-            padding: 24px 20px;
+            height: 64px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
             border-bottom: 1px solid var(--border-color);
+            box-sizing: border-box;
         }
 
         .logo {
@@ -108,6 +119,8 @@
             padding: 16px 12px;
             flex: 1;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .nav-label {
@@ -607,6 +620,29 @@
             overflow: hidden;
         }
 
+        .search-input-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input-wrap .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .search-input-wrap .form-input {
+            padding-left: 40px;
+        }
+
+        .search-input-wrap .form-input:focus+.search-icon {
+            color: var(--accent-gold);
+        }
+
         .qty-btn {
             width: 40px;
             height: 44px;
@@ -662,6 +698,7 @@
             display: flex;
             flex-direction: column;
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .product-card:hover {
@@ -1946,15 +1983,19 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.7);
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             z-index: 200;
             backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .modal-overlay.active {
-            display: flex;
+            opacity: 1;
+            visibility: visible;
         }
 
         .modal {
@@ -1964,6 +2005,16 @@
             padding: 32px;
             max-width: 400px;
             text-align: center;
+            transform: scale(0.9) translateY(20px);
+            filter: blur(10px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+            filter: blur(0);
+            opacity: 1;
         }
 
         .modal-icon {
@@ -2145,14 +2196,11 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <div class="logo">
-                <div class="logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                        <path d="M2 17l10 5 10-5" />
-                        <path d="M2 12l10 5 10-5" />
-                    </svg></div>
-                <span>Dashboard</span>
+            <div class="logo" style="gap: 0; align-items: center; display: flex;">
+                <div class="logo-icon" style="background: none; width: 44px; height: 44px;">
+                    <img src="images/logo.svg" alt="AgroFanema Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <span style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 800; color: #000000; margin-left: -5px; line-height: 1;">AgroFanema</span>
             </div>
         </div>
         <nav class="nav-section">
@@ -2198,6 +2246,22 @@
                 </svg>
                 <span>View Sales</span>
             </div>
+            <div class="nav-item" data-section="messages">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                </svg>
+                <span>Messages</span>
+            </div>
+            <div class="nav-item" data-section="collaborators">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>Collaborators</span>
+            </div>
             <div class="nav-item" data-section="analytics">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="18" y1="20" x2="18" y2="10" />
@@ -2224,6 +2288,13 @@
                 </svg>
                 <span>Logout</span>
             </div>
+            <a href="index.php" class="nav-item" style="text-decoration: none; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Return to Home</span>
+            </a>
         </nav>
         <div class="user-profile">
             <div class="user-avatar" id="sidebarAvatar">JD</div>
@@ -2236,28 +2307,24 @@
 
     <main class="main">
         <header class="topbar">
-            <div class="search-box">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <input type="text" placeholder="Search products, sales..." id="globalSearch">
-            </div>
+            <div class="topbar-left"></div>
             <div class="topbar-actions">
-                <button class="icon-btn" id="theme-toggle" title="Toggle theme">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        id="theme-icon">
-                        <circle cx="12" cy="12" r="5" />
-                        <line x1="12" y1="1" x2="12" y2="3" />
-                        <line x1="12" y1="21" x2="12" y2="23" />
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                        <line x1="1" y1="12" x2="3" y2="12" />
-                        <line x1="21" y1="12" x2="23" y2="12" />
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                <div class="date-label" id="currentDate" style="display: flex; align-items: center; background: var(--bg-primary); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); margin-right: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 10px; color: var(--accent-gold);">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
-                </button>
+                    <span id="dateText" style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading date...</span>
+                </div>
+                <div class="time-label" id="currentTime" style="display: flex; align-items: center; background: var(--bg-primary); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); margin-right: 16px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 10px; color: var(--accent-gold);">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span id="clockText" style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading time...</span>
+                </div>
                 <div class="user-avatar" style="width:32px;height:32px;font-size:12px;" id="topbarAvatar">JD</div>
             </div>
         </header>
@@ -2367,7 +2434,7 @@
                     </button>
                 </div>
                 <div class="cards-grid" style="margin-bottom:24px;">
-                    <div class="metric-card">
+                    <div class="metric-card filter-trigger" data-filter="all">
                         <div class="metric-header">
                             <div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2">
@@ -2378,7 +2445,7 @@
                         <div class="metric-value" id="totalProductsCount">0</div>
                         <div class="metric-label">Total Products</div>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card filter-trigger" data-filter="active">
                         <div class="metric-header">
                             <div class="metric-icon customers"><svg width="22" height="22" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2">
@@ -2388,7 +2455,7 @@
                         <div class="metric-value" id="activeProductsCount">0</div>
                         <div class="metric-label">In Stock</div>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card filter-trigger" data-filter="low-stock">
                         <div class="metric-header">
                             <div class="metric-icon" style="background:rgba(248,113,113,0.15);color:var(--danger);"><svg
                                     width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -2402,31 +2469,38 @@
                         <div class="metric-label">Low Stock</div>
                     </div>
                 </div>
+
+                <div class="filter-container" id="categoryFilters" style="display:flex;gap:12px;margin-bottom:32px;overflow-x:auto;padding-bottom:8px;">
+                    <div class="filter-pill active" data-category="all">All Categories</div>
+                    <div class="filter-pill" data-category="biostimulants">Biostimulants</div>
+                    <div class="filter-pill" data-category="crystalline">Crystalline Fertilizers</div>
+                    <div class="filter-pill" data-category="granular">Granular Fertilizers</div>
+                    <div class="filter-pill" data-category="soil_improvers">Soil Improvers</div>
+                </div>
+
                 <div class="product-cards-grid" id="productsGrid"></div>
             </div>
 
-            <!-- ── ADD / EDIT PRODUCT ── -->
+            <!-- ── ADD PRODUCT ── -->
             <div class="section" id="section-add-product">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title" id="productFormTitle">Add New Product</h1>
-                        <p class="page-subtitle" id="productFormSubtitle">Fill in the details below to add a product to
-                            your catalogue.</p>
+                        <h1 class="page-title">Add New Product</h1>
+                        <p class="page-subtitle">Fill in the details below to add a product to your catalogue.</p>
                     </div>
                 </div>
                 <form id="productForm">
-                    <input type="hidden" name="action" id="productAction" value="add">
-                    <input type="hidden" name="id" id="productId">
+                    <input type="hidden" name="action" value="add">
                     <div class="add-product-layout">
                         <div class="form-panel">
                             <div class="form-panel-header">
                                 <div class="form-panel-header-icon"><svg width="22" height="22" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-                                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
                                     </svg></div>
                                 <div class="form-panel-header-text">
-                                    <h3 id="formPanelTitle">Product Details</h3>
+                                    <h3>Product Details</h3>
                                     <p>Basic information &amp; content</p>
                                 </div>
                             </div>
@@ -2506,28 +2580,28 @@
                                 <div class="sidebar-widget-body">
                                     <div class="category-grid" id="categoryGrid">
                                         <label class="category-option selected"><input type="radio" name="category"
-                                                value="granular" checked>
+                                                value="biostimulants" checked>
+                                            <div class="category-option-icon">🧬</div>
+                                            <div class="category-option-name">Biostimulants</div>
+                                            <div class="category-option-desc">Growth enhancers</div>
+                                        </label>
+                                        <label class="category-option"><input type="radio" name="category"
+                                                value="crystalline">
+                                            <div class="category-option-icon">💎</div>
+                                            <div class="category-option-name">Crystalline Fertilizers</div>
+                                            <div class="category-option-desc">Soluble crystals</div>
+                                        </label>
+                                        <label class="category-option"><input type="radio" name="category"
+                                                value="granular">
                                             <div class="category-option-icon">🌾</div>
-                                            <div class="category-option-name">Granular</div>
-                                            <div class="category-option-desc">Dry granule form</div>
+                                            <div class="category-option-name">Granular Fertilizers</div>
+                                            <div class="category-option-desc">Dry granules</div>
                                         </label>
                                         <label class="category-option"><input type="radio" name="category"
-                                                value="liquid">
-                                            <div class="category-option-icon">💧</div>
-                                            <div class="category-option-name">Liquid</div>
-                                            <div class="category-option-desc">Liquid solutions</div>
-                                        </label>
-                                        <label class="category-option"><input type="radio" name="category"
-                                                value="organic">
-                                            <div class="category-option-icon">🌿</div>
-                                            <div class="category-option-name">Organic</div>
-                                            <div class="category-option-desc">Natural compounds</div>
-                                        </label>
-                                        <label class="category-option"><input type="radio" name="category"
-                                                value="specialty">
-                                            <div class="category-option-icon">⭐</div>
-                                            <div class="category-option-name">Specialty</div>
-                                            <div class="category-option-desc">Special formulas</div>
+                                                value="soil_improvers">
+                                            <div class="category-option-icon">🪴</div>
+                                            <div class="category-option-name">Soil Improvers</div>
+                                            <div class="category-option-desc">Structure & Health</div>
                                         </label>
                                     </div>
                                 </div>
@@ -2623,8 +2697,18 @@
                             </div>
                         </div>
                         <div class="sale-form-body">
-                            <div class="form-group" style="margin-bottom:10px;"><label class="form-label">Choose
-                                    Product</label></div>
+                            <div class="form-group" style="margin-bottom:12px;">
+                                <label class="form-label">Choose Product</label>
+                                <div class="search-input-wrap">
+                                    <input type="text" id="salesProductSearch" class="form-input"
+                                        placeholder="Search products by name or category..." autocomplete="off">
+                                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                </div>
+                            </div>
                             <div class="product-selector" id="salesProductSelector">
                                 <div
                                     style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">
@@ -2746,6 +2830,44 @@
                 </div>
             </div>
 
+            <!-- ── COLLABORATORS ── -->
+            <div class="section" id="section-collaborators">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Collaborator Companies</h1>
+                        <p class="page-subtitle">Manage companies that collaborate with AgroFanema</p>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn btn-primary btn-sm" onclick="showAddCollaboratorModal()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add Collaborator
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sales-table-card">
+                    <div class="sales-table-header">
+                        <div class="sales-table-title">Collaborators <span class="sales-count-badge" id="collaboratorCountBadge">0</span></div>
+                    </div>
+                    <div id="collaboratorsTableContainer" style="overflow-x:auto;">
+                        <!-- Collaborators table will be rendered here -->
+                        <div class="sales-empty">
+                            <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg></div>
+                            <h4>No Collaborators Yet</h4>
+                            <p>Add companies that collaborate with AgroFanema.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ── ANALYTICS ── -->
             <div class="section" id="section-analytics">
                 <div class="page-header">
@@ -2808,196 +2930,199 @@
                 <div class="metrics-grid" style="margin-top:20px;margin-bottom:0;" id="analyticsSummary"></div>
             </div>
 
-            <!-- ── SETTINGS ── -->
-            <div class="section" id="section-settings">
+            <!-- ── MESSAGES ── -->
+            <div class="section" id="section-messages">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Settings</h1>
-                        <p class="page-subtitle">Manage your account and preferences</p>
+                        <h1 class="page-title">Inquiry Messages</h1>
+                        <p class="page-subtitle">Manage messages from the contact form</p>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn btn-secondary btn-sm" onclick="clearAllMessages()">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                    </polyline>
+                            </svg>
+                            Clear All
+                        </button>
                     </div>
                 </div>
-                <div class="settings-grid">
-                    <div class="settings-nav">
-                        <div class="settings-nav-item active" data-settings-tab="profile"><svg width="16" height="16"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-                                <circle cx="12" cy="7" r="4" />
-                            </svg>Profile</div>
-                        <div class="settings-nav-item" data-settings-tab="security"><svg width="16" height="16"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                                <path d="M7 11V7a5 5 0 0110 0v4" />
-                            </svg>Security</div>
-                        <div class="settings-nav-item" data-settings-tab="appearance"><svg width="16" height="16"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="3" />
-                                <path
-                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                            </svg>Appearance</div>
-                        <div class="settings-nav-item" data-settings-tab="store"><svg width="16" height="16"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                                <polyline points="9,22 9,12 15,12 15,22" />
-                            </svg>Store</div>
-                        <div class="settings-nav-item" data-settings-tab="danger"><svg width="16" height="16"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                style="color:var(--danger);">
-                                <path
-                                    d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                                <line x1="12" y1="9" x2="12" y2="13" />
-                                <line x1="12" y1="17" x2="12.01" y2="17" />
-                            </svg><span style="color:var(--danger);">Danger Zone</span></div>
+
+                <div class="sales-table-card">
+                    <div class="sales-table-header">
+                        <div class="sales-table-title">Recent Inquiries <span class="sales-count-badge" id="messageCountBadge">0</span></div>
                     </div>
-                    <div class="settings-content">
-                        <!-- PROFILE -->
-                        <div class="settings-tab-section" id="settings-profile">
-                            <div class="settings-section">
-                                <h3 class="settings-section-title">Profile Photo</h3>
-                                <div class="avatar-section">
-                                    <div class="avatar-large" id="settingsAvatar">JD</div>
-                                    <div class="avatar-actions"><button class="btn btn-secondary btn-sm">Upload
-                                            Photo</button>
-                                        <p>JPG or PNG, max 2MB</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="settings-section">
-                                <h3 class="settings-section-title">Personal Information</h3>
-                                <div class="form-row">
-                                    <div class="form-group"><label class="form-label">First Name</label><input
-                                            type="text" class="form-input" id="settingsFirstName" value="John"></div>
-                                    <div class="form-group"><label class="form-label">Last Name</label><input
-                                            type="text" class="form-input" id="settingsLastName" value="Doe"></div>
-                                </div>
-                                <div class="form-group"><label class="form-label">Email</label><input type="email"
-                                        class="form-input" id="settingsEmail" value="john.doe@example.com"></div>
-                                <div class="form-group"><label class="form-label">Job Title</label><input type="text"
-                                        class="form-input" value="Administrator"></div>
-                            </div>
-                            <div style="display:flex;gap:12px;"><button class="btn btn-primary"
-                                    onclick="saveProfile()">Save Changes</button><button
-                                    class="btn btn-secondary">Cancel</button></div>
-                        </div>
-                        <!-- SECURITY -->
-                        <div class="settings-tab-section" id="settings-security" style="display:none;">
-                            <div class="settings-section">
-                                <h3 class="settings-section-title">Change Password</h3>
-                                <div class="form-group"><label class="form-label">Current Password</label><input
-                                        type="password" class="form-input" placeholder="••••••••"></div>
-                                <div class="form-row">
-                                    <div class="form-group"><label class="form-label">New Password</label><input
-                                            type="password" class="form-input" placeholder="••••••••"></div>
-                                    <div class="form-group"><label class="form-label">Confirm Password</label><input
-                                            type="password" class="form-input" placeholder="••••••••"></div>
-                                </div>
-                            </div>
-                            <div class="settings-section">
-                                <h3 class="settings-section-title">Two-Factor Authentication</h3>
-                                <div class="toggle-row">
-                                    <div class="toggle-label">
-                                        <div class="toggle-label-title">Enable 2FA</div>
-                                        <div class="toggle-label-desc">Extra layer of security</div>
-                                    </div><label class="toggle"><input type="checkbox"><span
-                                            class="toggle-slider"></span></label>
-                                </div>
-                                <div class="toggle-row">
-                                    <div class="toggle-label">
-                                        <div class="toggle-label-title">Login Alerts</div>
-                                        <div class="toggle-label-desc">Notify on new device sign-ins</div>
-                                    </div><label class="toggle"><input type="checkbox" checked><span
-                                            class="toggle-slider"></span></label>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" onclick="showToast('Password updated','success')">Update
-                                Password</button>
-                        </div>
-                        <!-- APPEARANCE -->
-                        <div class="settings-tab-section" id="settings-appearance" style="display:none;">
-                            <div class="settings-section">
-                                <h3 class="settings-section-title">Theme</h3>
-                                <div class="toggle-row">
-                                    <div class="toggle-label">
-                                        <div class="toggle-label-title">Dark Mode</div>
-                                        <div class="toggle-label-desc">Switch between light and dark</div>
-                                    </div><label class="toggle"><input type="checkbox" id="settingsThemeToggle"><span
-                                            class="toggle-slider"></span></label>
-                                </div>
-                            </div>
-                            <div class="settings-section">
-                                <h3 class="settings-section-title">Language &amp; Region</h3>
-                                <div class="form-row">
-                                    <div class="form-group"><label class="form-label">Language</label><select
-                                            class="form-input form-select">
-                                            <option>English (EN)</option>
-                                            <option>Albanian (SQ)</option>
-                                        </select></div>
-                                    <div class="form-group"><label class="form-label">Currency</label><select
-                                            class="form-input form-select">
-                                            <option>USD ($)</option>
-                                            <option>EUR (€)</option>
-                                            <option>ALL (L)</option>
-                                        </select></div>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary"
-                                onclick="showToast('Appearance saved','success')">Save</button>
-                        </div>
-                        <!-- STORE -->
-                        <div class="settings-tab-section" id="settings-store" style="display:none;">
-                            <div class="settings-section">
-                                <h3 class="settings-section-title">Store Information</h3>
-                                <div class="form-group"><label class="form-label">Store Name</label><input type="text"
-                                        class="form-input" value="Agro Shop Albania"></div>
-                                <div class="form-group"><label class="form-label">Description</label><textarea
-                                        class="form-input"
-                                        style="height:80px;resize:vertical;">Premium agricultural products for modern farming.</textarea>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group"><label class="form-label">Email</label><input type="email"
-                                            class="form-input" value="info@agroshop.al"></div>
-                                    <div class="form-group"><label class="form-label">Phone</label><input type="tel"
-                                            class="form-input" value="+355 69 000 0000"></div>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary"
-                                onclick="showToast('Store settings saved','success')">Save</button>
-                        </div>
-                        <!-- DANGER -->
-                        <div class="settings-tab-section" id="settings-danger" style="display:none;">
-                            <div class="settings-section">
-                                <h3 class="settings-section-title" style="color:var(--danger);">Danger Zone</h3>
-                                <div style="border:1px solid rgba(239,68,68,0.3);border-radius:12px;overflow:hidden;">
-                                    <div
-                                        style="padding:20px;border-bottom:1px solid rgba(239,68,68,0.2);display:flex;align-items:center;justify-content:space-between;">
-                                        <div>
-                                            <div style="font-size:14px;font-weight:500;">Clear All Sales Data</div>
-                                            <div style="font-size:12px;color:var(--text-muted);">Permanently delete all
-                                                recorded sales history</div>
-                                        </div>
-                                        <button class="btn btn-danger btn-sm"
-                                            onclick="clearSalesHistory()">Clear</button>
-                                    </div>
-                                    <div
-                                        style="padding:20px;border-bottom:1px solid rgba(239,68,68,0.2);display:flex;align-items:center;justify-content:space-between;">
-                                        <div>
-                                            <div style="font-size:14px;font-weight:500;">Delete All Products</div>
-                                            <div style="font-size:12px;color:var(--text-muted);">Remove every product
-                                                from inventory</div>
-                                        </div>
-                                        <button class="btn btn-danger btn-sm"
-                                            onclick="if(confirm('Delete ALL products?')){products=[];saveProducts();renderProducts();renderSalesProductSelector();updateAllMetrics();showToast('All products deleted','error');}">Delete</button>
-                                    </div>
-                                </div>
-                            </div>
+                    <div id="messagesTableContainer" style="overflow-x:auto;">
+                        <!-- Messages table will be rendered here -->
+                        <div class="sales-empty">
+                            <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg></div>
+                            <h4>No Messages Yet</h4>
+                            <p>Inquiries from the website will appear here.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- ── SETTINGS ── -->
+            <div class="section" id="section-settings">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Settings</h1>
+                        <p class="page-subtitle">Manage your dashboard preferences</p>
+                    </div>
+                </div>
+                <div class="settings-content" style="max-width: 800px; margin: 0 auto;">
+                    <!-- Appearance Section -->
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Appearance</h3>
+                        <div class="toggle-row">
+                            <div class="toggle-label">
+                                <div class="toggle-label-title">Dark Mode</div>
+                                <div class="toggle-label-desc">Switch between light and dark themes</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="settingsThemeToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone Section -->
+                    <div class="settings-section" style="margin-top: 48px;">
+                        <h3 class="settings-section-title" style="color:var(--danger); border-color: rgba(239,68,68,0.2);">Danger Zone</h3>
+                        <div style="border:1px solid rgba(239,68,68,0.3); border-radius:12px; overflow:hidden; background: rgba(239,68,68,0.02);">
+                            <div style="padding:20px; border-bottom:1px solid rgba(239,68,68,0.1); display:flex; align-items:center; justify-content:space-between;">
+                                <div>
+                                    <div style="font-size:14px; font-weight:600;">Clear All Sales Data</div>
+                                    <div style="font-size:12px; color:var(--text-muted);">Permanently delete all recorded sales history</div>
+                                </div>
+                                <button class="btn btn-danger btn-sm" onclick="clearSalesHistory()">Clear Data</button>
+                            </div>
+                            <div style="padding:20px; display:flex; align-items:center; justify-content:space-between;">
+                                <div>
+                                    <div style="font-size:14px; font-weight:600;">Delete All Products</div>
+                                    <div style="font-size:12px; color:var(--text-muted);">Remove every product from your inventory</div>
+                                </div>
+                                <button class="btn btn-danger btn-sm" onclick="if(confirm('Delete ALL products? This cannot be undone.')){products=[];saveProducts();renderProducts();renderSalesProductSelector();updateAllMetrics();showToast('All products deleted','error');}">Delete All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         </div>
     </main>
 
     <!-- Logout Modal -->
+    <!-- Edit Product Modal -->
+    <div class="modal-overlay" id="editProductModal">
+        <div class="modal" style="max-width:1000px; width:95%; padding:0; overflow:hidden;">
+            <div class="modal-header" style="padding:20px 30px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--text-primary);">Edit Product</h2>
+                    <p style="font-size:13px; color:var(--text-muted);" id="editModalSubtitle">Update product information</p>
+                </div>
+                <button class="btn-close" onclick="closeEditModal()" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg></button>
+            </div>
+            <div class="modal-body" style="padding:0; max-height:80vh; overflow-y:auto;">
+                <form id="editProductForm">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="id" id="editProductId">
+                    <div class="add-product-layout" style="padding:30px; gap:30px; grid-template-columns: 1.5fr 1fr;">
+                        <div class="form-panel" style="background:none; border:none; padding:0; box-shadow:none;">
+                            <div class="form-panel-body" style="padding:0;">
+                                <div class="form-section-divider" style="margin-top:0;"><span>Product Names</span></div>
+                                <div class="lang-tabs" id="editNameLangTabs">
+                                    <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 Albanian</button>
+                                    <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
+                                </div>
+                                <div class="lang-content active" id="edit-name-sq-content">
+                                    <div class="form-group"><label class="form-label">Product Name (Albanian)</label><input type="text" name="name_sq" id="edit_name_sq" class="form-input" required></div>
+                                </div>
+                                <div class="lang-content" id="edit-name-en-content">
+                                    <div class="form-group"><label class="form-label">Product Name (English)</label><input type="text" name="name_en" id="edit_name_en" class="form-input" required></div>
+                                </div>
+
+                                <div class="form-section-divider"><span>Descriptions</span></div>
+                                <div class="lang-tabs" id="editDescLangTabs">
+                                    <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 Albanian</button>
+                                    <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
+                                </div>
+                                <div class="lang-content active" id="edit-desc-sq-content">
+                                    <div class="form-group"><label class="form-label">Description (Albanian)</label><textarea name="desc_sq" id="edit_desc_sq" class="form-input" style="height:90px;resize:vertical;"></textarea></div>
+                                </div>
+                                <div class="lang-content" id="edit-desc-en-content">
+                                    <div class="form-group"><label class="form-label">Description (English)</label><textarea name="desc_en" id="edit_desc_en" class="form-input" style="height:90px;resize:vertical;"></textarea></div>
+                                </div>
+
+                                <div class="form-section-divider"><span>Product Image</span></div>
+                                <div class="image-upload-zone" id="editUploadZone">
+                                    <input type="file" name="image" id="editImageInput" accept="image/*" onchange="handleEditImagePreview(event)">
+                                    <div id="editUploadPlaceholder">
+                                        <div class="upload-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" />
+                                                <circle cx="8.5" cy="8.5" r="1.5" />
+                                                <polyline points="21,15 16,10 5,21" />
+                                            </svg></div>
+                                        <div class="upload-title">Click to change image</div>
+                                    </div>
+                                    <div class="upload-preview" id="editUploadPreview"><img id="editPreviewImg" src="" alt="Preview"><button type="button" class="upload-preview-remove" onclick="removeEditPreview()">✕</button></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-sidebar-panel">
+                            <div class="sidebar-widget">
+                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 6h16M4 12h16M4 18h7" />
+                                    </svg>Category</div>
+                                <div class="sidebar-widget-body">
+                                    <div class="category-grid" id="editCategoryGrid">
+                                        <label class="category-option"><input type="radio" name="category" value="biostimulants">
+                                            <div class="category-option-icon">🧬</div>
+                                            <div class="category-option-name">Biostimulants</div>
+                                        </label>
+                                        <label class="category-option"><input type="radio" name="category" value="crystalline">
+                                            <div class="category-option-icon">💎</div>
+                                            <div class="category-option-name">Crystalline Fertilizers</div>
+                                        </label>
+                                        <label class="category-option"><input type="radio" name="category" value="granular">
+                                            <div class="category-option-icon">🌾</div>
+                                            <div class="category-option-name">Granular Fertilizers</div>
+                                        </label>
+                                        <label class="category-option"><input type="radio" name="category" value="soil_improvers">
+                                            <div class="category-option-icon">🪴</div>
+                                            <div class="category-option-name">Soil Improvers</div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sidebar-widget">
+                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                                    </svg>Stock Quantity</div>
+                                <div class="sidebar-widget-body">
+                                    <div class="qty-control"><button type="button" class="qty-btn" onclick="adjustEditQty(-1)">−</button><input type="number" name="quantity" id="edit_quantity" class="qty-input" value="0" min="0"><button type="button" class="qty-btn" onclick="adjustEditQty(1)">+</button></div>
+                                </div>
+                            </div>
+                            <div style="margin-top:auto; padding-top:20px; display:flex; flex-direction:column; gap:12px;">
+                                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Save Changes</button>
+                                <button type="button" class="btn btn-secondary" onclick="closeEditModal()" style="width:100%; justify-content:center;">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="logoutModal">
         <div class="modal">
             <div class="modal-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -3011,7 +3136,7 @@
             <div class="modal-actions">
                 <button class="btn btn-secondary"
                     onclick="document.getElementById('logoutModal').classList.remove('active')">Cancel</button>
-                <button class="btn btn-danger">Sign Out</button>
+                <button class="btn btn-danger" onclick="window.location.href='login.php?logout=1'">Sign Out</button>
             </div>
         </div>
     </div>
@@ -3028,7 +3153,10 @@
         /* ═══════════════════════════════════════════════════
            PERSISTENCE
         ═══════════════════════════════════════════════════ */
-        const STORAGE_KEYS = { sales: 'agro_sales_v2', products: 'agro_products_v2' };
+        const STORAGE_KEYS = {
+            sales: 'agro_sales_v2',
+            products: 'agro_products_v2'
+        };
 
         function loadFromStorage(key, fallback = []) {
             try {
@@ -3036,11 +3164,17 @@
                 if (!raw) return fallback;
                 const parsed = JSON.parse(raw);
                 return Array.isArray(parsed) ? parsed : fallback;
-            } catch { return fallback; }
+            } catch {
+                return fallback;
+            }
         }
 
         function saveToStorage(key, data) {
-            try { localStorage.setItem(key, JSON.stringify(data)); } catch (e) { console.error('Storage error', e); }
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+            } catch (e) {
+                console.error('Storage error', e);
+            }
         }
 
         /* ═══════════════════════════════════════════════════
@@ -3052,8 +3186,13 @@
         let nextProductId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
         let vsFilter = 'all';
 
-        function saveProducts() { saveToStorage(STORAGE_KEYS.products, products); }
-        function saveSales() { saveToStorage(STORAGE_KEYS.sales, salesHistory); }
+        function saveProducts() {
+            saveToStorage(STORAGE_KEYS.products, products);
+        }
+
+        function saveSales() {
+            saveToStorage(STORAGE_KEYS.sales, salesHistory);
+        }
 
         /* ═══════════════════════════════════════════════════
            TOAST
@@ -3077,18 +3216,30 @@
             if (nav) nav.classList.add('active');
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             const target = document.getElementById(`section-${id}`);
-            if (target) { target.classList.add('active'); window.scrollTo(0, 0); }
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo(0, 0);
+            }
             if (id === 'overview') updateOverviewMetrics();
             if (id === 'analytics') renderAnalytics();
-            if (id === 'add-sale') { renderSalesProductSelector(); renderRecentSales(); updateSalesMetrics(); }
+            if (id === 'add-sale') {
+                renderSalesProductSelector();
+                renderRecentSales();
+                updateSalesMetrics();
+            }
             if (id === 'view-sales') renderSalesTable();
-            if (id === 'add-product' && document.getElementById('productAction').value !== 'edit') resetProductForm();
+            if (id === 'messages') renderMessagesTable();
+            if (id === 'collaborators') renderCollaboratorsTable();
+            if (id === 'add-product') resetProductForm();
         }
 
         document.querySelectorAll('.nav-item[data-section]').forEach(item => {
-            item.addEventListener('click', function () {
+            item.addEventListener('click', function() {
                 const s = this.dataset.section;
-                if (s === 'logout') { document.getElementById('logoutModal').classList.add('active'); return; }
+                if (s === 'logout') {
+                    document.getElementById('logoutModal').classList.add('active');
+                    return;
+                }
                 switchSection(s);
             });
         });
@@ -3097,42 +3248,64 @@
            THEME
         ═══════════════════════════════════════════════════ */
         let dark = localStorage.getItem('admin-theme') === 'dark';
-        const themeBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const moonSVG = '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
         const sunSVG = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+
         function applyTheme() {
             document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-            themeIcon.innerHTML = dark ? moonSVG : sunSVG;
+            if (themeIcon) themeIcon.innerHTML = dark ? moonSVG : sunSVG;
             const st = document.getElementById('settingsThemeToggle');
             if (st) st.checked = dark;
             localStorage.setItem('admin-theme', dark ? 'dark' : 'light');
         }
-        themeBtn.addEventListener('click', () => { dark = !dark; applyTheme(); });
-        document.getElementById('settingsThemeToggle')?.addEventListener('change', function () { dark = this.checked; applyTheme(); });
+        document.getElementById('settingsThemeToggle')?.addEventListener('change', function() {
+            dark = this.checked;
+            applyTheme();
+        });
         applyTheme();
+
+        /* ═══════════════════════════════════════════════════
+           LIVE CLOCK
+        ═══════════════════════════════════════════════════ */
+        function updateClock() {
+            const clockEl = document.getElementById('clockText');
+            const dateEl = document.getElementById('dateText');
+            if (!clockEl || !dateEl) return;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            clockEl.textContent = timeStr;
+            dateEl.textContent = now.toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
         /* ═══════════════════════════════════════════════════
            SETTINGS TABS
         ═══════════════════════════════════════════════════ */
-        document.querySelectorAll('.settings-nav-item').forEach(item => {
-            item.addEventListener('click', function () {
-                const tab = this.dataset.settingsTab;
-                document.querySelectorAll('.settings-nav-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.settings-tab-section').forEach(s => s.style.display = 'none');
-                const el = document.getElementById(`settings-${tab}`);
-                if (el) el.style.display = 'block';
-            });
-        });
-
         function saveProfile() {
             const fn = document.getElementById('settingsFirstName').value;
             const ln = document.getElementById('settingsLastName').value;
             const full = `${fn} ${ln}`.trim();
             const initials = ((fn[0] || '') + (ln[0] || '')).toUpperCase();
-            ['sidebarName'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = full; });
-            ['sidebarAvatar', 'topbarAvatar', 'settingsAvatar'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = initials; });
+            ['sidebarName'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = full;
+            });
+            ['sidebarAvatar', 'topbarAvatar', 'settingsAvatar'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = initials;
+            });
             showToast('Profile updated', 'success');
         }
 
@@ -3143,7 +3316,7 @@
             const tabs = document.getElementById(tabsId);
             if (!tabs) return;
             tabs.querySelectorAll('.lang-tab').forEach(tab => {
-                tab.addEventListener('click', function () {
+                tab.addEventListener('click', function() {
                     tabs.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     const lang = this.dataset.lang;
@@ -3160,7 +3333,7 @@
            CATEGORY SELECTOR
         ═══════════════════════════════════════════════════ */
         document.querySelectorAll('.category-option').forEach(opt => {
-            opt.addEventListener('click', function () {
+            opt.addEventListener('click', function() {
                 document.querySelectorAll('.category-option').forEach(o => o.classList.remove('selected'));
                 this.classList.add('selected');
                 this.querySelector('input[type="radio"]').checked = true;
@@ -3170,10 +3343,22 @@
         /* ═══════════════════════════════════════════════════
            QTY CONTROLS
         ═══════════════════════════════════════════════════ */
-        document.getElementById('qtyMinus').addEventListener('click', () => { const i = document.getElementById('quantity'); i.value = Math.max(0, (+i.value || 0) - 1); });
-        document.getElementById('qtyPlus').addEventListener('click', () => { const i = document.getElementById('quantity'); i.value = (+i.value || 0) + 1; });
-        document.getElementById('saleQtyMinus').addEventListener('click', () => { const i = document.getElementById('saleQty'); i.value = Math.max(1, (+i.value || 1) - 1); });
-        document.getElementById('saleQtyPlus').addEventListener('click', () => { const i = document.getElementById('saleQty'); i.value = (+i.value || 0) + 1; });
+        document.getElementById('qtyMinus').addEventListener('click', () => {
+            const i = document.getElementById('quantity');
+            i.value = Math.max(0, (+i.value || 0) - 1);
+        });
+        document.getElementById('qtyPlus').addEventListener('click', () => {
+            const i = document.getElementById('quantity');
+            i.value = (+i.value || 0) + 1;
+        });
+        document.getElementById('saleQtyMinus').addEventListener('click', () => {
+            const i = document.getElementById('saleQty');
+            i.value = Math.max(1, (+i.value || 1) - 1);
+        });
+        document.getElementById('saleQtyPlus').addEventListener('click', () => {
+            const i = document.getElementById('saleQty');
+            i.value = (+i.value || 0) + 1;
+        });
 
         /* ═══════════════════════════════════════════════════
            IMAGE UPLOAD
@@ -3189,6 +3374,7 @@
             };
             reader.readAsDataURL(file);
         }
+
         function removePreview() {
             document.getElementById('image').value = '';
             document.getElementById('previewImg').src = '';
@@ -3196,17 +3382,347 @@
             document.getElementById('uploadPreview').style.display = 'none';
         }
         const zone = document.getElementById('uploadZone');
-        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+        zone.addEventListener('dragover', e => {
+            e.preventDefault();
+            zone.classList.add('dragover');
+        });
         zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
         zone.addEventListener('drop', e => {
-            e.preventDefault(); zone.classList.remove('dragover');
+            e.preventDefault();
+            zone.classList.remove('dragover');
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
-                const dt = new DataTransfer(); dt.items.add(file);
+                const dt = new DataTransfer();
+                dt.items.add(file);
                 document.getElementById('image').files = dt.files;
-                handleImagePreview({ target: { files: [file] } });
+                handleImagePreview({
+                    target: {
+                        files: [file]
+                    }
+                });
             }
         });
+
+        /* ═══════════════════════════════════════════════════
+           MESSAGES (CONTACT FORM)
+        ═══════════════════════════════════════════════════ */
+        let messages = loadFromStorage('agro_messages_v2');
+
+        function saveMessages() {
+            saveToStorage('agro_messages_v2', messages);
+        }
+
+        function renderMessagesTable() {
+            const container = document.getElementById('messagesTableContainer');
+            const badge = document.getElementById('messageCountBadge');
+            if (!container) return;
+
+            if (badge) badge.textContent = messages.length;
+
+            if (messages.length === 0) {
+                container.innerHTML = `
+                    <div class="sales-empty">
+                        <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg></div>
+                        <h4>No Messages Yet</h4>
+                        <p>Inquiries from the website will appear here.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${messages.map(m => `
+                            <tr style="${m.read ? 'opacity:0.7;' : 'font-weight:600; background:rgba(200,168,75,0.03);'}">
+                                <td>
+                                    <span class="status-pill ${m.read ? 'inactive' : 'active'}" style="font-size:10px; padding:2px 8px;">
+                                        <span class="status-dot"></span>${m.read ? 'Read' : 'New'}
+                                    </span>
+                                </td>
+                                <td>${m.name}</td>
+                                <td><a href="mailto:${m.email}" style="color:var(--accent-gold); text-decoration:none;">${m.email}</a></td>
+                                <td><a href="tel:${m.phone}" style="color:var(--accent-gold); text-decoration:none;">${m.phone || '—'}</a></td>
+                                <td>${m.subject || '—'}</td>
+                                <td style="max-width:300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text-muted); font-size:13px;" title="${m.message}">
+                                    ${m.message}
+                                </td>
+                                <td style="font-size:12px; color:var(--text-muted); white-space:nowrap;">${m.date}</td>
+                                <td>
+                                    <div style="display:flex; gap:8px;">
+                                        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMessage('${m.id}')" title="Delete Message">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+        }
+
+        function toggleMessageRead(id) {
+            const msg = messages.find(m => m.id === id);
+            if (msg) {
+                msg.read = !msg.read;
+                saveMessages();
+                renderMessagesTable();
+            }
+        }
+
+        function deleteMessage(id) {
+            if (!confirm('Delete this message?')) return;
+            messages = messages.filter(m => m.id !== id);
+            saveMessages();
+            renderMessagesTable();
+            showToast('Message deleted', 'error');
+        }
+
+        function clearAllMessages() {
+            if (!confirm('Delete ALL messages? This cannot be undone.')) return;
+            messages = [];
+            saveMessages();
+            renderMessagesTable();
+            showToast('All messages deleted', 'error');
+        }
+
+        /* ═══════════════════════════════════════════════════
+           COLLABORATORS
+        ═══════════════════════════════════════════════════ */
+        let collaborators = loadFromStorage('agro_collaborators_v1') || [];
+
+        // Add default collaborators if none exist
+        if (collaborators.length === 0) {
+            collaborators = [
+                {
+                    id: 'collab_default_1',
+                    name: 'GreenTech Solutions',
+                    description: 'Leading provider of sustainable agricultural technologies and organic farming solutions.',
+                    website: 'https://example.com/greentech',
+                    logo: 'https://via.placeholder.com/100x60/2E7D4F/FFFFFF?text=GreenTech'
+                },
+                {
+                    id: 'collab_default_2',
+                    name: 'Organic Farms Co.',
+                    description: 'Certified organic farming products and expert agricultural consulting services.',
+                    website: 'https://example.com/organicfarms',
+                    logo: 'https://via.placeholder.com/100x60/3DAA68/FFFFFF?text=Organic'
+                },
+                {
+                    id: 'collab_default_3',
+                    name: 'EcoHarvest Inc.',
+                    description: 'Sustainable harvesting solutions and eco-friendly agricultural equipment.',
+                    website: 'https://example.com/ecoharvest',
+                    logo: 'https://via.placeholder.com/100x60/C8A84B/FFFFFF?text=EcoHarvest'
+                }
+            ];
+            saveCollaborators(); // Save the defaults
+        }
+
+        function saveCollaborators() {
+            saveToStorage('agro_collaborators_v1', collaborators);
+        }
+
+        function renderCollaboratorsTable() {
+            const container = document.getElementById('collaboratorsTableContainer');
+            const badge = document.getElementById('collaboratorCountBadge');
+            if (!container) return;
+
+            if (badge) badge.textContent = collaborators.length;
+
+            if (collaborators.length === 0) {
+                container.innerHTML = `
+                    <div class="sales-empty">
+                        <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                        <h4>No Collaborators Yet</h4>
+                        <p>Add companies that collaborate with AgroFanema.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Logo</th>
+                            <th>Company Name</th>
+                            <th>Description</th>
+                            <th>Website</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${collaborators.map(c => `
+                            <tr>
+                                <td><img src="${c.logo}" alt="${c.name}" style="width:40px; height:40px; object-fit:contain; border-radius:4px;"></td>
+                                <td>${c.name}</td>
+                                <td style="max-width:300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text-muted); font-size:13px;" title="${c.description || ''}">${c.description || '—'}</td>
+                                <td><a href="${c.website}" target="_blank" style="color:var(--accent-gold); text-decoration:none;">${c.website}</a></td>
+                                <td>
+                                    <div style="display:flex; gap:8px;">
+                                        <button class="btn btn-secondary btn-sm btn-icon" onclick="editCollaborator('${c.id}')" title="Edit Collaborator">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteCollaborator('${c.id}')" title="Delete Collaborator">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+        }
+
+        function showAddCollaboratorModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal" style="max-width:500px;">
+                    <div class="modal-header" style="padding:20px 30px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--text-primary);">Add Collaborator</h2>
+                            <p style="font-size:13px; color:var(--text-muted);">Add a new collaborator company</p>
+                        </div>
+                        <button class="btn-close" onclick="this.closest('.modal-overlay').remove()" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+                    </div>
+                    <div class="modal-body" style="padding:30px;">
+                        <form id="collaboratorForm">
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Company Name *</label>
+                                <input type="text" name="name" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            </div>
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Description</label>
+                                <textarea name="description" rows="3" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary); resize:vertical;"></textarea>
+                            </div>
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Website URL *</label>
+                                <input type="url" name="website" required placeholder="https://example.com" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            </div>
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Logo URL *</label>
+                                <input type="url" name="logo" required placeholder="https://example.com/logo.png" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="padding:20px 30px; background:var(--bg-secondary); border-top:1px solid var(--border-color); display:flex; justify-content:flex-end; gap:12px;">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                        <button class="btn btn-primary" onclick="saveCollaborator()">Add Collaborator</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function editCollaborator(id) {
+            const collab = collaborators.find(c => c.id === id);
+            if (!collab) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal" style="max-width:500px;">
+                    <div class="modal-header" style="padding:20px 30px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--text-primary);">Edit Collaborator</h2>
+                            <p style="font-size:13px; color:var(--text-muted);">Update collaborator information</p>
+                        </div>
+                        <button class="btn-close" onclick="this.closest('.modal-overlay').remove()" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+                    </div>
+                    <div class="modal-body" style="padding:30px;">
+                        <form id="collaboratorForm">
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Company Name *</label>
+                                <input type="text" name="name" value="${collab.name}" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            </div>
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Description</label>
+                                <textarea name="description" rows="3" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary); resize:vertical;">${collab.description || ''}</textarea>
+                            </div>
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Website URL *</label>
+                                <input type="url" name="website" value="${collab.website}" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            </div>
+                            <div class="form-group" style="margin-bottom:20px;">
+                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Logo URL *</label>
+                                <input type="url" name="logo" value="${collab.logo}" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="padding:20px 30px; background:var(--bg-secondary); border-top:1px solid var(--border-color); display:flex; justify-content:flex-end; gap:12px;">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                        <button class="btn btn-primary" onclick="updateCollaborator('${id}')">Update Collaborator</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function saveCollaborator() {
+            const form = document.getElementById('collaboratorForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            const newCollab = {
+                id: 'collab_' + Date.now(),
+                name: formData.get('name'),
+                description: formData.get('description'),
+                website: formData.get('website'),
+                logo: formData.get('logo')
+            };
+
+            collaborators.push(newCollab);
+            saveCollaborators();
+            renderCollaboratorsTable();
+            document.querySelector('.modal-overlay').remove();
+            showToast('Collaborator added successfully', 'success');
+        }
+
+        function updateCollaborator(id) {
+            const form = document.getElementById('collaboratorForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            const collab = collaborators.find(c => c.id === id);
+            if (collab) {
+                collab.name = formData.get('name');
+                collab.description = formData.get('description');
+                collab.website = formData.get('website');
+                collab.logo = formData.get('logo');
+                saveCollaborators();
+                renderCollaboratorsTable();
+                document.querySelector('.modal-overlay').remove();
+                showToast('Collaborator updated successfully', 'success');
+            }
+        }
+
+        function deleteCollaborator(id) {
+            if (!confirm('Delete this collaborator?')) return;
+            collaborators = collaborators.filter(c => c.id !== id);
+            saveCollaborators();
+            renderCollaboratorsTable();
+            showToast('Collaborator deleted', 'error');
+        }
 
         /* ═══════════════════════════════════════════════════
            PRODUCTS CRUD
@@ -3235,6 +3751,10 @@
                 const stockLabel = product.quantity > 10 ? 'In Stock' : (product.quantity > 0 ? 'Low Stock' : 'Out of Stock');
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                card.onclick = (e) => {
+                    if (e.target.closest('.product-card-actions')) return;
+                    window.open(`product-view.php?id=${product.id}`, '_blank');
+                };
                 card.innerHTML = `
       <div class="product-card-img">${product.image ? `<img src="${product.image}" alt="">` : `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>`}</div>
       <div class="product-card-body">
@@ -3253,86 +3773,201 @@
             });
 
             document.querySelectorAll('.edit-product').forEach(btn => {
-                btn.addEventListener('click', function () { openModalForEdit(products[+this.dataset.index]); });
+                btn.addEventListener('click', function() {
+                    openModalForEdit(products[+this.dataset.index]);
+                });
             });
             document.querySelectorAll('.delete-product').forEach(btn => {
-                btn.addEventListener('click', function () {
+                btn.addEventListener('click', function() {
                     if (!confirm('Delete this product?')) return;
                     const id = +this.dataset.id;
                     products = products.filter(p => p.id !== id);
                     saveProducts();
-                    renderProducts(); renderSalesProductSelector(); updateAllMetrics();
+                    renderProducts();
+                    renderSalesProductSelector();
+                    updateAllMetrics();
                     showToast('Product deleted', 'error');
                 });
             });
         }
 
+        function closeEditModal() {
+            document.getElementById('editProductModal').classList.remove('active');
+            document.getElementById('editProductForm').reset();
+            removeEditPreview();
+        }
+
+        function handleEditImagePreview(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                document.getElementById('editPreviewImg').src = ev.target.result;
+                document.getElementById('editUploadPlaceholder').style.display = 'none';
+                document.getElementById('editUploadPreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeEditPreview() {
+            document.getElementById('editImageInput').value = '';
+            document.getElementById('editPreviewImg').src = '';
+            document.getElementById('editUploadPlaceholder').style.display = 'block';
+            document.getElementById('editUploadPreview').style.display = 'none';
+        }
+
+        function adjustEditQty(amt) {
+            const el = document.getElementById('edit_quantity');
+            el.value = Math.max(0, (+el.value || 0) + amt);
+        }
+
+        // Edit Modal Tabs
+        document.querySelectorAll('#editProductModal .lang-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const group = tab.parentElement.id.includes('Name') ? 'name' : 'desc';
+                const lang = tab.dataset.lang;
+                tab.parentElement.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(`edit-${group}-sq-content`).classList.toggle('active', lang === 'sq');
+                document.getElementById(`edit-${group}-en-content`).classList.toggle('active', lang === 'en');
+            });
+        });
+
+        // Edit Modal Category Selection
+        document.querySelectorAll('#editCategoryGrid .category-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('#editCategoryGrid .category-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                opt.querySelector('input').checked = true;
+            });
+        });
+
         function openModalForEdit(product) {
-            document.getElementById('productAction').value = 'edit';
-            document.getElementById('productId').value = product.id;
-            document.getElementById('name_sq').value = product.name_sq || '';
-            document.getElementById('name_en').value = product.name_en || '';
-            document.getElementById('desc_sq').value = product.desc_sq || '';
-            document.getElementById('desc_en').value = product.desc_en || '';
-            document.getElementById('quantity').value = product.quantity || 0;
-            document.querySelectorAll('.category-option').forEach(o => {
+            const form = document.getElementById('editProductForm');
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('edit_name_sq').value = product.name_sq || '';
+            document.getElementById('edit_name_en').value = product.name_en || '';
+            document.getElementById('edit_desc_sq').value = product.desc_sq || '';
+            document.getElementById('edit_desc_en').value = product.desc_en || '';
+            document.getElementById('edit_quantity').value = product.quantity || 0;
+
+            document.querySelectorAll('#editCategoryGrid .category-option').forEach(o => {
                 const radio = o.querySelector('input[type="radio"]');
                 const match = radio.value === product.category;
                 o.classList.toggle('selected', match);
                 radio.checked = match;
             });
-            document.getElementById('productFormTitle').textContent = 'Edit Product';
-            document.getElementById('productFormSubtitle').textContent = `Editing: ${product.name_en || product.name_sq}`;
-            document.getElementById('formPanelTitle').textContent = 'Edit Product Details';
-            removePreview();
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            const nav = document.querySelector('.nav-item[data-section="add-product"]');
-            if (nav) nav.classList.add('active');
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('section-add-product').classList.add('active');
-            window.scrollTo(0, 0);
+
+            if (product.image) {
+                document.getElementById('editPreviewImg').src = product.image;
+                document.getElementById('editUploadPlaceholder').style.display = 'none';
+                document.getElementById('editUploadPreview').style.display = 'block';
+            } else {
+                removeEditPreview();
+            }
+
+            document.getElementById('editModalSubtitle').textContent = `Editing: ${product.name_en || product.name_sq}`;
+            document.getElementById('editProductModal').classList.add('active');
         }
 
-        document.getElementById('cancelProductBtn').addEventListener('click', () => { resetProductForm(); switchSection('view-products'); });
+        // Edit Form Submission
+        document.getElementById('editProductForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const id = fd.get('id');
+
+            try {
+                const res = await fetch('essentials/product-api.php', {
+                    method: 'POST',
+                    body: fd
+                });
+                const d = await res.json();
+                if (d.success) {
+                    closeEditModal();
+                    await fetchProducts();
+                    showToast('Product updated', 'success');
+                    return;
+                }
+            } catch {}
+
+            // Fallback
+            let imageData = '';
+            const imgFile = document.getElementById('editImageInput').files[0];
+            if (imgFile) {
+                imageData = await new Promise(res => {
+                    const r = new FileReader();
+                    r.onload = ev => res(ev.target.result);
+                    r.readAsDataURL(imgFile);
+                });
+            } else {
+                const existing = products.find(p => p.id === +id);
+                if (existing) imageData = existing.image || '';
+            }
+
+            const updatedProd = {
+                id: +id,
+                name_sq: fd.get('name_sq') || '',
+                name_en: fd.get('name_en') || '',
+                desc_sq: fd.get('desc_sq') || '',
+                desc_en: fd.get('desc_en') || '',
+                category: fd.get('category') || 'granular',
+                quantity: +fd.get('quantity') || 0,
+                image: imageData
+            };
+
+            const idx = products.findIndex(p => p.id === +id);
+            if (idx >= 0) products[idx] = updatedProd;
+            saveProducts();
+            closeEditModal();
+            renderProducts();
+            renderSalesProductSelector();
+            updateAllMetrics();
+            showToast('Product updated', 'success');
+        });
+
+        document.getElementById('cancelProductBtn').addEventListener('click', () => {
+            resetProductForm();
+            switchSection('view-products');
+        });
 
         function resetProductForm() {
             document.getElementById('productForm').reset();
-            document.getElementById('productAction').value = 'add';
-            document.getElementById('productId').value = '';
-            document.getElementById('productFormTitle').textContent = 'Add New Product';
-            document.getElementById('productFormSubtitle').textContent = 'Fill in the details below to add a product to your catalogue.';
-            document.getElementById('formPanelTitle').textContent = 'Product Details';
-            document.querySelectorAll('.category-option').forEach((o, i) => { o.classList.toggle('selected', i === 0); o.querySelector('input[type="radio"]').checked = (i === 0); });
+            document.querySelectorAll('#categoryGrid .category-option').forEach((o, i) => {
+                o.classList.toggle('selected', i === 0);
+                o.querySelector('input[type="radio"]').checked = (i === 0);
+            });
             ['nameLangTabs', 'descLangTabs'].forEach(tabId => {
-                const tabs = document.getElementById(tabId); if (!tabs) return;
+                const tabs = document.getElementById(tabId);
+                if (!tabs) return;
                 tabs.querySelectorAll('.lang-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
             });
-            document.querySelectorAll('[id$="-sq-content"]').forEach(c => c.classList.add('active'));
-            document.querySelectorAll('[id$="-en-content"]').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('[id^="name-"], [id^="desc-"]').forEach(c => c.classList.remove('active'));
+            document.getElementById('name-sq-content').classList.add('active');
+            document.getElementById('desc-sq-content').classList.add('active');
             removePreview();
         }
 
         document.getElementById('productForm').addEventListener('submit', async e => {
             e.preventDefault();
             const fd = new FormData(e.target);
-            const action = fd.get('action');
-            const id = fd.get('id');
 
             // Try API first
             try {
-                const res = await fetch('essentials/product-api.php', { method: 'POST', body: fd });
+                const res = await fetch('essentials/product-api.php', {
+                    method: 'POST',
+                    body: fd
+                });
                 const d = await res.json();
                 if (d.success) {
-                    resetProductForm(); switchSection('view-products');
-                    // Reload from API
+                    resetProductForm();
+                    switchSection('view-products');
                     await fetchProducts();
-                    showToast(action === 'edit' ? 'Product updated' : 'Product added', 'success');
+                    showToast('Product added', 'success');
                     return;
                 }
-            } catch { }
+            } catch {}
 
             // Fallback: local storage
-            // Handle image
             let imageData = '';
             const imgFile = document.getElementById('image').files[0];
             if (imgFile) {
@@ -3341,30 +3976,27 @@
                     r.onload = ev => res(ev.target.result);
                     r.readAsDataURL(imgFile);
                 });
-            } else if (action === 'edit') {
-                const existing = products.find(p => p.id === +id);
-                if (existing) imageData = existing.image || '';
             }
 
             const newProd = {
-                id: action === 'edit' ? +id : nextProductId++,
-                name_sq: fd.get('name_sq') || '', name_en: fd.get('name_en') || '',
-                desc_sq: fd.get('desc_sq') || '', desc_en: fd.get('desc_en') || '',
+                id: nextProductId++,
+                name_sq: fd.get('name_sq') || '',
+                name_en: fd.get('name_en') || '',
+                desc_sq: fd.get('desc_sq') || '',
+                desc_en: fd.get('desc_en') || '',
                 category: fd.get('category') || 'granular',
                 quantity: +fd.get('quantity') || 0,
                 image: imageData
             };
 
-            if (action === 'edit') {
-                const idx = products.findIndex(p => p.id === +id);
-                if (idx >= 0) products[idx] = newProd; else products.push(newProd);
-            } else {
-                products.push(newProd);
-            }
+            products.push(newProd);
             saveProducts();
-            resetProductForm(); switchSection('view-products');
-            renderProducts(); renderSalesProductSelector(); updateAllMetrics();
-            showToast(action === 'edit' ? 'Product updated' : 'Product added', 'success');
+            resetProductForm();
+            switchSection('view-products');
+            renderProducts();
+            renderSalesProductSelector();
+            updateAllMetrics();
+            showToast('Product added', 'success');
         });
 
         async function fetchProducts() {
@@ -3375,9 +4007,11 @@
                     products = d.products;
                     saveProducts();
                 }
-            } catch { }
+            } catch {}
             nextProductId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-            renderProducts(); renderSalesProductSelector(); updateAllMetrics();
+            renderProducts();
+            renderSalesProductSelector();
+            updateAllMetrics();
         }
 
         /* ═══════════════════════════════════════════════════
@@ -3385,13 +4019,30 @@
         ═══════════════════════════════════════════════════ */
         function renderSalesProductSelector() {
             const c = document.getElementById('salesProductSelector');
+            const searchInput = document.getElementById('salesProductSearch');
             if (!c) return;
+
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
             c.innerHTML = '';
+
             if (products.length === 0) {
                 c.innerHTML = `<div style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">No products found. <a href="#" onclick="switchSection('add-product');return false;" style="color:var(--accent-gold);">Add a product first →</a></div>`;
                 return;
             }
-            products.forEach(p => {
+
+            const filtered = products.filter(p => {
+                const nameSq = (p.name_sq || '').toLowerCase();
+                const nameEn = (p.name_en || '').toLowerCase();
+                const cat = (p.category || '').toLowerCase();
+                return nameSq.includes(query) || nameEn.includes(query) || cat.includes(query);
+            });
+
+            if (filtered.length === 0) {
+                c.innerHTML = `<div style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">No products match your search "${query}".</div>`;
+                return;
+            }
+
+            filtered.forEach(p => {
                 const oos = p.quantity <= 0;
                 const opt = document.createElement('div');
                 opt.className = `ps-option${oos ? ' out-of-stock' : ''}${selectedSaleProductId === p.id ? ' selected' : ''}`;
@@ -3416,10 +4067,23 @@
             const totalRevenue = salesHistory.reduce((s, sale) => s + (sale.price * sale.qty), 0);
             const totalStock = products.reduce((s, p) => s + Number(p.quantity), 0);
 
-            ['totalUnitsSold', 'vs-units'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = totalUnits.toLocaleString(); });
-            ['totalProfit', 'vs-revenue'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '$' + totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); });
-            ['totalStockRemaining'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = totalStock.toLocaleString(); });
-            const vcEl = document.getElementById('vs-count'); if (vcEl) vcEl.textContent = salesHistory.length;
+            ['totalUnitsSold', 'vs-units'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = totalUnits.toLocaleString();
+            });
+            ['totalProfit', 'vs-revenue'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = '$' + totalRevenue.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            });
+            ['totalStockRemaining'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = totalStock.toLocaleString();
+            });
+            const vcEl = document.getElementById('vs-count');
+            if (vcEl) vcEl.textContent = salesHistory.length;
         }
 
         function updateAllMetrics() {
@@ -3429,14 +4093,26 @@
         }
 
         function recordSale() {
-            if (!selectedSaleProductId) { showToast('Please select a product first', 'error'); return; }
+            if (!selectedSaleProductId) {
+                showToast('Please select a product first', 'error');
+                return;
+            }
             const qty = +document.getElementById('saleQty').value || 1;
             const priceInput = +document.getElementById('salePrice').value || 0;
             const note = document.getElementById('saleNote').value.trim();
             const product = products.find(p => p.id === selectedSaleProductId);
-            if (!product) { showToast('Product not found', 'error'); return; }
-            if (qty > product.quantity) { showToast(`Only ${product.quantity} units available`, 'error'); return; }
-            if (qty <= 0) { showToast('Quantity must be at least 1', 'error'); return; }
+            if (!product) {
+                showToast('Product not found', 'error');
+                return;
+            }
+            if (qty > product.quantity) {
+                showToast(`Only ${product.quantity} units available`, 'error');
+                return;
+            }
+            if (qty <= 0) {
+                showToast('Quantity must be at least 1', 'error');
+                return;
+            }
 
             product.quantity -= qty;
             const now = new Date();
@@ -3445,7 +4121,8 @@
                 productId: product.id,
                 productName: product.name_en || product.name_sq,
                 category: product.category,
-                qty, price: priceInput,
+                qty,
+                price: priceInput,
                 total: priceInput * qty,
                 note,
                 date: now.toLocaleString(),
@@ -3454,20 +4131,26 @@
                 year: now.getFullYear()
             };
             salesHistory.unshift(sale);
-            saveSales(); saveProducts();
+            saveSales();
+            saveProducts();
 
             selectedSaleProductId = null;
             document.getElementById('saleQty').value = 1;
             document.getElementById('salePrice').value = '';
             document.getElementById('saleNote').value = '';
-            renderSalesProductSelector(); renderRecentSales(); updateAllMetrics();
+            renderSalesProductSelector();
+            renderRecentSales();
+            updateAllMetrics();
             showToast(`✅ Recorded: ${qty}× ${product.name_en || product.name_sq}`, 'success');
         }
 
         function renderRecentSales() {
             const c = document.getElementById('recentSalesList');
             if (!c) return;
-            if (salesHistory.length === 0) { c.innerHTML = '<div class="rsw-empty">No sales recorded yet.</div>'; return; }
+            if (salesHistory.length === 0) {
+                c.innerHTML = '<div class="rsw-empty">No sales recorded yet.</div>';
+                return;
+            }
             c.innerHTML = salesHistory.slice(0, 8).map(sale => `
     <div class="rsw-item">
       <div class="rsw-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>
@@ -3526,7 +4209,7 @@
 
         // View Sales filter chips
         document.querySelectorAll('.filter-chip[data-vsfilter]').forEach(chip => {
-            chip.addEventListener('click', function () {
+            chip.addEventListener('click', function() {
                 document.querySelectorAll('.filter-chip[data-vsfilter]').forEach(c => c.classList.remove('active'));
                 this.classList.add('active');
                 vsFilter = this.dataset.vsfilter;
@@ -3541,28 +4224,40 @@
             const product = products.find(p => p.id === sale.productId);
             if (product) product.quantity += sale.qty;
             salesHistory.splice(idx, 1);
-            saveSales(); saveProducts();
-            renderSalesTable(); renderRecentSales(); updateAllMetrics();
+            saveSales();
+            saveProducts();
+            renderSalesTable();
+            renderRecentSales();
+            updateAllMetrics();
             showToast('Sale removed', 'error');
         }
 
         function clearSalesHistory() {
-            if (salesHistory.length === 0) { showToast('No sales to clear', 'error'); return; }
+            if (salesHistory.length === 0) {
+                showToast('No sales to clear', 'error');
+                return;
+            }
             if (!confirm('Clear all sales history? Stock quantities will be restored.')) return;
             salesHistory.forEach(sale => {
                 const p = products.find(p => p.id === sale.productId);
                 if (p) p.quantity += sale.qty;
             });
             salesHistory = [];
-            saveSales(); saveProducts();
-            renderSalesTable(); renderRecentSales(); updateAllMetrics();
+            saveSales();
+            saveProducts();
+            renderSalesTable();
+            renderRecentSales();
+            updateAllMetrics();
             showToast('Sales history cleared', 'error');
         }
 
         /* ═══════════════════════════════════════════════════
            OVERVIEW
         ═══════════════════════════════════════════════════ */
-        function refreshOverview() { updateOverviewMetrics(); showToast('Dashboard refreshed', 'success'); }
+        function refreshOverview() {
+            updateOverviewMetrics();
+            showToast('Dashboard refreshed', 'success');
+        }
 
         function updateOverviewMetrics() {
             const now = new Date();
@@ -3576,8 +4271,14 @@
             const totalStock = products.reduce((s, p) => s + Number(p.quantity), 0);
             const lowStock = products.filter(p => p.quantity > 0 && p.quantity <= 10).length;
 
-            const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-            setEl('ov-revenue', '$' + totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            const setEl = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
+            };
+            setEl('ov-revenue', '$' + totalRevenue.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
             setEl('ov-revenue-trend', salesHistory.length + ' sales');
             setEl('ov-units', totalUnits.toLocaleString());
             setEl('ov-units-trend', salesHistory.length + ' transactions');
@@ -3589,10 +4290,16 @@
             // Update metric trend classes
             ['ov-revenue-trend', 'ov-units-trend', 'ov-stock-trend'].forEach(id => {
                 const el = document.getElementById(id);
-                if (el) { el.className = 'metric-trend'; el.classList.add(salesHistory.length > 0 ? 'up' : 'neutral'); }
+                if (el) {
+                    el.className = 'metric-trend';
+                    el.classList.add(salesHistory.length > 0 ? 'up' : 'neutral');
+                }
             });
             const lowTrend = document.getElementById('ov-low-trend');
-            if (lowTrend) { lowTrend.className = 'metric-trend'; lowTrend.classList.add(lowStock > 0 ? 'down' : 'up'); }
+            if (lowTrend) {
+                lowTrend.className = 'metric-trend';
+                lowTrend.classList.add(lowStock > 0 ? 'down' : 'up');
+            }
 
             // Best sellers
             const bsc = document.getElementById('ov-best-sellers');
@@ -3602,7 +4309,11 @@
                 } else {
                     const agg = {};
                     salesHistory.forEach(sale => {
-                        if (!agg[sale.productName]) agg[sale.productName] = { name: sale.productName, qty: 0, revenue: 0 };
+                        if (!agg[sale.productName]) agg[sale.productName] = {
+                            name: sale.productName,
+                            qty: 0,
+                            revenue: 0
+                        };
                         agg[sale.productName].qty += Number(sale.qty);
                         agg[sale.productName].revenue += Number(sale.total);
                     });
@@ -3628,9 +4339,16 @@
                     ibc.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No products added yet.</div>';
                 } else {
                     const cats = {};
-                    products.forEach(p => { cats[p.category] = (cats[p.category] || 0) + Number(p.quantity); });
+                    products.forEach(p => {
+                        cats[p.category] = (cats[p.category] || 0) + Number(p.quantity);
+                    });
                     const total = Object.values(cats).reduce((s, v) => s + v, 0) || 1;
-                    const catColors = { granular: 'var(--accent-gold)', liquid: 'var(--info)', organic: 'var(--success)', specialty: 'var(--warning)' };
+                    const catColors = {
+                        granular: 'var(--accent-gold)',
+                        liquid: 'var(--info)',
+                        organic: 'var(--success)',
+                        specialty: 'var(--warning)'
+                    };
                     ibc.innerHTML = Object.entries(cats).map(([cat, qty]) => `
         <div class="quick-stat-row">
           <div class="quick-stat-label" style="text-transform:capitalize;">${cat}</div>
@@ -3667,7 +4385,10 @@
             // Aggregate by month for current year
             const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             const currentYear = new Date().getFullYear();
-            const byMonth = Array(12).fill(null).map(() => ({ revenue: 0, units: 0 }));
+            const byMonth = Array(12).fill(null).map(() => ({
+                revenue: 0,
+                units: 0
+            }));
 
             salesHistory.forEach(sale => {
                 let month = sale.month;
@@ -3676,8 +4397,12 @@
                 if (month === undefined || year === undefined) {
                     try {
                         const d = new Date(sale.dateObj || sale.date);
-                        month = d.getMonth(); year = d.getFullYear();
-                    } catch { month = new Date().getMonth(); year = currentYear; }
+                        month = d.getMonth();
+                        year = d.getFullYear();
+                    } catch {
+                        month = new Date().getMonth();
+                        year = currentYear;
+                    }
                 }
                 if (year === currentYear) {
                     byMonth[month].revenue += Number(sale.total) || 0;
@@ -3722,14 +4447,21 @@
         }
 
         let tipTimeout;
+
         function showBarTip(event, text) {
             let tip = document.getElementById('barTip');
-            if (!tip) { tip = document.createElement('div'); tip.id = 'barTip'; tip.style.cssText = 'position:fixed;background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;pointer-events:none;z-index:999;box-shadow:var(--shadow-md);transition:opacity 0.15s;'; document.body.appendChild(tip); }
+            if (!tip) {
+                tip = document.createElement('div');
+                tip.id = 'barTip';
+                tip.style.cssText = 'position:fixed;background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;pointer-events:none;z-index:999;box-shadow:var(--shadow-md);transition:opacity 0.15s;';
+                document.body.appendChild(tip);
+            }
             tip.textContent = text;
             tip.style.opacity = '1';
             tip.style.left = (event.clientX + 10) + 'px';
             tip.style.top = (event.clientY - 30) + 'px';
         }
+
         function hideBarTip() {
             const tip = document.getElementById('barTip');
             if (tip) tip.style.opacity = '0';
@@ -3748,23 +4480,48 @@
             const cats = {};
             salesHistory.forEach(sale => {
                 const cat = sale.category || 'other';
-                if (!cats[cat]) cats[cat] = { units: 0, revenue: 0 };
+                if (!cats[cat]) cats[cat] = {
+                    units: 0,
+                    revenue: 0
+                };
                 cats[cat].units += Number(sale.qty);
                 cats[cat].revenue += Number(sale.total);
             });
 
-            const catColors = { granular: '#D4A853', liquid: '#3B82F6', organic: '#10B981', specialty: '#F59E0B', other: '#8B5CF6' };
-            const catEmojis = { granular: '🌾', liquid: '💧', organic: '🌿', specialty: '⭐', other: '📦' };
+            const catColors = {
+                granular: '#D4A853',
+                liquid: '#3B82F6',
+                organic: '#10B981',
+                specialty: '#F59E0B',
+                other: '#8B5CF6'
+            };
+            const catEmojis = {
+                granular: '🌾',
+                liquid: '💧',
+                organic: '🌿',
+                specialty: '⭐',
+                other: '📦'
+            };
             const entries = Object.entries(cats).sort((a, b) => b[1].units - a[1].units);
             const totalUnits = entries.reduce((s, [, v]) => s + v.units, 0);
 
             // SVG donut
-            const r = 60, cx = 80, cy = 80, sw = 24, circ = 2 * Math.PI * r;
+            const r = 60,
+                cx = 80,
+                cy = 80,
+                sw = 24,
+                circ = 2 * Math.PI * r;
             let offset = 0;
             const segments = entries.map(([cat, data]) => {
                 const pct = data.units / totalUnits;
                 const sda = pct * circ;
-                const seg = { cat, data, pct, sda, offset };
+                const seg = {
+                    cat,
+                    data,
+                    pct,
+                    sda,
+                    offset
+                };
                 offset += sda;
                 return seg;
             });
@@ -3808,7 +4565,12 @@
             const agg = {};
             salesHistory.forEach(sale => {
                 const key = sale.productName;
-                if (!agg[key]) agg[key] = { name: key, category: sale.category, qty: 0, revenue: 0 };
+                if (!agg[key]) agg[key] = {
+                    name: key,
+                    category: sale.category,
+                    qty: 0,
+                    revenue: 0
+                };
                 agg[key].qty += Number(sale.qty);
                 agg[key].revenue += Number(sale.total);
             });
@@ -3835,18 +4597,29 @@
         function renderAnalyticsSummary() {
             const c = document.getElementById('analyticsSummary');
             if (!c) return;
-            if (salesHistory.length === 0) { c.innerHTML = ''; return; }
+            if (salesHistory.length === 0) {
+                c.innerHTML = '';
+                return;
+            }
 
             const totalRevenue = salesHistory.reduce((s, sale) => s + (sale.price * sale.qty), 0);
             const totalUnits = salesHistory.reduce((s, sale) => s + sale.qty, 0);
             const avgOrderValue = salesHistory.length > 0 ? totalRevenue / salesHistory.length : 0;
             const topCat = (() => {
                 const cats = {};
-                salesHistory.forEach(s => { cats[s.category] = (cats[s.category] || 0) + s.qty; });
+                salesHistory.forEach(s => {
+                    cats[s.category] = (cats[s.category] || 0) + s.qty;
+                });
                 return Object.entries(cats).sort((a, b) => b[1] - a[1])[0]?.[0] || '—';
             })();
 
-            const catEmojis = { granular: '🌾', liquid: '💧', organic: '🌿', specialty: '⭐', other: '📦' };
+            const catEmojis = {
+                granular: '🌾',
+                liquid: '💧',
+                organic: '🌿',
+                specialty: '⭐',
+                other: '📦'
+            };
 
             c.innerHTML = `
     <div class="metric-card"><div class="metric-header"><div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div></div><div class="metric-value">$${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div><div class="metric-label">Total Revenue</div></div>
@@ -3864,8 +4637,11 @@
             try {
                 const r = await fetch('essentials/product-api.php?action=list');
                 const d = await r.json();
-                if (d.success) { products = d.products; saveProducts(); }
-            } catch { }
+                if (d.success) {
+                    products = d.products;
+                    saveProducts();
+                }
+            } catch {}
 
             nextProductId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
             renderProducts();
@@ -3873,6 +4649,14 @@
             renderRecentSales();
             updateAllMetrics();
             updateOverviewMetrics();
+
+            // Add search listener for sales product selector
+            const salesSearch = document.getElementById('salesProductSearch');
+            if (salesSearch) {
+                salesSearch.addEventListener('input', () => {
+                    renderSalesProductSelector();
+                });
+            }
         })();
     </script>
 </body>

@@ -399,9 +399,13 @@
               <label class="label">Last Name</label>
               <input type="text" placeholder="Last Name" required>
             </div>
-            <div class="field full">
+            <div class="field">
               <label class="label">Email Address</label>
               <input type="email" placeholder="email@address.com" required>
+            </div>
+            <div class="field">
+              <label class="label">Phone Number</label>
+              <input type="tel" placeholder="+355 123 456 789" required>
             </div>
             <div class="field full">
               <label class="label">How can we help?</label>
@@ -470,6 +474,33 @@
       
       // Simulate premium "processing" delay
       setTimeout(() => {
+        // --- ADDED: Save message to localStorage for dashboard ---
+        try {
+          const firstName = form.querySelector('input[placeholder="First Name"]').value;
+          const lastName = form.querySelector('input[placeholder="Last Name"]').value;
+          const email = form.querySelector('input[placeholder="email@address.com"]').value;
+          const phone = form.querySelector('input[placeholder="+355 123 456 789"]').value;
+          const message = form.querySelector('textarea[placeholder="Your Message"]').value;
+          
+          const newMessage = {
+            id: 'msg_' + Date.now(),
+            name: `${firstName} ${lastName}`,
+            email: email,
+            phone: phone,
+            subject: 'Website Inquiry',
+            message: message,
+            date: new Date().toLocaleString(),
+            read: false
+          };
+
+          const existingMessages = JSON.parse(localStorage.getItem('agro_messages_v2') || '[]');
+          existingMessages.unshift(newMessage);
+          localStorage.setItem('agro_messages_v2', JSON.stringify(existingMessages));
+        } catch (err) {
+          console.error('Error saving message:', err);
+        }
+        // ---------------------------------------------------------
+
         // Premium transition sequence
         form.classList.add('fade-out');
         

@@ -2,11 +2,11 @@
     {
         "id": "69cd515d9f19b",
         "name_sq": "fdgfgfg",
-        "name_en": "fgfgfgf",
-        "desc_sq": "gfggfgfg",
-        "desc_en": "fgfgffgfgf",
-        "quantity": 15,
-        "category": "organic",
+        "name_en": "fgfgfgffgfgfgfgg",
+        "desc_sq": "gfggfgfggfgggggggggggggggggggg\r\nfgfgfg\r\nf\r\ngfg\r\nfg\r\nf\r\ngf\r\ng\r\nfgfg",
+        "desc_en": "fgfgffgfgf\r\nfg\r\nfgfgfgfgfgf\r\ngfgfgfgfgfgfg\r\nfgfgfgfgfgfgfgfggfg",
+        "quantity": 19,
+        "category": "crystalline",
         "features_sq": [
             "gfgfgfgfgfgfgf"
         ],
@@ -23,7 +23,7 @@
         "desc_sq": "fdfdf",
         "desc_en": "dfdfd",
         "quantity": 2,
-        "category": "liquid",
+        "category": "crystalline",
         "features_sq": [
             "fdf"
         ],
@@ -61,7 +61,7 @@
         "desc_sq": "iiiiiiiiiii",
         "desc_en": "iiiiii",
         "quantity": 0,
-        "category": "liquid",
+        "category": "crystalline",
         "features_sq": [
             "iiiiiiiiiii"
         ],

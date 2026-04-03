@@ -72,12 +72,12 @@
     }
 
     .gg-nav-scope .logo-img {
-      width: 72px;
-      height: 72px;
+      width: 96px;
+      height: 96px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-left: -8px;
+      margin-left: -12px;
       transition: transform 0.35s var(--gg-nav-ease);
     }
 
@@ -94,20 +94,20 @@
       display: flex;
       flex-direction: column;
       line-height: 1.15;
-      margin-left: -10px;
+      margin-left: -20px;
     }
 
     .gg-nav-scope .logo-name {
       font-family: var(--gg-nav-font-display);
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--gg-nav-primary);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #000000;
       letter-spacing: 0.02em;
       transition: color 0.3s var(--gg-nav-ease);
     }
 
-    .gg-nav-scope .logo:hover .logo-name { color: var(--gg-nav-accent); }
-    .gg-nav-scope .logo-name span { color: var(--gg-nav-accent); }
+    .gg-nav-scope .logo:hover .logo-name { color: #000000; }
+    .gg-nav-scope .logo-name span { color: #000000; }
 
     /* ── Right Content Group ─────────────────── */
     .gg-nav-scope .nav-right {
@@ -127,7 +127,7 @@
     .gg-nav-scope .nav-links a {
       text-decoration: none;
       color: #000000;
-      font-weight: 700;
+      font-weight: 500;
       font-size: 0.95rem;
       letter-spacing: 0.03em;
       padding: 6px 12px;
@@ -150,6 +150,61 @@
 
     .gg-nav-scope .nav-links a:hover::after,
     .gg-nav-scope .nav-links a.active::after { transform: scaleX(1); }
+
+    /* ── Products Dropdown ────────────────────── */
+    .gg-nav-scope .has-dropdown {
+      position: relative;
+    }
+
+    .gg-nav-scope .nav-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--gg-nav-neutral);
+      border: 1px solid var(--gg-nav-border);
+      border-radius: 12px;
+      min-width: 220px;
+      padding: 8px;
+      box-shadow: 0 10px 30px rgba(26, 51, 41, 0.12);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s var(--gg-nav-ease);
+      z-index: 1001;
+    }
+
+    .gg-nav-scope .has-dropdown:hover .nav-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .gg-nav-scope .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      text-decoration: none;
+      color: var(--gg-nav-text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.2s var(--gg-nav-ease);
+    }
+
+    .gg-nav-scope .dropdown-item:hover {
+      background: rgba(200, 168, 75, 0.1);
+      color: var(--gg-nav-primary);
+      padding-left: 18px;
+    }
+
+    .gg-nav-scope .dropdown-item svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
 
     .gg-nav-scope .nav-links .nav-cta {
       background: var(--gg-nav-primary);
@@ -187,7 +242,7 @@
       padding: 5px 12px;
       border-radius: 100px;
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--gg-nav-text-muted);
       cursor: pointer;
       display: flex;
@@ -373,7 +428,7 @@
 
     .gg-nav-scope .dropdown-menu .lang-mobile-title {
       font-size: 0.7rem;
-      font-weight: 700;
+      font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--gg-nav-accent);
@@ -393,7 +448,7 @@
       background: none;
       font-family: var(--gg-nav-font-body);
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--gg-nav-text-muted);
       cursor: pointer;
       transition: all 0.3s var(--gg-nav-ease);
@@ -414,7 +469,7 @@
       color: var(--gg-nav-text-muted);
       font-family: var(--gg-nav-font-display);
       font-size: 1.4rem;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.01em;
       position: relative;
       transition: color 0.22s var(--gg-nav-ease), padding-left 0.22s var(--gg-nav-ease);
@@ -465,7 +520,7 @@
             <?php echo t('home'); ?>
           </a>
         </li>
-        <li>
+        <li class="has-dropdown">
           <a href="products.php" class="<?php echo ($current_page == 'products.php') ? 'active' : ''; ?>">
             <?php echo t('products'); ?>
           </a>
