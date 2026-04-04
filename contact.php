@@ -1,10 +1,11 @@
+<?php require_once 'essentials/translations.php'; ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $lang; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | AgroFanema</title>
-    <meta name="description" content="Na kontaktoni për çdo pyetje rreth produkteve tona organike. AgroFanema është këtu për t'ju ndihmuar.">
+    <title><?php echo t('contact_meta_title'); ?></title>
+    <meta name="description" content="<?php echo t('contact_meta_desc'); ?>">
     <meta name="keywords" content="AgroFanema, kontakt, bujqësi, plehra organike">
     
     <!-- Open Graph / Facebook -->

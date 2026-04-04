@@ -1,12 +1,12 @@
+<?php require_once 'essentials/translations.php'; ?>
 <!DOCTYPE html>
-<html lang="sq">
+<html lang="<?php echo $lang; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Primar SEO Shqip -->
-    <title>AgroFanema | Plehra Organike</title>
-    <meta name="description" content="AgroFanema ofron plehra organike të cilësisë së lartë për bujqësinë moderne. Rrisni prodhimin tuaj me zgjidhjet tona të testuara dhe miqësore me mjedisin.">
+    <title><?php echo t('home_meta_title'); ?></title>
+    <meta name="description" content="<?php echo t('home_meta_desc'); ?>">
     <meta name="keywords" content="AgroFanema, plehra organike, pleh artificial, bujqësi Shqipëri, pleh për bimë, rritje prodhimi, pleh cilësor, Kozare, Berat">
     <meta name="author" content="AgroFanema">
     

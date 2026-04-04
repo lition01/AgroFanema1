@@ -388,10 +388,10 @@ a.ft-contact-value:hover { color: #FFFFFF; }
                 <div class="ft-col">
                     <div class="ft-col-title"><?php echo t('about_us'); ?></div>
                     <ul class="ft-nav">
-                        <li><a href="contact.php">Help Center</a></li>
-                        <li><a href="contact.php">Shipping</a></li>
-                        <li><a href="contact.php">Wholesale</a></li>
-                        <li><a href="contact.php">Expert Advice</a></li>
+                        <li><a href="contact.php"><?php echo t('help_center'); ?></a></li>
+                        <li><a href="contact.php"><?php echo t('shipping'); ?></a></li>
+                        <li><a href="contact.php"><?php echo t('wholesale'); ?></a></li>
+                        <li><a href="contact.php"><?php echo t('expert_advice'); ?></a></li>
                     </ul>
                 </div>
 
@@ -400,16 +400,16 @@ a.ft-contact-value:hover { color: #FFFFFF; }
                 <div class="ft-col-title"><?php echo t('contact'); ?></div>
                 <ul class="ft-contact-list">
                     <li class="ft-contact-item">
-                        <span class="ft-contact-label">Email</span>
+                        <span class="ft-contact-label"><?php echo t('email'); ?></span>
                         <a href="mailto:agrofanema@gmail.com" class="ft-contact-value">agrofanema@gmail.com</a>
                     </li>
                     <li class="ft-contact-item">
-                        <span class="ft-contact-label">Phone</span>
+                        <span class="ft-contact-label"><?php echo t('phone'); ?></span>
                         <a href="tel:+355693334644" class="ft-contact-value">+355 693334644</a>
                         <a href="tel:+355682071125" class="ft-contact-value">+355 682071125</a>
                     </li>
                     <li class="ft-contact-item">
-                        <span class="ft-contact-label">Office</span>
+                        <span class="ft-contact-label"><?php echo t('office'); ?></span>
                         <span class="ft-contact-value">Kozare, Kuçovë</span>
                     </li>
                 </ul>
@@ -421,7 +421,7 @@ a.ft-contact-value:hover { color: #FFFFFF; }
             <p class="ft-copy">© <?php echo date('Y'); ?> <span>AgroFanema</span>. <?php echo t('est'); ?> 1994. <?php echo t('all_rights_reserved'); ?></p>
 
             <div class="ft-legal">
-                <a href="terms-of-conditions.php" class="ft-legal-link">Terms of Conditions</a>
+                <a href="terms-of-conditions.php" class="ft-legal-link"><?php echo t('terms_conditions'); ?></a>
             </div>
 
             <div class="ft-socials">

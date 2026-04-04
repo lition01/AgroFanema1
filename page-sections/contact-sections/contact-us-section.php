@@ -52,6 +52,8 @@
 
     .ct-simple-scope h1 span {
       font-style: italic;
+      color: var(--accent);
+      text-shadow: 0 0 30px rgba(200, 168, 75, 0.2);
     }
 
     .ct-simple-scope .desc {
@@ -140,6 +142,7 @@
       flex-direction: column;
       justify-content: center;
       transition: height 0.5s var(--ease);
+      border-right: 4px solid var(--accent); /* Premium Gold Detail */
     }
 
     .ct-simple-scope .form-grid {
@@ -172,10 +175,12 @@
       transition: border-color 0.3s;
     }
 
-    .ct-simple-scope input:focus, 
-    .ct-simple-scope select:focus, 
+    .ct-simple-scope input:focus,
     .ct-simple-scope textarea:focus {
+      outline: none;
       border-color: var(--accent);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 4px rgba(200, 168, 75, 0.08);
     }
 
     .ct-simple-scope textarea {
@@ -184,28 +189,28 @@
     }
 
     .ct-simple-scope .submit-btn {
-      grid-column: span 2;
-      background: var(--primary);
-      color: #FFFFFF;
+      grid-column: 1 / -1;
+      background: var(--accent);
+      color: var(--primary);
       border: none;
-      padding: 18px 40px;
-      font-size: 0.75rem;
+      padding: 16px 32px;
+      font-size: 0.95rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
+      border-radius: 100px;
       cursor: pointer;
-      transition: all 0.4s var(--ease);
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin-top: 20px;
-      border-radius: 100px;
+      transition: all 0.4s var(--ease);
+      box-shadow: 0 10px 30px rgba(200, 168, 75, 0.25);
     }
 
     .ct-simple-scope .submit-btn:hover {
-      background: var(--accent);
-      box-shadow: 0 10px 25px rgba(200, 168, 75, 0.25);
+      background: var(--primary);
+      color: #FFFFFF;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(13, 33, 23, 0.3);
     }
 
     .ct-simple-scope .submit-btn.is-loading {
@@ -360,8 +365,8 @@
 
   <div class="inner">
     <header class="header ct-rv">
-      <h1 class="ct-rv-d1">Contact <span>Us</span></h1>
-      <p class="desc ct-rv-d2">Have a question or want to work with us? We'd love to hear from you.</p>
+      <h1 class="ct-rv-d1"><?php echo t('contact'); ?> <span><?php echo t('us'); ?></span></h1>
+      <p class="desc ct-rv-d2"><?php echo t('contact_desc'); ?></p>
     </header>
 
     <div class="grid ct-rv ct-rv-d2">
@@ -369,20 +374,20 @@
       <div class="info-panel">
         <ul class="info-list">
           <li class="info-item ct-rv ct-rv-d1">
-            <span class="label">Headquarters</span>
-            <div class="value">Kozare, Kuçovë</div>
-            <span class="sub-value">AgroFanema Center (Est. 1994)</span>
+            <span class="label"><?php echo t('headquarters'); ?></span>
+            <div class="value"><?php echo t('hq_address'); ?></div>
+            <span class="sub-value"><?php echo t('hq_sub'); ?></span>
           </li>
           <li class="info-item ct-rv ct-rv-d2">
-            <span class="label">Phone Support</span>
+            <span class="label"><?php echo t('phone_support'); ?></span>
             <a href="tel:+355693334644" class="value">+355 693334644</a>
             <a href="tel:+355682071125" class="value" style="display: block; margin-top: 4px;">+355 682071125</a>
-            <span class="sub-value">Mon – Fri, 9:00 – 18:00</span>
+            <span class="sub-value"><?php echo t('mon_fri'); ?>, 9:00 – 18:00</span>
           </li>
           <li class="info-item ct-rv ct-rv-d2" style="transition-delay: 0.3s">
-            <span class="label">Email Enquiries</span>
+            <span class="label"><?php echo t('email_enquiries'); ?></span>
             <a href="mailto:agrofanema@gmail.com" class="value">agrofanema@gmail.com</a>
-            <span class="sub-value">Average response: 4 hours</span>
+            <span class="sub-value"><?php echo t('avg_response'); ?></span>
           </li>
         </ul>
       </div>
@@ -392,27 +397,27 @@
         <form class="contact-form" id="simpleContactForm">
           <div class="form-grid">
             <div class="field">
-              <label class="label">First Name</label>
-              <input type="text" placeholder="First Name" required>
+              <label class="label"><?php echo t('first_name'); ?></label>
+              <input type="text" name="first_name" placeholder="<?php echo t('first_name'); ?>" required>
             </div>
             <div class="field">
-              <label class="label">Last Name</label>
-              <input type="text" placeholder="Last Name" required>
+              <label class="label"><?php echo t('last_name'); ?></label>
+              <input type="text" name="last_name" placeholder="<?php echo t('last_name'); ?>" required>
             </div>
             <div class="field">
-              <label class="label">Email Address</label>
-              <input type="email" placeholder="email@address.com" required>
+              <label class="label"><?php echo t('email_address'); ?></label>
+              <input type="email" name="email" placeholder="email@address.com" required>
             </div>
             <div class="field">
-              <label class="label">Phone Number</label>
-              <input type="tel" placeholder="+355 123 456 789" required>
+              <label class="label"><?php echo t('phone_number'); ?></label>
+              <input type="tel" name="phone" placeholder="+355 123 456 789" required>
             </div>
             <div class="field full">
-              <label class="label">How can we help?</label>
-              <textarea placeholder="Your Message" required></textarea>
+              <label class="label"><?php echo t('how_help'); ?></label>
+              <textarea name="message" placeholder="<?php echo t('your_message'); ?>" required></textarea>
             </div>
             <button type="submit" class="submit-btn">
-              Send Message
+              <?php echo t('send_message'); ?>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
           </div>
@@ -422,8 +427,8 @@
           <div class="success-icon">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <h3>Message Sent</h3>
-          <p>Thank you for reaching out.<br>A specialist will contact you shortly.</p>
+          <h3><?php echo t('message_sent'); ?></h3>
+          <p><?php echo t('thank_you_reach'); ?><br><?php echo t('specialist_contact'); ?></p>
         </div>
       </div>
     </div>
@@ -470,47 +475,36 @@
       
       // Add loading state
       btn.classList.add('is-loading');
-      btn.innerHTML = 'Sending <svg class="spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>';
+      btn.innerHTML = '<?php echo t('sending'); ?> <svg class="spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>';
       
-      // Simulate premium "processing" delay
-      setTimeout(() => {
-        // --- ADDED: Save message to localStorage for dashboard ---
-        try {
-          const firstName = form.querySelector('input[placeholder="First Name"]').value;
-          const lastName = form.querySelector('input[placeholder="Last Name"]').value;
-          const email = form.querySelector('input[placeholder="email@address.com"]').value;
-          const phone = form.querySelector('input[placeholder="+355 123 456 789"]').value;
-          const message = form.querySelector('textarea[placeholder="Your Message"]').value;
-          
-          const newMessage = {
-            id: 'msg_' + Date.now(),
-            name: `${firstName} ${lastName}`,
-            email: email,
-            phone: phone,
-            subject: 'Website Inquiry',
-            message: message,
-            date: new Date().toLocaleString(),
-            read: false
-          };
+      // --- Database Integration ---
+      const formData = new FormData(form);
 
-          const existingMessages = JSON.parse(localStorage.getItem('agro_messages_v2') || '[]');
-          existingMessages.unshift(newMessage);
-          localStorage.setItem('agro_messages_v2', JSON.stringify(existingMessages));
-        } catch (err) {
-          console.error('Error saving message:', err);
+      fetch('essentials/contact-api.php?action=submit', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(d => {
+        if (d.status === 'success') {
+           // Transition to success state
+           form.classList.add('fade-out');
+           setTimeout(() => {
+             form.style.display = 'none';
+             success.classList.add('active');
+           }, 500);
+        } else {
+           alert('Error: ' + (d.message || 'Submission failed'));
+           btn.classList.remove('is-loading');
+           btn.innerHTML = btnText;
         }
-        // ---------------------------------------------------------
-
-        // Premium transition sequence
-        form.classList.add('fade-out');
-        
-        setTimeout(() => {
-          form.style.display = 'none';
-          success.classList.add('active');
-          // Optional: adjust height to content if it changed significantly
-          // formBox.style.height = 'auto'; 
-        }, 500);
-      }, 1800); // 1.8s for premium feel
+      })
+      .catch(err => {
+        console.error('Submission error:', err);
+        alert('Server Connection Error');
+        btn.classList.remove('is-loading');
+        btn.innerHTML = btnText;
+      });
     });
   </script>
 </section>

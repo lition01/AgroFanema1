@@ -9,7 +9,7 @@ if (isset($_GET['logout'])) {
 
 // Simple configuration - you should change these!
 $ACCESS_KEY = "agro2026";
-$PASSWORD = "fanema123";
+$PASSWORD = "agro2026";
 
 $error = "";
 

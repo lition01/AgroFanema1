@@ -470,11 +470,11 @@
     <header class="st-header">
       <div class="st-eyebrow">
         <span class="st-eyebrow-line"></span>
-        <span class="st-eyebrow-text">Proven Results</span>
+        <span class="st-eyebrow-text"><?php echo t('proven_results'); ?></span>
         <span class="st-eyebrow-line"></span>
       </div>
-      <h2 class="st-headline">Cultivating <em>Excellence</em></h2>
-      <p class="st-subline">Decades of research and field testing to ensure every formulation delivers maximum biological potential for sustainable growth.</p>
+      <h2 class="st-headline"><?php echo t('cultivating_excellence'); ?></h2>
+      <p class="st-subline"><?php echo t('stats_subline'); ?></p>
     </header>
 
     <div class="st-stats-container">
@@ -494,7 +494,7 @@
             <span class="st-number" data-target="40">0</span>
             <span class="st-suffix">%</span>
           </div>
-          <span class="st-label">Avg. Yield Increase</span>
+          <span class="st-label"><?php echo t('yield_increase'); ?></span>
         </article>
 
         <div class="st-divider"></div>
@@ -510,7 +510,7 @@
             <span class="st-number" data-target="120">0</span>
             <span class="st-suffix">+</span>
           </div>
-          <span class="st-label">Crop Varieties Tested</span>
+          <span class="st-label"><?php echo t('varieties_tested'); ?></span>
         </article>
 
         <div class="st-divider"></div>
@@ -527,7 +527,7 @@
             <span class="st-number" data-target="58">0</span>
             <span class="st-suffix">K</span>
           </div>
-          <span class="st-label">Hectares Improved</span>
+          <span class="st-label"><?php echo t('hectares_improved'); ?></span>
         </article>
 
         <div class="st-divider"></div>
@@ -544,7 +544,7 @@
             <span class="st-number" data-target="99">0</span>
             <span class="st-suffix">%</span>
           </div>
-          <span class="st-label">Soil Safety Rating</span>
+          <span class="st-label"><?php echo t('safety_rating'); ?></span>
         </article>
       </div>
 

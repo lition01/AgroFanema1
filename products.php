@@ -1,10 +1,11 @@
+<?php require_once 'essentials/translations.php'; ?>
 <!DOCTYPE html>
-<html lang="sq">
+<html lang="<?php echo $lang; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katalogu i Produkteve | AgroFanema - Plehra Organike</title>
-    <meta name="description" content="Eksploroni koleksionin tonë të plehrave organike premium. AgroFanema ofron zgjidhje të avancuara për çdo lloj kulture bujqësore.">
+    <title><?php echo t('products_meta_title'); ?></title>
+    <meta name="description" content="<?php echo t('products_meta_desc'); ?>">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">

@@ -676,69 +676,64 @@
       </div>
 
       <!-- Floating years badge -->
-      <div class="ab-badge" aria-label="20 years of excellence">
-        <div class="ab-badge-num">20<span>+</span></div>
-        <div class="ab-badge-label">Years of<br>Excellence</div>
+      <div class="ab-badge" aria-label="<?php echo t('years_excellence'); ?>">
+        <div class="ab-badge-num">32<span>+</span></div>
+        <div class="ab-badge-label"><?php echo t('years_excellence'); ?></div>
       </div>
     </div>
 
     <!-- ══ RIGHT: Text column ══════════════════════════════ -->
     <div class="ab-text-col">
 
-      <div class="ab-eyebrow" aria-label="Section label">
+      <div class="ab-eyebrow" aria-label="<?php echo t('who_we_are'); ?>">
         <span class="ab-eyebrow-line"></span>
-        <span class="ab-eyebrow-text">Who We Are</span>
+        <span class="ab-eyebrow-text"><?php echo t('who_we_are'); ?></span>
       </div>
 
       <h2 class="ab-headline">
-        Science-Backed Solutions<br>for <em>Thriving</em> Harvests
+        <?php echo t('science_backed'); ?><br><?php echo t('for'); ?> <em><?php echo t('thriving'); ?></em> <?php echo t('harvests'); ?>
       </h2>
 
       <div class="ab-rule" aria-hidden="true"></div>
 
       <p class="ab-body">
-        <?php echo t('founded'); ?> 1994, <strong>AgroFanema</strong> has spent decades at the
-        forefront of agricultural innovation. We specialize in developing nutrient-rich
-        organic fertilizers that empower farmers to grow healthier crops while preserving
-        the planet's most vital resource: the soil.
+        <?php echo t('founded'); ?> 1994, <strong>AgroFanema</strong> <?php echo t('about_summary_1'); ?>
       </p>
 
       <p class="ab-body">
-        From large-scale commercial farms to smallholder cooperatives across 40+ countries,
-        our products have transformed over <strong>58,000 hectares</strong> of farmland, proving
-        that productivity and environmental responsibility are not opposing goals.
+        <?php echo t('about_summary_2'); ?>
       </p>
 
       <!-- 2×2 pill grid -->
-      <div class="ab-pills" role="list" aria-label="Key competencies">
+      <div class="ab-pills" role="list">
         <div class="ab-pill" role="listitem">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          Soil-Safe Formulas
+          <?php echo t('soil_safe'); ?>
         </div>
         <div class="ab-pill" role="listitem">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          ISO 9001 Certified
+          <?php echo t('iso_certified'); ?>
         </div>
         <div class="ab-pill" role="listitem">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          R&amp;D Driven
+          <?php echo t('rd_driven'); ?>
         </div>
         <div class="ab-pill" role="listitem">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          40+ Countries
+          <?php echo t('countries_count'); ?>
         </div>
       </div>
 
       <div class="ab-cta-wrap">
         <a href="about.php" class="ab-btn">
-          <span>Read More</span>
+          <span><?php echo t('learn_more'); ?></span>
           <svg viewBox="0 0 24 24">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="12 5 19 12 12 19"/>
           </svg>
         </a>
         <a href="contact.php" class="ab-link">
-          Talk to an Expert
+          <?php echo t('talk_expert'); ?>
           <svg viewBox="0 0 24 24">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="12 5 19 12 12 19"/>
@@ -758,7 +753,7 @@
     <div class="ab-lb-backdrop" id="ab-lb-backdrop"></div>
 
     <div class="ab-lb-panel">
-      <span class="ab-lb-esc-hint">Press ESC to close</span>
+      <span class="ab-lb-esc-hint"><?php echo t('esc_to_close'); ?></span>
 
       <div class="ab-lb-img-wrap">
         <img
@@ -772,12 +767,12 @@
           <div class="ab-lb-title">GreenGrow NPK Premium Granule Series</div>
           <div class="ab-lb-sub">Precision-formulated mineral fertilizer · Macro photography</div>
         </div>
-        <button class="ab-lb-close" id="ab-lb-close-btn" aria-label="Close image viewer">
+        <button class="ab-lb-close" id="ab-lb-close-btn" aria-label="<?php echo t('close'); ?>">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
-          Close
+          <?php echo t('close'); ?>
         </button>
       </div>
     </div>

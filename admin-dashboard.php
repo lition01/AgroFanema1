@@ -437,6 +437,139 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             color: var(--text-secondary);
         }
 
+        /* ── Dropdown Components ── */
+        .dropdown-wrapper {
+            position: relative;
+        }
+
+        .dropdown-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            z-index: 10;
+        }
+
+        .dropdown-btn:hover {
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dropdown-panel {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 220px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-wrapper.active .dropdown-panel {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown-option {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .dropdown-option:hover {
+            background: rgba(200, 168, 75, 0.05);
+            color: var(--accent-gold);
+        }
+
+        .dropdown-option.active {
+            background: var(--accent-gold);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .controls-bar {
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 16px !important;
+            }
+
+            .search-pill-wrapper {
+                order: -1 !important;
+                width: 100% !important;
+                max-width: none !important;
+            }
+
+            .controls-group-left {
+                order: 1 !important;
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px !important;
+                flex: 1 !important;
+            }
+
+            .status-badge-wrapper {
+                order: 2 !important;
+                flex: 1 !important;
+            }
+
+            .dropdown-panel {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                top: auto;
+                width: 100%;
+                border-radius: 20px 20px 0 0;
+                transform: translateY(100%);
+            }
+
+            .dropdown-wrapper.active .dropdown-panel {
+                transform: translateY(0);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .controls-bar {
+                justify-content: flex-start !important;
+                gap: 16px !important;
+            }
+            .search-pill-wrapper {
+                margin-left: 0 !important;
+                flex: none !important;
+                width: 350px !important;
+            }
+            .status-badge-wrapper {
+                margin-left: auto !important;
+            }
+        }
+
         /* ── Buttons ── */
         .btn {
             padding: 10px 20px;
@@ -2047,6 +2180,107 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             justify-content: center;
         }
 
+        /* ── Collaborator Specific Premium Styles ── */
+        .collab-modal {
+            max-width: 550px !important;
+            padding: 0 !important;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .collab-modal-header {
+            padding: 24px 32px;
+            background: linear-gradient(135deg, #0f2d1f 0%, #1a3a2a 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        html[data-theme="light"] .collab-modal-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .collab-modal-title h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        html[data-theme="light"] .collab-modal-title h2 {
+            color: var(--text-primary);
+        }
+
+        .collab-modal-body {
+            padding: 32px;
+            background: var(--bg-secondary);
+        }
+
+        .collab-form-group {
+            margin-bottom: 24px;
+        }
+
+        .collab-form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .collab-input-preview {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .collab-logo-preview {
+            width: 64px;
+            height: 64px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: #fff;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .collab-modal-footer {
+            padding: 20px 32px;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .collab-modal-body {
+                padding: 20px;
+            }
+
+            .collab-modal-header {
+                padding: 16px 20px;
+            }
+
+            .collab-modal-footer {
+                padding: 16px 20px;
+            }
+
+            .collab-modal-title h2 {
+                font-size: 1.4rem;
+            }
+        }
+
         .toast {
             position: fixed;
             bottom: 24px;
@@ -2253,7 +2487,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                     <polyline points="22,6 12,13 2,6" />
                 </svg>
-                <span>Messages</span>
+                <span style="display:flex; align-items:center; gap:8px;">
+                    Messages <span class="badge" id="sidebarMsgBadge" style="display:none; background:var(--accent-gold); color:var(--primary-dark); font-size:10px; font-weight:800; padding:2px 6px; border-radius:100px;">0</span>
+                </span>
             </div>
             <div class="nav-item" data-section="collaborators">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2358,6 +2594,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                         </svg>
                         Refresh
                     </button>
+                    <script>
+                        async function refreshOverview() {
+                            await updateAllMetrics();
+                            await updateOverviewMetrics();
+                            await fetchMessages();
+                            showToast('Overview refreshed');
+                        }
+                    </script>
                 </div>
                 <div class="metrics-grid">
                     <div class="metric-card" onclick="switchSection('view-sales')">
@@ -2481,13 +2725,91 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     </div>
                 </div>
 
-                <div class="filter-container" id="categoryFilters"
-                    style="display:flex;gap:12px;margin-bottom:32px;overflow-x:auto;padding-bottom:8px;">
-                    <div class="filter-pill active" data-category="all">All Categories</div>
-                    <div class="filter-pill" data-category="biostimulants">Biostimulants</div>
-                    <div class="filter-pill" data-category="crystalline">Crystalline Fertilizers</div>
-                    <div class="filter-pill" data-category="granular">Granular Fertilizers</div>
-                    <div class="filter-pill" data-category="soil_improvers">Soil Improvers</div>
+
+
+                <!-- Premium Controls Bar -->
+                <div class="controls-bar"
+                    style="display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border-color); flex-wrap:wrap;">
+
+                    <!-- Left: Dropdowns -->
+                    <div class="controls-group-left" style="display:flex; align-items:center; gap:12px; order:1;">
+                        <!-- Category Filter Dropdown -->
+                        <div class="dropdown-wrapper" id="filterDropdownWrapper">
+                            <button class="dropdown-btn" id="filterDropdownBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" style="opacity:0.6;">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                                </svg>
+                                <span class="dropdown-label"
+                                    style="opacity:0.6; font-weight:400; font-size:13px;">Filter:</span>
+                                <span class="dropdown-current" id="currentFilterLabel"
+                                    style="font-weight:600; font-size:13px;">All Products</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" style="opacity:0.4;">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="dropdown-panel" id="filterDropdownPanel">
+                                <button class="dropdown-option active" data-category="all">All Products</button>
+                                <div style="height:1px; background:var(--border-color); margin:5px 8px;"></div>
+                                <button class="dropdown-option" data-category="biostimulants">Biostimulants</button>
+                                <button class="dropdown-option" data-category="crystalline">Crystalline
+                                    Fertilizers</button>
+                                <button class="dropdown-option" data-category="granular">Granular Fertilizers</button>
+                                <button class="dropdown-option" data-category="soil_improvers">Soil Improvers</button>
+                            </div>
+                        </div>
+
+                        <!-- Sort Dropdown -->
+                        <div class="dropdown-wrapper" id="sortDropdownWrapper">
+                            <button class="dropdown-btn" id="sortDropdownBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" style="opacity:0.6;">
+                                    <path d="M11 5L6 9l5 4M13 19l5-4-5-4" />
+                                    <path d="M6 9h12M18 15H6" />
+                                </svg>
+                                <span class="dropdown-label"
+                                    style="opacity:0.6; font-weight:400; font-size:13px;">Sort:</span>
+                                <span class="dropdown-current" id="currentSortLabel"
+                                    style="font-weight:600; font-size:13px;">Newest First</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" style="opacity:0.4;">
+                                    <polyline points="6 9 12 15 18 9" />
+                                </svg>
+                            </button>
+                            <div class="dropdown-panel" id="sortDropdownPanel">
+                                <button class="dropdown-option active" data-sort="newest">Newest First</button>
+                                <button class="dropdown-option" data-sort="oldest">Oldest First</button>
+                                <div style="height:1px; background:var(--border-color); margin:5px 8px;"></div>
+                                <button class="dropdown-option" data-sort="az">Name A-Z</button>
+                                <button class="dropdown-option" data-sort="za">Name Z-A</button>
+                                <div style="height:1px; background:var(--border-color); margin:5px 8px;"></div>
+                                <button class="dropdown-option" data-sort="stock-low">Low Stock First</button>
+                                <button class="dropdown-option" data-sort="stock-high">High Stock First</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center: Search -->
+                    <div class="search-pill-wrapper" style="position:relative; width:400px; order:2;">
+                        <input type="text" id="productSearchInput" class="form-input"
+                            placeholder="Search by name, description..."
+                            style="width:100%; padding-left:38px; height:45px; border-radius:100px; background:var(--bg-surface); border:1px solid var(--border-color); font-size:13px; box-shadow:var(--shadow-sm);">
+                        <div
+                            style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted); pointer-events:none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Right: Count -->
+                    <div class="status-badge-wrapper"
+                        style="background:rgba(200,168,75,0.1); color:var(--accent-gold); padding:9px 18px; border-radius:100px; font-size:12px; font-weight:600; border:1px solid rgba(200,168,75,0.2); white-space:nowrap; order:3; min-width:120px; text-align:center;">
+                        <span id="filteredCount" style="font-weight:800;">0</span> Products Available
+                    </div>
                 </div>
 
                 <div class="product-cards-grid" id="productsGrid"></div>
@@ -2815,13 +3137,13 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 </div>
                 <!-- Filters -->
                 <div class="view-sales-filters">
-                    <div class="filter-chip active" data-vsfilter="all">All</div>
+                    <div class="filter-chip active" data-vsfilter="all">All Categories</div>
+                    <div class="filter-chip" data-vsfilter="biostimulants">🧬 Biostimulants</div>
+                    <div class="filter-chip" data-vsfilter="crystalline">💎 Crystalline</div>
                     <div class="filter-chip" data-vsfilter="granular">🌾 Granular</div>
-                    <div class="filter-chip" data-vsfilter="liquid">💧 Liquid</div>
-                    <div class="filter-chip" data-vsfilter="organic">🌿 Organic</div>
-                    <div class="filter-chip" data-vsfilter="specialty">⭐ Specialty</div>
+                    <div class="filter-chip" data-vsfilter="soil_improvers">🪴 Soil Improvers</div>
                     <input type="text" id="salesSearch" class="form-input search-inline"
-                        placeholder="🔍 Search sales..." oninput="renderSalesTable()">
+                        placeholder="🔍 Search sales history..." oninput="renderSalesTable()">
                 </div>
                 <div class="sales-table-card">
                     <div class="sales-table-header">
@@ -2957,9 +3279,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
-                                <path
-                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                    </polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
                             </svg>
                             Clear All
                         </button>
@@ -3068,6 +3390,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 <form id="editProductForm">
                     <input type="hidden" name="action" value="edit">
                     <input type="hidden" name="id" id="editProductId">
+                    <input type="hidden" name="image" id="editProductImageHidden">
                     <div class="add-product-layout" style="padding:30px; gap:30px; grid-template-columns: 1.5fr 1fr;">
                         <div class="form-panel" style="background:none; border:none; padding:0; box-shadow:none;">
                             <div class="form-panel-body" style="padding:0;">
@@ -3235,21 +3558,23 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         }
 
         /* ═══════════════════════════════════════════════════
-           STATE — start completely empty (no demo data)
+           STATE — Managed via Database API
         ═══════════════════════════════════════════════════ */
-        let products = loadFromStorage(STORAGE_KEYS.products);
-        let salesHistory = loadFromStorage(STORAGE_KEYS.sales);
+        let products = [];
+        let salesHistory = [];
+        let dashboardStats = {
+            revenue: 0,
+            units: 0,
+            sale_count: 0,
+            total_stock: 0,
+            low_stock_count: 0,
+            total_items: 0,
+            recent_sales: []
+        };
         let selectedSaleProductId = null;
-        let nextProductId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
         let vsFilter = 'all';
 
-        function saveProducts() {
-            saveToStorage(STORAGE_KEYS.products, products);
-        }
-
-        function saveSales() {
-            saveToStorage(STORAGE_KEYS.sales, salesHistory);
-        }
+        // Removed local storage save functions
 
         /* ═══════════════════════════════════════════════════
            TOAST
@@ -3463,10 +3788,39 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         /* ═══════════════════════════════════════════════════
            MESSAGES (CONTACT FORM)
         ═══════════════════════════════════════════════════ */
-        let messages = loadFromStorage('agro_messages_v2');
+        let messages = [];
 
-        function saveMessages() {
-            saveToStorage('agro_messages_v2', messages);
+        async function fetchMessages() {
+            try {
+                const r = await fetch('essentials/contact-api.php?action=list');
+                const d = await r.json();
+                if (d.status === 'success') {
+                    messages = d.messages;
+                    renderMessagesTable();
+                }
+            } catch { }
+        }
+
+        async function deleteMessage(id) {
+            if (!confirm('Delete this message?')) return;
+            try {
+                const r = await fetch(`essentials/contact-api.php?action=delete&id=${id}`);
+                const d = await r.json();
+                if (d.status === 'success') {
+                    showToast('Message deleted', 'error');
+                    await fetchMessages();
+                }
+            } catch (err) { console.error('Delete message error:', err); }
+        }
+
+        async function markMessageRead(id) {
+            try {
+                const r = await fetch(`essentials/contact-api.php?action=update_status&id=${id}&status=read`);
+                const d = await r.json();
+                if (d.status === 'success') {
+                    await fetchMessages();
+                }
+            } catch (err) { console.error('Update message error:', err); }
         }
 
         function renderMessagesTable() {
@@ -3475,6 +3829,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             if (!container) return;
 
             if (badge) badge.textContent = messages.length;
+
+            // Updated sidebar badge
+            const sideBadge = document.getElementById('sidebarMsgBadge');
+            if (sideBadge) {
+                const newCount = messages.filter(m => m.status === 'new').length;
+                sideBadge.textContent = newCount;
+                sideBadge.style.display = newCount > 0 ? 'inline-block' : 'none';
+            }
 
             if (messages.length === 0) {
                 container.innerHTML = `
@@ -3494,7 +3856,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
-                            <th>Subject</th>
                             <th>Message</th>
                             <th>Date</th>
                             <th>Actions</th>
@@ -3502,23 +3863,23 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     </thead>
                     <tbody>
                         ${messages.map(m => `
-                            <tr style="${m.read ? 'opacity:0.7;' : 'font-weight:600; background:rgba(200,168,75,0.03);'}">
+                            <tr style="${m.status === 'read' ? 'opacity:0.7;' : 'font-weight:600; background:rgba(200,168,75,0.03);'}">
                                 <td>
-                                    <span class="status-pill ${m.read ? 'inactive' : 'active'}" style="font-size:10px; padding:2px 8px;">
-                                        <span class="status-dot"></span>${m.read ? 'Read' : 'New'}
+                                    <span class="status-pill ${m.status === 'new' ? 'active' : 'inactive'}" style="font-size:10px; padding:2px 8px;">
+                                        <span class="status-dot"></span>${m.status === 'new' ? 'New' : 'Read'}
                                     </span>
                                 </td>
-                                <td>${m.name}</td>
+                                <td>${m.first_name || ''} ${m.last_name || ''}</td>
                                 <td><a href="mailto:${m.email}" style="color:var(--accent-gold); text-decoration:none;">${m.email}</a></td>
                                 <td><a href="tel:${m.phone}" style="color:var(--accent-gold); text-decoration:none;">${m.phone || '—'}</a></td>
-                                <td>${m.subject || '—'}</td>
                                 <td style="max-width:300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text-muted); font-size:13px;" title="${m.message}">
                                     ${m.message}
                                 </td>
-                                <td style="font-size:12px; color:var(--text-muted); white-space:nowrap;">${m.date}</td>
+                                <td style="font-size:12px; color:var(--text-muted); white-space:nowrap;">${new Date(m.created_at).toLocaleString()}</td>
                                 <td>
                                     <div style="display:flex; gap:8px;">
-                                        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMessage('${m.id}')" title="Delete Message">
+                                        ${m.status === 'new' ? `<button class="btn btn-secondary btn-sm" onclick="markMessageRead(${m.id})">Read</button>` : ''}
+                                        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMessage(${m.id})" title="Delete Message">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
                                         </button>
                                     </div>
@@ -3529,29 +3890,16 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 </table>`;
         }
 
-        function toggleMessageRead(id) {
-            const msg = messages.find(m => m.id === id);
-            if (msg) {
-                msg.read = !msg.read;
-                saveMessages();
-                renderMessagesTable();
-            }
-        }
-
-        function deleteMessage(id) {
-            if (!confirm('Delete this message?')) return;
-            messages = messages.filter(m => m.id !== id);
-            saveMessages();
-            renderMessagesTable();
-            showToast('Message deleted', 'error');
-        }
-
-        function clearAllMessages() {
+        async function clearAllMessages() {
             if (!confirm('Delete ALL messages? This cannot be undone.')) return;
-            messages = [];
-            saveMessages();
-            renderMessagesTable();
-            showToast('All messages deleted', 'error');
+            try {
+                const r = await fetch('essentials/contact-api.php?action=delete_all');
+                const d = await r.json();
+                if (d.status === 'success') {
+                    showToast('All messages cleared', 'error');
+                    await fetchMessages();
+                }
+            } catch (err) { console.error('Clear messages error:', err); }
         }
 
         /* ═══════════════════════════════════════════════════
@@ -3598,7 +3946,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                         <tr>
                             <th>Logo</th>
                             <th>Company Name</th>
-                            <th>Description</th>
                             <th>Website</th>
                             <th>Actions</th>
                         </tr>
@@ -3608,7 +3955,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <tr>
                                 <td><img src="${c.logo}" alt="${c.name}" style="width:40px; height:40px; object-fit:contain; border-radius:4px;"></td>
                                 <td>${c.name}</td>
-                                <td style="max-width:300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text-muted); font-size:13px;" title="${c.description || ''}">${c.description || '—'}</td>
                                 <td><a href="${c.website}" target="_blank" style="color:var(--accent-gold); text-decoration:none;">${c.website}</a></td>
                                 <td>
                                     <div style="display:flex; gap:8px;">
@@ -3629,39 +3975,51 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         function showAddCollaboratorModal() {
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
+            modal.id = 'active-collab-modal';
             modal.innerHTML = `
-                <div class="modal" style="max-width:500px;">
-                    <div class="modal-header" style="padding:20px 30px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--text-primary);">Add Collaborator</h2>
-                            <p style="font-size:13px; color:var(--text-muted);">Add a new collaborator company</p>
+                <div class="modal collab-modal">
+                    <div class="collab-modal-header">
+                        <div class="collab-modal-title">
+                            <h2>New Partner</h2>
+                            <p style="font-size:12px; opacity:0.7; color:${dark ? '#fff' : 'var(--text-muted)'}; margin-top:4px;">Add a company to the partners carousel</p>
                         </div>
-                        <button class="btn-close" onclick="this.closest('.modal-overlay').remove()" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+                        <button class="btn-close" onclick="closeActiveCollabModal()" style="background:none; border:none; color:${dark ? '#fff' : 'var(--text-muted)'}; cursor:pointer; opacity:0.6; transition:0.2s;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
                     </div>
-                    <div class="modal-body" style="padding:30px;">
+                    <div class="collab-modal-body">
                         <form id="collaboratorForm">
                             <input type="hidden" name="action" value="add">
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Company Name *</label>
-                                <input type="text" name="name" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            <div class="form-row">
+                                <div class="collab-form-group">
+                                    <label class="collab-form-label">Company Name</label>
+                                    <input type="text" name="name" class="form-input" placeholder="e.g. AgroCorp Ltd" required>
+                                </div>
                             </div>
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Description</label>
-                                <textarea name="description" rows="3" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary); resize:vertical;"></textarea>
+                            <div class="collab-form-group">
+                                <label class="collab-form-label">Website URL</label>
+                                <div class="search-input-wrap">
+                                    <input type="url" name="website" class="form-input" placeholder="https://example.com" required style="padding-left:44px;">
+                                    <svg class="search-icon" style="left:16px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                                </div>
                             </div>
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Website URL *</label>
-                                <input type="url" name="website" required placeholder="https://example.com" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
-                            </div>
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Logo Image *</label>
-                                <input type="file" name="logo" accept="image/*" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            <div class="collab-form-group" style="margin-bottom:0;">
+                                <label class="collab-form-label">Company Logo</label>
+                                <div class="image-upload-zone" style="padding:20px; border-style:dashed;">
+                                    <input type="file" name="logo" accept="image/*" required onchange="handleCollabLogoPreview(this)">
+                                    <div id="collab-upload-placeholder">
+                                        <div class="upload-icon" style="width:40px; height:40px; margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg></div>
+                                        <div style="font-size:13px; font-weight:600;">Choose Company Logo</div>
+                                        <div style="font-size:11px; color:var(--text-muted);">Recommended: transparent PNG, min 200px</div>
+                                    </div>
+                                    <div class="collab-input-preview" id="collab-logo-preview-wrap" style="display:none; border:none; background:none; margin:0; padding:0; justify-content:center;">
+                                        <img src="" id="collab-logo-img" class="collab-logo-preview" style="width:80px; height:80px;">
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer" style="padding:20px 30px; background:var(--bg-secondary); border-top:1px solid var(--border-color); display:flex; justify-content:flex-end; gap:12px;">
-                        <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
-                        <button class="btn btn-primary" onclick="saveCollaborator()">Add Collaborator</button>
+                    <div class="collab-modal-footer">
+                        <button class="btn btn-secondary" onclick="closeActiveCollabModal()">Dismiss</button>
+                        <button class="btn btn-primary" onclick="saveCollaborator()" style="padding:10px 28px;">Add Partner</button>
                     </div>
                 </div>
             `;
@@ -3669,47 +4027,82 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             setTimeout(() => modal.classList.add('active'), 10);
         }
 
+        function closeActiveCollabModal() {
+            const m = document.getElementById('active-collab-modal');
+            if (m) {
+                m.classList.remove('active');
+                setTimeout(() => m.remove(), 400);
+            }
+        }
+
+        function handleCollabLogoPreview(input) {
+            const wrap = document.getElementById('collab-logo-preview-wrap');
+            const placeholder = document.getElementById('collab-upload-placeholder');
+            const img = document.getElementById('collab-logo-img');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    img.src = e.target.result;
+                    wrap.style.display = 'flex';
+                    placeholder.style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function editCollaborator(id) {
-            const collab = collaborators.find(c => c.id === id);
+            const collab = collaborators.find(c => Number(c.id) === Number(id));
             if (!collab) return;
 
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
+            modal.id = 'active-collab-modal';
             modal.innerHTML = `
-                <div class="modal" style="max-width:500px;">
-                    <div class="modal-header" style="padding:20px 30px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--text-primary);">Edit Collaborator</h2>
-                            <p style="font-size:13px; color:var(--text-muted);">Update collaborator information</p>
+                <div class="modal collab-modal">
+                    <div class="collab-modal-header">
+                        <div class="collab-modal-title">
+                            <h2>Edit Partner</h2>
+                            <p style="font-size:12px; opacity:0.7; color:${dark ? '#fff' : 'var(--text-muted)'}; margin-top:4px;">Update details for ${collab.name}</p>
                         </div>
-                        <button class="btn-close" onclick="this.closest('.modal-overlay').remove()" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+                        <button class="btn-close" onclick="closeActiveCollabModal()" style="background:none; border:none; color:${dark ? '#fff' : 'var(--text-muted)'}; cursor:pointer; opacity:0.6;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
                     </div>
-                    <div class="modal-body" style="padding:30px;">
+                    <div class="collab-modal-body">
                         <form id="collaboratorForm">
                             <input type="hidden" name="action" value="edit">
                             <input type="hidden" name="id" value="${id}">
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Company Name *</label>
-                                <input type="text" name="name" value="${collab.name}" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
+                            <div class="form-row">
+                                <div class="collab-form-group">
+                                    <label class="collab-form-label">Company Name</label>
+                                    <input type="text" name="name" value="${collab.name}" class="form-input" required>
+                                </div>
                             </div>
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Description</label>
-                                <textarea name="description" rows="3" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary); resize:vertical;">${collab.description || ''}</textarea>
+                            <div class="collab-form-group">
+                                <label class="collab-form-label">Website URL</label>
+                                <div class="search-input-wrap">
+                                    <input type="url" name="website" value="${collab.website}" class="form-input" required style="padding-left:44px;">
+                                    <svg class="search-icon" style="left:16px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                                </div>
                             </div>
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Website URL *</label>
-                                <input type="url" name="website" value="${collab.website}" required style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
-                            </div>
-                            <div class="form-group" style="margin-bottom:20px;">
-                                <label style="display:block; font-weight:500; margin-bottom:8px; color:var(--text-primary);">Logo Image (leave empty to keep current)</label>
-                                <input type="file" name="logo" accept="image/*" style="width:100%; padding:12px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-elevated); color:var(--text-primary);">
-                                <div style="margin-top:8px;"><img src="${collab.logo}" alt="Current Logo" style="height:30px; object-fit:contain; border-radius:4px; opacity:0.6;"></div>
+                            <div class="collab-form-group" style="margin-bottom:0;">
+                                <label class="collab-form-label">Logo Image</label>
+                                <div class="image-upload-zone" style="padding:20px; border-style:dashed;">
+                                    <input type="file" name="logo" accept="image/*" onchange="handleCollabLogoPreview(this)">
+                                    <div id="collab-upload-placeholder" style="display:none;">
+                                        <div class="upload-icon" style="width:40px; height:40px; margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg></div>
+                                        <div style="font-size:13px; font-weight:600;">Update Company Logo</div>
+                                    </div>
+                                    <div class="collab-input-preview" id="collab-logo-preview-wrap" style="display:flex; border:none; background:none; margin:0; padding:0; justify-content:center; flex-direction:column; align-items:center; gap:8px;">
+                                        <img src="${collab.logo}" id="collab-logo-img" class="collab-logo-preview" style="width:80px; height:80px;">
+                                        <span style="font-size:11px; color:var(--text-muted);">Current Logo</span>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer" style="padding:20px 30px; background:var(--bg-secondary); border-top:1px solid var(--border-color); display:flex; justify-content:flex-end; gap:12px;">
-                        <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
-                        <button class="btn btn-primary" onclick="updateCollaborator()">Update Collaborator</button>
+                    <div class="collab-modal-footer">
+                        <button class="btn btn-secondary" onclick="closeActiveCollabModal()">Cancel</button>
+                        <button class="btn btn-primary" onclick="updateCollaborator()" style="padding:10px 28px;">Save Changes</button>
                     </div>
                 </div>
             `;
@@ -3733,7 +4126,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 const d = await res.json();
                 if (d.success) {
                     await fetchCollaborators();
-                    document.querySelector('.modal-overlay').remove();
+                    closeActiveCollabModal();
                     showToast('Collaborator added successfully', 'success');
                 } else {
                     showToast(d.error || 'Error adding collaborator', 'error');
@@ -3760,7 +4153,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 const d = await res.json();
                 if (d.success) {
                     await fetchCollaborators();
-                    document.querySelector('.modal-overlay').remove();
+                    closeActiveCollabModal();
                     showToast('Collaborator updated successfully', 'success');
                 } else {
                     showToast(d.error || 'Error updating collaborator', 'error');
@@ -3811,11 +4204,51 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             if (!grid) return;
             grid.innerHTML = '';
             updateInventoryMetrics();
+
             if (products.length === 0) {
                 grid.innerHTML = `<div style="grid-column:1/-1;"><div class="empty-state"><div class="empty-state-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div><h3>No products yet</h3><p>Start by adding your first product to the catalogue.</p><button class="btn btn-primary" onclick="switchSection('add-product')">Add First Product</button></div></div>`;
                 return;
             }
-            products.forEach((product, index) => {
+
+            // FILTERING & SORTING LOGIC
+            const searchQuery = document.getElementById('productSearchInput')?.value.toLowerCase() || '';
+            const activeFilterOption = document.querySelector('#filterDropdownPanel .dropdown-option.active');
+            const categoryFilter = activeFilterOption ? activeFilterOption.dataset.category : 'all';
+            const activeSortOption = document.querySelector('#sortDropdownPanel .dropdown-option.active');
+            const sortMethod = activeSortOption ? activeSortOption.dataset.sort : 'newest';
+
+            let filteredProducts = products.filter(p => {
+                const matchesSearch = !searchQuery ||
+                    (p.name_en || '').toLowerCase().includes(searchQuery) ||
+                    (p.name_sq || '').toLowerCase().includes(searchQuery) ||
+                    (p.desc_en || '').toLowerCase().includes(searchQuery) ||
+                    (p.desc_sq || '').toLowerCase().includes(searchQuery) ||
+                    (p.category || '').toLowerCase().includes(searchQuery);
+
+                const matchesCategory = categoryFilter === 'all' || p.category === categoryFilter;
+
+                return matchesSearch && matchesCategory;
+            });
+
+            // Sorting
+            filteredProducts.sort((a, b) => {
+                if (sortMethod === 'az') return (a.name_en || a.name_sq).localeCompare(b.name_en || b.name_sq);
+                if (sortMethod === 'za') return (b.name_en || b.name_sq).localeCompare(a.name_en || a.name_sq);
+                if (sortMethod === 'stock-low') return a.quantity - b.quantity;
+                if (sortMethod === 'stock-high') return b.quantity - a.quantity;
+                if (sortMethod === 'oldest') return a.id - b.id;
+                return b.id - a.id; // newest (default)
+            });
+
+            const countEl = document.getElementById('filteredCount');
+            if (countEl) countEl.textContent = filteredProducts.length;
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">No products found matching your search.</div>`;
+                return;
+            }
+
+            filteredProducts.forEach((product, index) => {
                 const stockStatus = product.quantity > 10 ? 'active' : (product.quantity > 0 ? 'pending' : 'inactive');
                 const stockLabel = product.quantity > 10 ? 'In Stock' : (product.quantity > 0 ? 'Low Stock' : 'Out of Stock');
                 const card = document.createElement('div');
@@ -3835,7 +4268,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         </div>
         <div class="product-card-actions">
           <button class="btn btn-secondary btn-sm edit-product" data-index="${index}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</button>
-          <button class="btn btn-danger btn-sm delete-product" data-id="${product.id}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>Delete</button>
+          <button class="btn btn-danger btn-sm delete-product" data-id="${product.id}">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>Delete
+          </button>
         </div>
       </div>`;
                 grid.appendChild(card);
@@ -3846,16 +4281,26 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     openModalForEdit(products[+this.dataset.index]);
                 });
             });
+
             document.querySelectorAll('.delete-product').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    if (!confirm('Delete this product?')) return;
-                    const id = +this.dataset.id;
-                    products = products.filter(p => p.id !== id);
-                    saveProducts();
-                    renderProducts();
-                    renderSalesProductSelector();
-                    updateAllMetrics();
-                    showToast('Product deleted', 'error');
+                btn.addEventListener('click', async function () {
+                    const id = this.dataset.id;
+                    if (!confirm('Are you sure you want to PERMANENTLY delete this product? This cannot be undone.')) return;
+
+                    try {
+                        const res = await fetch(`essentials/product-api.php?action=delete_permanent&id=${id}`);
+                        const d = await res.json();
+
+                        if (d.status === 'success') {
+                            await fetchProducts(); // Refresh list
+                            showToast('Product deleted successfully', 'success');
+                        } else {
+                            showToast(d.message || 'Error deleting product', 'error');
+                        }
+                    } catch (err) {
+                        console.error('Delete error:', err);
+                        showToast('Server error', 'error');
+                    }
                 });
             });
         }
@@ -3919,6 +4364,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             document.getElementById('edit_desc_sq').value = product.desc_sq || '';
             document.getElementById('edit_desc_en').value = product.desc_en || '';
             document.getElementById('edit_quantity').value = product.quantity || 0;
+            document.getElementById('editProductImageHidden').value = product.image || '';
 
             document.querySelectorAll('#editCategoryGrid .category-option').forEach(o => {
                 const radio = o.querySelector('input[type="radio"]');
@@ -3942,56 +4388,36 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         // Edit Form Submission
         document.getElementById('editProductForm').addEventListener('submit', async e => {
             e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Updating...';
+            btn.disabled = true;
+
             const fd = new FormData(e.target);
-            const id = fd.get('id');
+
+            // Note: FormData(e.target) automatically includes the file from the input[type="file"]
+            // No manual Base64 conversion needed now that product-api handles files.
 
             try {
-                const res = await fetch('essentials/product-api.php', {
+                const res = await fetch('essentials/product-api.php?action=edit', {
                     method: 'POST',
                     body: fd
                 });
                 const d = await res.json();
-                if (d.success) {
+                if (d.status === 'success') {
                     closeEditModal();
                     await fetchProducts();
-                    showToast('Product updated', 'success');
-                    return;
+                    showToast('Product updated successfully', 'success');
+                } else {
+                    showToast(d.message || 'Error updating product', 'error');
                 }
-            } catch { }
-
-            // Fallback
-            let imageData = '';
-            const imgFile = document.getElementById('editImageInput').files[0];
-            if (imgFile) {
-                imageData = await new Promise(res => {
-                    const r = new FileReader();
-                    r.onload = ev => res(ev.target.result);
-                    r.readAsDataURL(imgFile);
-                });
-            } else {
-                const existing = products.find(p => p.id === +id);
-                if (existing) imageData = existing.image || '';
+            } catch (err) {
+                console.error(err);
+                showToast('API Connection Error', 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
-
-            const updatedProd = {
-                id: +id,
-                name_sq: fd.get('name_sq') || '',
-                name_en: fd.get('name_en') || '',
-                desc_sq: fd.get('desc_sq') || '',
-                desc_en: fd.get('desc_en') || '',
-                category: fd.get('category') || 'granular',
-                quantity: +fd.get('quantity') || 0,
-                image: imageData
-            };
-
-            const idx = products.findIndex(p => p.id === +id);
-            if (idx >= 0) products[idx] = updatedProd;
-            saveProducts();
-            closeEditModal();
-            renderProducts();
-            renderSalesProductSelector();
-            updateAllMetrics();
-            showToast('Product updated', 'success');
         });
 
         document.getElementById('cancelProductBtn').addEventListener('click', () => {
@@ -4018,63 +4444,43 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
         document.getElementById('productForm').addEventListener('submit', async e => {
             e.preventDefault();
-            const fd = new FormData(e.target);
+            const btn = document.getElementById('saveProductBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Saving...';
+            btn.disabled = true;
 
-            // Try API first
+            const fd = new FormData(e.target);
+            // standard multi-part upload
+
             try {
-                const res = await fetch('essentials/product-api.php', {
+                const res = await fetch('essentials/product-api.php?action=create', {
                     method: 'POST',
                     body: fd
                 });
                 const d = await res.json();
-                if (d.success) {
+                if (d.status === 'success') {
                     resetProductForm();
                     switchSection('view-products');
                     await fetchProducts();
-                    showToast('Product added', 'success');
-                    return;
+                    showToast('Product added successfully', 'success');
+                } else {
+                    showToast(d.message || 'Error adding product', 'error');
                 }
-            } catch { }
-
-            // Fallback: local storage
-            let imageData = '';
-            const imgFile = document.getElementById('image').files[0];
-            if (imgFile) {
-                imageData = await new Promise(res => {
-                    const r = new FileReader();
-                    r.onload = ev => res(ev.target.result);
-                    r.readAsDataURL(imgFile);
-                });
+            } catch (err) {
+                console.error(err);
+                showToast('API Connection Error', 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
-
-            const newProd = {
-                id: nextProductId++,
-                name_sq: fd.get('name_sq') || '',
-                name_en: fd.get('name_en') || '',
-                desc_sq: fd.get('desc_sq') || '',
-                desc_en: fd.get('desc_en') || '',
-                category: fd.get('category') || 'granular',
-                quantity: +fd.get('quantity') || 0,
-                image: imageData
-            };
-
-            products.push(newProd);
-            saveProducts();
-            resetProductForm();
-            switchSection('view-products');
-            renderProducts();
-            renderSalesProductSelector();
-            updateAllMetrics();
-            showToast('Product added', 'success');
         });
 
         async function fetchProducts() {
             try {
                 const r = await fetch('essentials/product-api.php?action=list');
                 const d = await r.json();
-                if (d.success) {
+                if (d.status === 'success') {
                     products = d.products;
-                    saveProducts();
                 }
             } catch { }
             nextProductId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
@@ -4132,15 +4538,15 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         }
 
         function updateSalesMetrics() {
-            const totalUnits = salesHistory.reduce((s, sale) => s + sale.qty, 0);
-            const totalRevenue = salesHistory.reduce((s, sale) => s + (sale.price * sale.qty), 0);
-            const totalStock = products.reduce((s, p) => s + Number(p.quantity), 0);
+            const totalUnits = dashboardStats.units;
+            const totalRevenue = dashboardStats.revenue;
+            const totalStock = dashboardStats.total_stock;
 
             ['totalUnitsSold', 'vs-units'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.textContent = totalUnits.toLocaleString();
             });
-            ['totalProfit', 'vs-revenue'].forEach(id => {
+            ['totalProfit', 'vs-revenue', 'totalRevenue'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.textContent = '$' + totalRevenue.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
@@ -4152,65 +4558,81 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 if (el) el.textContent = totalStock.toLocaleString();
             });
             const vcEl = document.getElementById('vs-count');
-            if (vcEl) vcEl.textContent = salesHistory.length;
+            if (vcEl) vcEl.textContent = dashboardStats.sale_count;
         }
 
-        function updateAllMetrics() {
-            updateInventoryMetrics();
-            updateSalesMetrics();
-            updateOverviewMetrics();
+        async function updateAllMetrics() {
+            try {
+                const res = await fetch('essentials/product-api.php?action=metrics');
+                const d = await res.json();
+                if (d.status === 'success') {
+                    dashboardStats = d;
+                    salesHistory = d.recent_sales.map(s => ({
+                        id: 'SALE-' + s.id,
+                        dbId: s.id,
+                        productId: s.product_id,
+                        productName: s.name_en || s.name_sq,
+                        category: s.category,
+                        qty: parseInt(s.quantity),
+                        price: parseFloat(s.unit_price),
+                        total: parseFloat(s.total_price),
+                        note: s.note,
+                        date: new Date(s.created_at).toLocaleString()
+                    }));
+                    
+                    updateInventoryMetrics();
+                    updateSalesMetrics();
+                    updateOverviewMetrics();
+                }
+            } catch (err) { console.error('Metrics error:', err); }
         }
 
-        function recordSale() {
+        async function recordSale() {
             if (!selectedSaleProductId) {
                 showToast('Please select a product first', 'error');
                 return;
             }
-            const qty = +document.getElementById('saleQty').value || 1;
-            const priceInput = +document.getElementById('salePrice').value || 0;
+            const qty = parseInt(document.getElementById('saleQty').value) || 1;
+            const priceInput = parseFloat(document.getElementById('salePrice').value) || 0;
             const note = document.getElementById('saleNote').value.trim();
-            const product = products.find(p => p.id === selectedSaleProductId);
-            if (!product) {
-                showToast('Product not found', 'error');
-                return;
-            }
-            if (qty > product.quantity) {
-                showToast(`Only ${product.quantity} units available`, 'error');
-                return;
-            }
-            if (qty <= 0) {
-                showToast('Quantity must be at least 1', 'error');
-                return;
-            }
+            
+            const btn = document.querySelector('.btn-record-sale');
+            if (btn) btn.disabled = true;
 
-            product.quantity -= qty;
-            const now = new Date();
-            const sale = {
-                id: 'SALE-' + Date.now(),
-                productId: product.id,
-                productName: product.name_en || product.name_sq,
-                category: product.category,
-                qty,
-                price: priceInput,
-                total: priceInput * qty,
-                note,
-                date: now.toLocaleString(),
-                dateObj: now.toISOString(),
-                month: now.getMonth(),
-                year: now.getFullYear()
-            };
-            salesHistory.unshift(sale);
-            saveSales();
-            saveProducts();
+            const fd = new FormData();
+            fd.append('product_id', selectedSaleProductId);
+            fd.append('quantity', qty);
+            fd.append('unit_price', priceInput);
+            fd.append('note', note);
 
-            selectedSaleProductId = null;
-            document.getElementById('saleQty').value = 1;
-            document.getElementById('salePrice').value = '';
-            document.getElementById('saleNote').value = '';
-            renderSalesProductSelector();
-            renderRecentSales();
-            updateAllMetrics();
-            showToast(`✅ Recorded: ${qty}× ${product.name_en || product.name_sq}`, 'success');
+            try {
+                const res = await fetch('essentials/product-api.php?action=record_sale', {
+                    method: 'POST',
+                    body: fd
+                });
+                const d = await res.json();
+                if (d.status === 'success') {
+                    showToast(`✅ Recorded: ${qty} units sold`, 'success');
+                    
+                    // Reset fields
+                    selectedSaleProductId = null;
+                    document.getElementById('saleQty').value = 1;
+                    document.getElementById('salePrice').value = '';
+                    document.getElementById('saleNote').value = '';
+                    
+                    // Refresh data
+                    await fetchProducts();
+                    await updateAllMetrics();
+                    renderRecentSales();
+                    renderSalesTable();
+                } else {
+                    showToast(d.message || 'Error recording sale', 'error');
+                }
+            } catch (err) {
+                showToast('Server error recording sale', 'error');
+            } finally {
+                if (btn) btn.disabled = false;
+            }
         }
 
         function renderRecentSales() {
@@ -4286,19 +4708,22 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             });
         });
 
-        function deleteSale(saleId) {
-            const idx = salesHistory.findIndex(s => s.id === saleId);
-            if (idx < 0) return;
-            const sale = salesHistory[idx];
-            const product = products.find(p => p.id === sale.productId);
-            if (product) product.quantity += sale.qty;
-            salesHistory.splice(idx, 1);
-            saveSales();
-            saveProducts();
-            renderSalesTable();
-            renderRecentSales();
-            updateAllMetrics();
-            showToast('Sale removed', 'error');
+        async function deleteSale(saleId) {
+            const sale = salesHistory.find(s => s.id === saleId);
+            if (!sale || !sale.dbId) return;
+            if (!confirm('Are you sure you want to delete this sale? Stock will be restored.')) return;
+
+            try {
+                const res = await fetch(`essentials/product-api.php?action=delete_sale&id=${sale.dbId}`);
+                const d = await res.json();
+                if (d.status === 'success') {
+                    showToast('Sale removed', 'error');
+                    await fetchProducts();
+                    await updateAllMetrics();
+                    renderRecentSales();
+                    renderSalesTable();
+                }
+            } catch (err) { console.error('Delete sale error:', err); }
         }
 
         function clearSalesHistory() {
@@ -4335,10 +4760,10 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             const dateEl = document.getElementById('overviewDate');
             if (dateEl) dateEl.textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
 
-            const totalRevenue = salesHistory.reduce((s, sale) => s + (sale.price * sale.qty), 0);
-            const totalUnits = salesHistory.reduce((s, sale) => s + sale.qty, 0);
-            const totalStock = products.reduce((s, p) => s + Number(p.quantity), 0);
-            const lowStock = products.filter(p => p.quantity > 0 && p.quantity <= 10).length;
+            const totalRevenue = dashboardStats.revenue;
+            const totalUnits = dashboardStats.units;
+            const totalStock = dashboardStats.total_stock;
+            const lowStock = dashboardStats.low_stock_count;
 
             const setEl = (id, val) => {
                 const el = document.getElementById(id);
@@ -4348,11 +4773,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }));
-            setEl('ov-revenue-trend', salesHistory.length + ' sales');
+            setEl('ov-revenue-trend', dashboardStats.sale_count + ' sales');
             setEl('ov-units', totalUnits.toLocaleString());
-            setEl('ov-units-trend', salesHistory.length + ' transactions');
+            setEl('ov-units-trend', dashboardStats.sale_count + ' transactions');
             setEl('ov-stock', totalStock.toLocaleString());
-            setEl('ov-stock-trend', products.length + ' products');
+            setEl('ov-stock-trend', dashboardStats.total_items + ' products');
             setEl('ov-low', lowStock);
             setEl('ov-low-trend', lowStock > 0 ? '⚠ Needs restock' : '✓ OK');
 
@@ -4361,7 +4786,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 const el = document.getElementById(id);
                 if (el) {
                     el.className = 'metric-trend';
-                    el.classList.add(salesHistory.length > 0 ? 'up' : 'neutral');
+                    el.classList.add(dashboardStats.sale_count > 0 ? 'up' : 'neutral');
                 }
             });
             const lowTrend = document.getElementById('ov-low-trend');
@@ -4702,13 +5127,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
            INIT
         ═══════════════════════════════════════════════════ */
         (async function init() {
-            // Try to load from API, fallback to localStorage
             try {
                 const r = await fetch('essentials/product-api.php?action=list');
                 const d = await r.json();
-                if (d.success) {
+                if (d.status === 'success') {
                     products = d.products;
-                    saveProducts();
                 }
             } catch { }
 
@@ -4718,6 +5141,51 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             renderRecentSales();
             updateAllMetrics();
             updateOverviewMetrics();
+            await fetchMessages();
+
+            // Dropdown Handlers
+            const setupDropdown = (btnId, wrapperId, panelId, labelId) => {
+                const btn = document.getElementById(btnId);
+                const wrapper = document.getElementById(wrapperId);
+                const panel = document.getElementById(panelId);
+                const label = document.getElementById(labelId);
+                if (!btn || !wrapper) return;
+
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.querySelectorAll('.dropdown-wrapper').forEach(w => {
+                        if (w.id !== wrapperId) w.classList.remove('active');
+                    });
+                    wrapper.classList.toggle('active');
+                });
+
+                panel.querySelectorAll('.dropdown-option').forEach(opt => {
+                    opt.addEventListener('click', () => {
+                        panel.querySelectorAll('.dropdown-option').forEach(o => o.classList.remove('active'));
+                        opt.classList.add('active');
+                        if (label) label.textContent = opt.textContent;
+                        wrapper.classList.remove('active');
+                        renderProducts();
+                    });
+                });
+            };
+
+            setupDropdown('filterDropdownBtn', 'filterDropdownWrapper', 'filterDropdownPanel', 'currentFilterLabel');
+            setupDropdown('sortDropdownBtn', 'sortDropdownWrapper', 'sortDropdownPanel', 'currentSortLabel');
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-wrapper').forEach(w => w.classList.remove('active'));
+            });
+
+            // Category filter listeners (Legacy - removing as we now use dropdowns)
+
+            // Add search listener for main product list
+            const productSearch = document.getElementById('productSearchInput');
+            if (productSearch) {
+                productSearch.addEventListener('input', () => {
+                    renderProducts();
+                });
+            }
 
             // Add search listener for sales product selector
             const salesSearch = document.getElementById('salesProductSearch');

@@ -1,8 +1,12 @@
 <?php // Product List Section — AgroFanema 
-$dataFile = __DIR__ . '/../../essentials/products.json';
-$products = [];
-if (file_exists($dataFile)) {
-    $products = json_decode(file_get_contents($dataFile), true) ?: [];
+require_once __DIR__ . '/../../essentials/db_connect.php';
+
+try {
+  // Fetch all products
+  $stmt = $pdo->query("SELECT * FROM products ORDER BY created_at DESC");
+  $products = $stmt->fetchAll();
+} catch (Exception $e) {
+  $products = [];
 }
 ?>
 
@@ -110,7 +114,8 @@ if (file_exists($dataFile)) {
     }
 
     .gg-product-list-scope .filter-btn:hover,
-    .gg-product-list-scope .filter-btn[aria-expanded="true"] {
+    .gg-product-list-scope .filter-btn[aria-expanded="true"],
+    .gg-product-list-scope .search-input:focus {
       border-color: var(--accent);
       box-shadow: var(--shadow-md);
     }
@@ -590,86 +595,179 @@ if (file_exists($dataFile)) {
         font-size: 0.55rem;
       }
 
-      /* Mobile Controls Layout - strictly single row */
+      /* Mobile Controls Layout - strictly single column for clarity */
       .gg-product-list-scope .controls-bar {
         flex-direction: row;
+        /* Wrapper is row, wrap handles the rest */
         align-items: center;
         justify-content: space-between;
-        gap: 8px;
-        margin-bottom: 24px;
-        padding-bottom: 16px;
-        flex-wrap: nowrap;
+        gap: 16px;
+        margin-bottom: 32px;
+        border-bottom: none;
+        flex-wrap: wrap;
       }
 
-      .gg-product-list-scope .controls-left,
-      .gg-product-list-scope .controls-right {
-        width: auto;
+      .gg-product-list-scope .search-wrapper {
+        order: -1;
+        /* Mobile: Search on top */
+        width: 100% !important;
+        max-width: none !important;
+        margin-bottom: 8px;
+        flex: none;
+      }
+
+      .gg-product-list-scope .controls-group-left {
+        order: 1;
+        /* Mobile: Row 2, Left */
+        display: flex;
+        gap: 8px;
         flex: 1;
         min-width: 0;
       }
 
       .gg-product-list-scope .controls-right {
-        justify-content: flex-end;
-        gap: 8px;
-      }
-
-      .gg-product-list-scope .product-count-chip {
-        display: inline-flex;
-        padding: 5px 8px;
-        font-size: 0.6rem;
-        order: -1;
-        border-color: var(--border);
-        background: var(--surface);
-        white-space: nowrap;
+        order: 2;
+        /* Mobile: Row 2, Right */
+        width: auto !important;
+        flex: none;
       }
 
       .gg-product-list-scope .filter-btn,
       .gg-product-list-scope .sort-btn {
-        padding: 7px 10px;
+        padding: 8px 12px;
         font-size: 0.75rem;
-        gap: 4px;
-        width: auto;
+        flex: 1;
         justify-content: center;
       }
 
       .gg-product-list-scope .filter-label,
       .gg-product-list-scope .sort-label {
         display: none;
+        /* Hide labels on mobile to save space */
       }
 
+    }
+
+    .gg-product-list-scope .search-input {
+      width: 100%;
+      padding: 10px 20px 10px 42px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.25s var(--ease);
+      outline: none;
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .gg-product-list-scope .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Big Displays Custom Rule */
+    @media (min-width: 992px) {
+      .gg-product-list-scope .controls-bar {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 16px !important;
+        justify-content: flex-start !important;
+      }
+
+      .gg-product-list-scope .search-wrapper {
+        order: 0 !important;
+        width: 300px !important;
+        flex: none !important;
+        margin-bottom: 0 !important;
+        margin-left: 0 !important;
+      }
+
+      .gg-product-list-scope .controls-group-left {
+        order: -1 !important;
+        flex: none !important;
+        display: flex !important;
+        gap: 12px !important;
+      }
+
+      .gg-product-list-scope .controls-right {
+        order: 1 !important;
+        flex: none !important;
+        margin-left: auto !important; /* Pushes to right */
+      }
+
+      .gg-product-list-scope .filter-label,
+      .gg-product-list-scope .sort-label {
+        display: inline !important;
+      }
+
+      /* Desktop Dropdown Popups */
       .gg-product-list-scope .sort-dropdown,
       .gg-product-list-scope .filter-dropdown {
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        border-radius: 24px 24px 0 0;
-        transform: translateY(100%);
-        transform-origin: bottom center;
-        padding: 20px 16px 40px;
-        z-index: 1000;
-        visibility: visible;
-        opacity: 1;
-        transition: transform 0.35s var(--ease-out);
+        position: absolute !important;
+        top: calc(100% + 12px) !important;
+        bottom: auto !important;
+        left: 0 !important;
+        right: auto !important;
+        width: 250px !important;
+        border-radius: 16px !important;
+        transform: translateY(10px) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: all 0.3s var(--ease) !important;
+        padding: 8px !important;
+        box-shadow: var(--shadow-lg) !important;
+        background: var(--surface) !important;
+        border: 1.5px solid var(--border) !important;
       }
 
       .gg-product-list-scope .sort-wrapper.is-open .sort-dropdown,
       .gg-product-list-scope .filter-wrapper.is-open .filter-dropdown {
-        transform: translateY(0);
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
       }
 
       .gg-product-list-scope .sort-dropdown::before,
       .gg-product-list-scope .filter-dropdown::before {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 4px;
-        background: var(--border);
-        border-radius: 10px;
-        margin: 0 auto 20px;
+        display: none !important; /* Hide mobile drag handle */
       }
+    }
+
+    .gg-product-list-scope .sort-dropdown,
+    .gg-product-list-scope .filter-dropdown {
+      position: fixed;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      border-radius: 24px 24px 0 0;
+      transform: translateY(100%);
+      transform-origin: bottom center;
+      padding: 20px 16px 40px;
+      z-index: 1000;
+      visibility: visible;
+      opacity: 1;
+      transition: transform 0.35s var(--ease-out);
+    }
+
+    .gg-product-list-scope .sort-wrapper.is-open .sort-dropdown,
+    .gg-product-list-scope .filter-wrapper.is-open .filter-dropdown {
+      transform: translateY(0);
+    }
+
+    .gg-product-list-scope .sort-dropdown::before,
+    .gg-product-list-scope .filter-dropdown::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 10px;
+      margin: 0 auto 20px;
+    }
     }
 
     @media (max-width: 480px) {
@@ -686,44 +784,42 @@ if (file_exists($dataFile)) {
   <div class="inner">
 
     <header class="page-header">
-      <span class="header-eyebrow">Premium Nutrients</span>
-      <h1>Our Collection</h1>
-      <p>Premium organic fertilizers crafted for exceptional plant growth and sustainable gardening</p>
+      <span class="header-eyebrow"><?php echo t('premium_nutrients'); ?></span>
+      <h1><?php echo t('our_collection'); ?></h1>
+      <p><?php echo t('collection_desc'); ?></p>
     </header>
 
     <!-- ── Controls Bar ──────────────────────────── -->
     <div class="controls-bar">
 
-      <!-- Left: Filter Dropdown -->
-      <div class="controls-left">
+      <!-- Left: Dropdowns -->
+      <div class="controls-group-left">
+        <!-- Filter Dropdown -->
         <div class="filter-wrapper" id="filter-wrapper">
           <button class="filter-btn" id="filter-btn" aria-haspopup="listbox" aria-expanded="false"
             aria-controls="filter-menu">
             <svg class="filter-icon" viewBox="0 0 24 24">
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
             </svg>
-            <span class="filter-label">Filter:</span>
-            <span class="filter-current" id="filter-current-label">All</span>
+            <span class="filter-label"><?php echo t('filter_label'); ?></span>
+            <span class="filter-current" id="filter-current-label"><?php echo t('all'); ?></span>
             <svg class="chevron" viewBox="0 0 24 24">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </button>
 
           <div class="filter-dropdown" id="filter-menu" role="listbox" aria-label="Filter by category">
-
-            <!-- All -->
-            <button class="filter-option active" role="option" data-filter="all" data-label="All" aria-selected="true">
+            <button class="filter-option active" role="option" data-filter="all" data-label="<?php echo t('all'); ?>"
+              aria-selected="true">
               <svg viewBox="0 0 24 24">
                 <rect x="3" y="3" width="7" height="7" rx="1" />
                 <rect x="14" y="3" width="7" height="7" rx="1" />
                 <rect x="3" y="14" width="7" height="7" rx="1" />
                 <rect x="14" y="14" width="7" height="7" rx="1" />
               </svg>
-              All Products
+              <?php echo t('all_products'); ?>
             </button>
-
             <div class="filter-divider"></div>
-
             <?php
             $catIcons = [
               'biostimulants' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 3.5-2 3.5s2.24-.5 3.5-2M19.5 7.5c1.5-1.26 2-3.5 2-3.5s-2.24.5-3.5 2M8 12a4 4 0 1 0 8 0 4 4 0 1 0-8 0M2 2l20 20"/></svg>',
@@ -743,18 +839,8 @@ if (file_exists($dataFile)) {
                 <?php echo $catLabel; ?>
               </button>
             <?php endforeach; ?>
-
           </div>
         </div>
-      </div>
-
-      <!-- Right: Sort + Count -->
-      <div class="controls-right">
-
-        <!-- Result Count Chip -->
-        <span class="product-count-chip" id="product-count-chip">
-          <strong id="product-count-num"><?php echo count($products); ?></strong> products
-        </span>
 
         <!-- Sort Dropdown -->
         <div class="sort-wrapper" id="sort-wrapper">
@@ -765,46 +851,62 @@ if (file_exists($dataFile)) {
               <line x1="3" y1="12" x2="15" y2="12" />
               <line x1="3" y1="18" x2="9" y2="18" />
             </svg>
-            <span class="sort-label">Sort:</span>
-            <span class="sort-current" id="sort-current-label">Default</span>
+            <span class="sort-label"><?php echo t('sort_label'); ?></span>
+            <span class="sort-current" id="sort-current-label"><?php echo t('default_label'); ?></span>
             <svg class="chevron" viewBox="0 0 24 24">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </button>
 
           <div class="sort-dropdown" id="sort-menu" role="listbox" aria-label="Sort options">
-
-            <button class="sort-option active" role="option" data-sort="default" data-label="Default"
-              aria-selected="true">
+            <button class="sort-option active" role="option" data-sort="default"
+              data-label="<?php echo t('default_label'); ?>" aria-selected="true">
               <svg viewBox="0 0 24 24">
                 <path d="M3 12h18M3 6h18M3 18h18" />
               </svg>
-              Default Order
+              <?php echo t('default_order'); ?>
             </button>
-
             <div class="sort-divider"></div>
-
-            <button class="sort-option" role="option" data-sort="az" data-label="A → Z" aria-selected="false">
+            <button class="sort-option" role="option" data-sort="az" data-label="<?php echo t('name_az'); ?>"
+              aria-selected="false">
               <svg viewBox="0 0 24 24">
                 <path d="M4 6h7M4 12h5M4 18h9" />
                 <path d="M15 6l5 12M20 6l-5 12" />
               </svg>
-              Name: A → Z
+              <?php echo t('name_az'); ?>
             </button>
-
-            <button class="sort-option" role="option" data-sort="za" data-label="Z → A" aria-selected="false">
+            <button class="sort-option" role="option" data-sort="za" data-label="<?php echo t('name_za'); ?>"
+              aria-selected="false">
               <svg viewBox="0 0 24 24">
                 <path d="M4 6h9M4 12h5M4 18h7" />
                 <path d="M15 18l5-12M20 18l-5-12" />
               </svg>
-              Name: Z → A
+              <?php echo t('name_za'); ?>
             </button>
-
-
-
           </div>
         </div>
       </div>
+
+      <!-- Center: Search Pill -->
+      <div class="search-wrapper">
+        <input type="text" id="catalog-search" class="search-input"
+          placeholder="<?php echo t('search_placeholder'); ?>">
+        <div
+          style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Right: Status Badge -->
+      <div class="controls-right">
+        <span class="product-count-chip" id="product-count-chip">
+          <strong id="product-count-num"><?php echo count($products); ?></strong> <?php echo t('products_lower'); ?>
+        </span>
+      </div>
+
     </div>
 
     <!-- ── Product Grid ──────────────────────────── -->
@@ -821,8 +923,7 @@ if (file_exists($dataFile)) {
         ?>
         <a href="product-view.php?id=<?php echo $p_id; ?>" class="product-card"
           data-category="<?php echo $p['category']; ?>" data-name="<?php echo htmlspecialchars($p_name); ?>"
-          data-id="<?php echo $p_id; ?>"
-          style="animation-delay: <?php echo $idx * 0.07; ?>s">
+          data-id="<?php echo $p_id; ?>" style="animation-delay: <?php echo $idx * 0.07; ?>s">
           <div class="product-img-wrap">
             <span class="card-badge"><?php echo $catLabel; ?></span>
             <img src="<?php echo $p['image']; ?>" alt="<?php echo htmlspecialchars($p_name); ?>" loading="lazy">
@@ -840,7 +941,7 @@ if (file_exists($dataFile)) {
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
           <line x1="8" y1="11" x2="14" y2="11" />
         </svg>
-        <p>No products found in this category.</p>
+        <p><?php echo t('no_products'); ?></p>
       </div>
     </div>
 
@@ -864,11 +965,13 @@ if (file_exists($dataFile)) {
       const cards = Array.from(grid.querySelectorAll('.product-card'));
       const countNum = document.getElementById('product-count-num');
       const noResults = document.getElementById('no-results');
+      const searchInput = document.getElementById('catalog-search');
 
       // Initialize from URL if present
       const urlParams = new URLSearchParams(window.location.search);
       let currentFilter = urlParams.get('filter') || 'all';
       let currentSort = 'default';
+      let currentSearch = '';
 
       /* ── Generic Dropdown Toggle ──────────────── */
       function makeToggle(wrapper, btn, otherWrappers) {
@@ -936,9 +1039,12 @@ if (file_exists($dataFile)) {
       function applyFilter() {
         let visible = 0;
         cards.forEach(card => {
-          const match = currentFilter === 'all' || card.dataset.category === currentFilter;
-          card.classList.toggle('hidden', !match);
-          if (match) visible++;
+          const matchCategory = currentFilter === 'all' || card.dataset.category === currentFilter;
+          const matchSearch = !currentSearch || card.dataset.name.toLowerCase().includes(currentSearch);
+
+          const isVisible = matchCategory && matchSearch;
+          card.classList.toggle('hidden', !isVisible);
+          if (isVisible) visible++;
         });
         countNum.textContent = visible;
         noResults.classList.toggle('visible', visible === 0);
@@ -955,6 +1061,12 @@ if (file_exists($dataFile)) {
           filterWrapper.classList.remove('is-open');
           filterBtn.setAttribute('aria-expanded', 'false');
         });
+      });
+
+      /* ── Search Logic ──────────────────────────── */
+      searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value.toLowerCase().trim();
+        applyFilter();
       });
 
       /* Initial state */

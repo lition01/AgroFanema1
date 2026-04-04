@@ -1,10 +1,14 @@
+<?php 
+require_once 'essentials/db_connect.php';
+require_once 'essentials/translations.php'; 
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $lang; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | AgroFanema</title>
-    <meta name="description" content="Mësoni më shumë rreth AgroFanema dhe misionit tonë për të ofruar plehra organike të cilësisë së lartë.">
+    <title><?php echo t('about_meta_title'); ?></title>
+    <meta name="description" content="<?php echo t('about_meta_desc'); ?>">
     <meta name="keywords" content="AgroFanema, rreth nesh, plehra organike, bujqësi">
     
     <!-- Open Graph / Facebook -->

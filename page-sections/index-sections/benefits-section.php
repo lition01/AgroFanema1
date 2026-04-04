@@ -215,7 +215,7 @@
   <div class="ben-inner">
     <div class="ben-header">
       <span class="ben-eyebrow"><?php echo t('benefits'); ?></span>
-      <h2 class="ben-title">Why Choose <em>AgroFanema</em>?</h2>
+      <h2 class="ben-title"><?php echo t('why_choose'); ?> <em>AgroFanema</em>?</h2>
     </div>
 
     <div class="ben-container">
@@ -231,9 +231,9 @@
               <polyline points="16 7 22 7 22 13"></polyline>
             </svg>
           </div>
-          <h3 class="ben-title">Increase Yield</h3>
+          <h3 class="ben-title"><?php echo t('increase_yield'); ?></h3>
           <p class="ben-desc">
-            Precision-balanced NPK ratios maximize photosynthesis, delivering significantly higher yields.
+            <?php echo t('yield_desc'); ?>
           </p>
           <div class="ben-arrow"></div>
         </div>
@@ -245,9 +245,9 @@
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
             </svg>
           </div>
-          <h3 class="ben-title">Soil Health</h3>
+          <h3 class="ben-title"><?php echo t('soil_health'); ?></h3>
           <p class="ben-desc">
-            Active microbe technology rebuilds soil structure and increases long-term fertility.
+            <?php echo t('soil_health_desc'); ?>
           </p>
           <div class="ben-arrow"></div>
         </div>
@@ -259,9 +259,9 @@
               <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
             </svg>
           </div>
-          <h3 class="ben-title">Fast Absorption</h3>
+          <h3 class="ben-title"><?php echo t('fast_absorption'); ?></h3>
           <p class="ben-desc">
-            Chelated micronutrients ensure rapid uptake within hours, reducing waste and runoff.
+            <?php echo t('absorption_desc'); ?>
           </p>
           <div class="ben-arrow"></div>
         </div>
@@ -274,9 +274,9 @@
               <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
             </svg>
           </div>
-          <h3 class="ben-title">Eco-Friendly</h3>
+          <h3 class="ben-title"><?php echo t('eco_friendly'); ?></h3>
           <p class="ben-desc">
-            Biodegradable carriers protect local ecosystems and meeting global standards.
+            <?php echo t('eco_desc'); ?>
           </p>
           <div class="ben-arrow"></div>
         </div>

@@ -1,31 +1,31 @@
 <?php
-include "essentials/product-data.php";
+require_once "essentials/db_connect.php";
+require_once "essentials/translations.php"; // Ensure t() is available
 
 $product_id = isset($_GET['id']) ? $_GET['id'] : null;
 $product = null;
 
-// First check mock database
-if ($product_id && isset($products[$product_id])) {
-    $product = $products[$product_id];
-} else {
-    // Then check JSON database
-    $jsonFile = __DIR__ . '/essentials/products.json';
-    if (file_exists($jsonFile)) {
-        $jsonProducts = json_decode(file_get_contents($jsonFile), true) ?: [];
-        foreach ($jsonProducts as $p) {
-            if ($p['id'] === $product_id) {
-                // Map JSON fields to match the expected structure
-                $product = [
-                    'id' => $p['id'],
-                    'name' => (isset($_COOKIE['lang']) && $_COOKIE['lang'] === 'sq') ? ($p['name_sq'] ?: $p['name_en']) : ($p['name_en'] ?: $p['name_sq']),
-                    'category' => $p['category'],
-                    'image' => $p['image'],
-                    'full_details' => (isset($_COOKIE['lang']) && $_COOKIE['lang'] === 'sq') ? ($p['desc_sq'] ?: $p['desc_en']) : ($p['desc_en'] ?: $p['desc_sq']),
-                    'features' => (isset($_COOKIE['lang']) && $_COOKIE['lang'] === 'sq') ? ($p['features_sq'] ?: $p['features_en']) : ($p['features_en'] ?: $p['features_sq'])
-                ];
-                break;
-            }
+if ($product_id) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+        $stmt->execute([$product_id]);
+        $row = $stmt->fetch();
+
+        if ($row) {
+            $lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'sq';
+            $p_name = ($lang === 'sq') ? ($row['name_sq'] ?: $row['name_en']) : ($row['name_en'] ?: $row['name_sq']);
+            $p_desc = ($lang === 'sq') ? ($row['desc_sq'] ?: $row['desc_en']) : ($row['desc_en'] ?: $row['desc_sq']);
+            
+            $product = [
+                'id'           => $row['id'],
+                'name'         => $p_name,
+                'category'     => $row['category'],
+                'image'        => $row['image'],
+                'full_details' => $p_desc
+            ];
         }
+    } catch (Exception $e) {
+        $product = null;
     }
 }
 
@@ -199,31 +199,6 @@ if (!$product) {
             font-weight: 400;
         }
 
-        .features-list {
-            margin-bottom: 60px;
-            list-style: none;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: var(--primary);
-        }
-        .feature-item svg { 
-            width: 22px; height: 22px; 
-            color: var(--accent); 
-            fill: none; 
-            stroke: currentColor; 
-            stroke-width: 2; 
-            background: rgba(200, 168, 75, 0.1);
-            padding: 4px;
-            border-radius: 50%;
-        }
 
         /* ── Action Buttons ── */
         .action-group {

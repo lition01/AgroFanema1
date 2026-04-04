@@ -1,107 +1,83 @@
 <?php
+/**
+ * Collaborator Backend API — AgroFanema
+ * Handles DB operations for Partner Companies
+ */
 header('Content-Type: application/json');
+require_once 'db_connect.php';
 
-$dataFile = __DIR__ . '/collaborators.json';
 $uploadDir = __DIR__ . '/../images/collaborators/';
-
-// Ensure directories exist
-if (!file_exists($uploadDir)) {
-    mkdir($uploadDir, 0777, true);
-}
-
-// Initialize collaborators file if not exists
-if (!file_exists($dataFile)) {
-    file_put_contents($dataFile, json_encode([]));
-}
-
-function getCollaborators() {
-    global $dataFile;
-    $data = file_get_contents($dataFile);
-    return json_decode($data, true) ?: [];
-}
-
-function saveCollaborators($collaborators) {
-    global $dataFile;
-    file_put_contents($dataFile, json_encode($collaborators, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-}
+if (!file_exists($uploadDir)) mkdir($uploadDir, 0777, true);
 
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
 switch ($action) {
     case 'list':
-        echo json_encode(['success' => true, 'collaborators' => getCollaborators()]);
+        try {
+            $stmt = $pdo->query("SELECT * FROM collaborators ORDER BY created_at DESC");
+            $collaborators = $stmt->fetchAll();
+            echo json_encode(['success' => true, 'collaborators' => $collaborators]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
         break;
 
     case 'add':
         $name = trim($_POST['name'] ?? '');
-        $description = trim($_POST['description'] ?? '');
         $website = trim($_POST['website'] ?? '');
-
-        if (empty($name)) {
-            echo json_encode(['success' => false, 'error' => 'Collaborator name is required']);
-            exit;
-        }
+        if (empty($name)) die(json_encode(['success' => false, 'error' => 'Name required']));
 
         $imagePath = '';
         if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
             $ext = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
-            $allowed = ['jpg', 'jpeg', 'png', 'webp', 'svg', 'gif'];
-            if (!in_array($ext, $allowed)) {
-                echo json_encode(['success' => false, 'error' => 'Invalid image format']);
-                exit;
-            }
             $filename = uniqid('collab_') . '.' . $ext;
             if (move_uploaded_file($_FILES['logo']['tmp_name'], $uploadDir . $filename)) {
                 $imagePath = 'images/collaborators/' . $filename;
             }
         }
 
-        $collaborators = getCollaborators();
-        $newCollaborator = [
-            'id' => uniqid(),
-            'name' => $name,
-            'description' => $description,
-            'website' => $website,
-            'logo' => $imagePath,
-            'created_at' => date('Y-m-d H:i:s')
-        ];
-        $collaborators[] = $newCollaborator;
-        saveCollaborators($collaborators);
-
-        echo json_encode(['success' => true, 'collaborator' => $newCollaborator]);
+        try {
+            $sql = "INSERT INTO collaborators (name, logo, website) VALUES (?, ?, ?)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$name, $imagePath, $website]);
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
         break;
 
     case 'delete':
-        $id = $_POST['id'] ?? '';
-        $collaborators = getCollaborators();
-        $collaborators = array_values(array_filter($collaborators, function($c) use ($id) {
-            return $c['id'] !== $id;
-        }));
-        saveCollaborators($collaborators);
-        echo json_encode(['success' => true]);
+        $id = (int)$_POST['id'];
+        try {
+            $pdo->prepare("DELETE FROM collaborators WHERE id = ?")->execute([$id]);
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
         break;
 
     case 'edit':
-        $id = $_POST['id'] ?? '';
-        $collaborators = getCollaborators();
-        foreach ($collaborators as &$c) {
-            if ($c['id'] === $id) {
-                if (isset($_POST['name'])) $c['name'] = trim($_POST['name']);
-                if (isset($_POST['description'])) $c['description'] = trim($_POST['description']);
-                if (isset($_POST['website'])) $c['website'] = trim($_POST['website']);
-                
-                if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
-                    $ext = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
-                    $filename = uniqid('collab_') . '.' . $ext;
-                    if (move_uploaded_file($_FILES['logo']['tmp_name'], $uploadDir . $filename)) {
-                        $c['logo'] = 'images/collaborators/' . $filename;
-                    }
+        $id = (int)$_POST['id'];
+        $name = trim($_POST['name'] ?? '');
+        $website = trim($_POST['website'] ?? '');
+        
+        try {
+            $sql = "UPDATE collaborators SET name = ?, website = ? WHERE id = ?";
+            $params = [$name, $website, $id];
+            $pdo->prepare($sql)->execute($params);
+
+            if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
+                $ext = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
+                $filename = uniqid('collab_') . '.' . $ext;
+                if (move_uploaded_file($_FILES['logo']['tmp_name'], $uploadDir . $filename)) {
+                    $img = 'images/collaborators/' . $filename;
+                    $pdo->prepare("UPDATE collaborators SET logo = ? WHERE id = ?")->execute([$img, $id]);
                 }
-                break;
             }
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
-        saveCollaborators($collaborators);
-        echo json_encode(['success' => true]);
         break;
 
     default:

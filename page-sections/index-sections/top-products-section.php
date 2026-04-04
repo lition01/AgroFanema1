@@ -153,22 +153,21 @@
   <div class="bg-glow"></div>
 
   <div class="inner">
-    <span class="intro-label">Premium Organic Solutions</span>
+    <span class="intro-label"><?php echo t('premium_organic_solutions'); ?></span>
     
     <h2 class="headline">
-      Elevate your harvest 
-      <span>with our curated selection.</span>
+      <?php echo t('elevate_harvest'); ?> 
+      <span><?php echo t('curated_selection'); ?></span>
     </h2>
 
     <p class="description">
-      Unlock the full potential of your crops with fertilizers designed for the modern farmer. 
-      Sustainable, efficient, and naturally powerful.
+      <?php echo t('top_products_desc'); ?>
     </p>
 
     <div class="action-area">
-      <a href="products.php" class="btn-primary">Explore Collection</a>
+      <a href="products.php" class="btn-primary"><?php echo t('explore_collection'); ?></a>
       <a href="contact.php" class="btn-outline">
-        Connect with us
+        <?php echo t('connect_with_us'); ?>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </a>
     </div>

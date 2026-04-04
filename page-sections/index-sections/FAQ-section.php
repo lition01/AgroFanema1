@@ -268,31 +268,31 @@
       <div class="fq-col">
         <div class="fq-item">
           <button class="fq-question" aria-expanded="false">
-            <span class="fq-q-text">What makes GreenGrow fertilizers different from synthetic options?</span>
+            <span class="fq-q-text"><?php echo t('faq_q1'); ?></span>
             <span class="fq-icon"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span>
           </button>
           <div class="fq-answer"><div class="fq-answer-clip"><div class="fq-answer-inner">
-            Unlike synthetic fertilizers that deliver a fast nutrient spike and deplete soil over time, GreenGrow products are made from 100% organic matter — compost, kelp, bone meal, and worm castings. They feed your plants slowly and consistently while improving soil structure and microbial activity.
+            <?php echo t('faq_a1'); ?>
           </div></div></div>
         </div>
 
         <div class="fq-item">
           <button class="fq-question" aria-expanded="false">
-            <span class="fq-q-text">Are your products safe for vegetables and edible plants?</span>
+            <span class="fq-q-text"><?php echo t('faq_q2'); ?></span>
             <span class="fq-icon"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span>
           </button>
           <div class="fq-answer"><div class="fq-answer-clip"><div class="fq-answer-inner">
-            Absolutely. All GreenGrow products are USDA Certified Organic and Non-GMO Verified, which means they're safe for use on vegetables, fruits, herbs, and any edible crops. We recommend following the application rates on each product label for best results.
+            <?php echo t('faq_a2'); ?>
           </div></div></div>
         </div>
 
         <div class="fq-item">
           <button class="fq-question" aria-expanded="false">
-            <span class="fq-q-text">How often should I apply the fertilizer?</span>
+            <span class="fq-q-text"><?php echo t('faq_q3'); ?></span>
             <span class="fq-icon"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span>
           </button>
           <div class="fq-answer"><div class="fq-answer-clip"><div class="fq-answer-inner">
-            Application frequency depends on the product and plant type. As a general guide, our granular formulas are applied every 4–6 weeks during the growing season, while liquid concentrates can be used bi-weekly.
+            <?php echo t('faq_a3'); ?>
           </div></div></div>
         </div>
       </div>
@@ -301,31 +301,31 @@
       <div class="fq-col">
         <div class="fq-item">
           <button class="fq-question" aria-expanded="false">
-            <span class="fq-q-text">Do you ship internationally?</span>
+            <span class="fq-q-text"><?php echo t('faq_q4'); ?></span>
             <span class="fq-icon"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span>
           </button>
           <div class="fq-answer"><div class="fq-answer-clip"><div class="fq-answer-inner">
-            Yes — we ship to over 40 countries. International shipping rates and delivery times vary by destination and are calculated at checkout. Please note that some countries have import restrictions on organic soil amendments.
+            <?php echo t('faq_a4'); ?>
           </div></div></div>
         </div>
 
         <div class="fq-item">
           <button class="fq-question" aria-expanded="false">
-            <span class="fq-q-text">Can I use GreenGrow products in combination?</span>
+            <span class="fq-q-text"><?php echo t('faq_q5'); ?></span>
             <span class="fq-icon"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span>
           </button>
           <div class="fq-answer"><div class="fq-answer-clip"><div class="fq-answer-inner">
-            Yes — our product line is designed to work together. For example, pairing our All-Purpose Granular with the Liquid Kelp Boost gives you both slow-release foundational nutrition and a fast-acting micronutrient lift.
+            <?php echo t('faq_a5'); ?>
           </div></div></div>
         </div>
 
         <div class="fq-item">
           <button class="fq-question" aria-expanded="false">
-            <span class="fq-q-text">What is your return policy?</span>
+            <span class="fq-q-text"><?php echo t('faq_q6'); ?></span>
             <span class="fq-icon"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10"/></svg></span>
           </button>
           <div class="fq-answer"><div class="fq-answer-clip"><div class="fq-answer-inner">
-            We offer a 30-day satisfaction guarantee on all products. If you're not happy with your purchase for any reason, contact us at <a href="mailto:hello@greengrow.com">hello@greengrow.com</a> and we'll arrange a full refund or replacement.
+            <?php echo t('faq_a6'); ?>
           </div></div></div>
         </div>
       </div>
