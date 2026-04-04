@@ -2115,15 +2115,15 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 200;
-            backdrop-filter: blur(4px);
+            z-index: 3000;
+            backdrop-filter: blur(12px);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .modal-overlay.active {
@@ -2132,34 +2132,42 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         }
 
         .modal {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
             padding: 32px;
-            max-width: 400px;
-            text-align: center;
-            transform: scale(0.9) translateY(20px);
-            filter: blur(10px);
+            max-width: 440px;
+            width: 90%;
+            transform: scale(0.92) translateY(30px);
             opacity: 0;
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        html[data-theme="light"] .modal {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0,0,0,0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
         .modal-overlay.active .modal {
             transform: scale(1) translateY(0);
-            filter: blur(0);
             opacity: 1;
         }
 
         .modal-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(248, 113, 113, 0.15);
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: rgba(239, 68, 68, 0.1);
             color: var(--danger);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
+            margin: 0 auto 24px;
+            transition: transform 0.3s ease;
         }
 
         .modal-title {
@@ -2182,55 +2190,82 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
         /* ── Collaborator Specific Premium Styles ── */
         .collab-modal {
-            max-width: 550px !important;
+            max-width: 580px !important;
             padding: 0 !important;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--accent-gold) !important;
+            box-shadow: 0 0 40px rgba(212, 168, 83, 0.15) !important;
         }
 
         .collab-modal-header {
-            padding: 24px 32px;
-            background: linear-gradient(135deg, #0f2d1f 0%, #1a3a2a 100%);
+            padding: 28px 32px;
+            background: rgba(200, 168, 75, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        html[data-theme="light"] .collab-modal-header {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(212, 168, 83, 0.1);
         }
 
         .collab-modal-title h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.75rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
             font-weight: 700;
-            color: #fff;
+            color: var(--accent-gold);
             margin: 0;
-        }
-
-        html[data-theme="light"] .collab-modal-title h2 {
-            color: var(--text-primary);
+            letter-spacing: -0.5px;
         }
 
         .collab-modal-body {
-            padding: 32px;
-            background: var(--bg-secondary);
+            padding: 36px 32px;
+            text-align: left;
         }
 
         .collab-form-group {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
         .collab-form-label {
             display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1.2px;
+            opacity: 0.8;
+        }
+
+        .collab-form-group .form-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        html[data-theme="light"] .collab-form-group .form-input {
+            background: #fff;
+            border-color: rgba(0,0,0,0.1);
+            color: var(--text-primary);
+        }
+
+        .collab-form-group .form-input:focus {
+            background: rgba(212, 168, 83, 0.03);
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px rgba(212, 168, 83, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .collab-form-group .search-input-wrap .search-icon {
+            color: var(--accent-gold);
+            opacity: 0.6;
+            left: 18px;
+        }
+
+        .collab-form-group .search-input-wrap .form-input {
+            padding-left: 48px;
         }
 
         .collab-input-preview {
@@ -3317,9 +3352,77 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                         <p class="page-subtitle">Manage your dashboard preferences</p>
                     </div>
                 </div>
-                <div class="settings-content" style="max-width: 800px; margin: 0 auto;">
-                    <!-- Appearance Section -->
+                <div class="settings-content">
+                    <!-- Business Information Section -->
                     <div class="settings-section">
+                        <h3 class="settings-section-title">Business Information</h3>
+                        <form id="businessInfoForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number 1</label>
+                                    <input type="text" name="phone_1" id="set_phone_1" class="form-input" placeholder="+383 49 000 000">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number 2</label>
+                                    <input type="text" name="phone_2" id="set_phone_2" class="form-input" placeholder="+383 44 000 000">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Business Email</label>
+                                <input type="email" name="email" id="set_email" class="form-input" placeholder="info@agrofanema.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Physical Address</label>
+                                <textarea name="address" id="set_address" class="form-input" style="height: 80px; resize: none;" placeholder="Enter company address..."></textarea>
+                            </div>
+
+                            <div class="settings-section-divider"></div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Primary Currency</label>
+                                    <select name="currency" id="set_currency" class="form-input" style="background-image: none;">
+                                        <option value="ALL">Albanian Lek (ALL)</option>
+                                        <option value="EUR">Euro (EUR)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">EUR to ALL Exchange Rate</label>
+                                    <div style="position: relative;">
+                                        <input type="number" step="0.01" name="eur_to_all_rate" id="set_rate" class="form-input" placeholder="103.50">
+                                        <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted);">1 EUR = x ALL</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save All Settings</button>
+                        </form>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Security</h3>
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" name="current_password" class="form-input" placeholder="Enter current password" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">New Password</label>
+                                    <input type="password" name="new_password" class="form-input" placeholder="Enter new password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Confirm New Password</label>
+                                    <input type="password" name="confirm_password" class="form-input" placeholder="Confirm new password" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="background: var(--primary-dark); color: #fff;">Change Password</button>
+                        </form>
+                    </div>
+
+                    <!-- Appearance Section (Moved Above Danger Zone) -->
+                    <div class="settings-section" style="margin-top: 48px;">
                         <h3 class="settings-section-title">Appearance</h3>
                         <div class="toggle-row">
                             <div class="toggle-label">
@@ -3712,6 +3815,89 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         setupLangTabs('descLangTabs', 'desc');
 
         /* ═══════════════════════════════════════════════════
+           SETTINGS LOAD & SAVE
+        ═══════════════════════════════════════════════════ */
+        let siteSettings = { currency: 'ALL', rate: 103.50 };
+
+        async function fetchSettings() {
+            try {
+                const res = await fetch('essentials/settings-api.php?action=get');
+                const d = await res.json();
+                if (d.success && d.settings) {
+                    const s = d.settings;
+                    siteSettings.currency = s.currency || 'ALL';
+                    siteSettings.rate = parseFloat(s.eur_to_all_rate) || 103.50;
+
+                    document.getElementById('set_phone_1').value = s.phone_1 || '';
+                    document.getElementById('set_phone_2').value = s.phone_2 || '';
+                    document.getElementById('set_email').value = s.email || '';
+                    document.getElementById('set_address').value = s.address || '';
+                    document.getElementById('set_currency').value = siteSettings.currency;
+                    document.getElementById('set_rate').value = siteSettings.rate;
+
+                    // Re-render components that might depend on currency
+                    updateAllMetrics();
+                    renderSalesTable();
+                }
+            } catch (err) { console.error('Error fetching settings:', err); }
+        }
+
+        function formatCurrency(val) {
+            const num = parseFloat(val) || 0;
+            if (siteSettings.currency === 'EUR') {
+                return (num / siteSettings.rate).toLocaleString('en-IE', { style: 'currency', currency: 'EUR' });
+            }
+            return num.toLocaleString('sq-AL') + ' ALL';
+        }
+
+        document.getElementById('businessInfoForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Saving...';
+            btn.disabled = true;
+
+            const fd = new FormData(e.target);
+            try {
+                const res = await fetch('essentials/settings-api.php?action=update_info', {
+                    method: 'POST',
+                    body: fd
+                });
+                const d = await res.json();
+                if (d.success) showToast('Business info updated', 'success');
+                else showToast(d.error || 'Error updating info', 'error');
+            } catch (err) { showToast('Connection error', 'error'); }
+            finally { btn.textContent = originalText; btn.disabled = false; }
+        });
+
+        document.getElementById('changePasswordForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Changing...';
+            btn.disabled = true;
+
+            const fd = new FormData(e.target);
+            try {
+                const res = await fetch('essentials/settings-api.php?action=change_password', {
+                    method: 'POST',
+                    body: fd
+                });
+                const d = await res.json();
+                if (d.success) {
+                    showToast('Password changed successfully', 'success');
+                    e.target.reset();
+                } else {
+                    showToast(d.error || 'Error changing password', 'error');
+                }
+            } catch (err) { showToast('Connection error', 'error'); }
+            finally { btn.textContent = originalText; btn.disabled = false; }
+        });
+
+        // Initialize Settings
+        fetchSettings();
+
+        /* ═══════════════════════════════════════════════════
            CATEGORY SELECTOR
         ═══════════════════════════════════════════════════ */
         document.querySelectorAll('.category-option').forEach(opt => {
@@ -3944,7 +4130,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 <table>
                     <thead>
                         <tr>
-                            <th>Logo</th>
                             <th>Company Name</th>
                             <th>Website</th>
                             <th>Actions</th>
@@ -3953,8 +4138,10 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <tbody>
                         ${collaborators.map(c => `
                             <tr>
-                                <td><img src="${c.logo}" alt="${c.name}" style="width:40px; height:40px; object-fit:contain; border-radius:4px;"></td>
-                                <td>${c.name}</td>
+                                <td><div style="display:flex; align-items:center; gap:10px;">
+                                    <div style="width:32px; height:32px; border-radius:50%; background:var(--accent-gold); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:14px;">${c.name.charAt(0)}</div>
+                                    <span>${c.name}</span>
+                                </div></td>
                                 <td><a href="${c.website}" target="_blank" style="color:var(--accent-gold); text-decoration:none;">${c.website}</a></td>
                                 <td>
                                     <div style="display:flex; gap:8px;">
@@ -3988,11 +4175,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <div class="collab-modal-body">
                         <form id="collaboratorForm">
                             <input type="hidden" name="action" value="add">
-                            <div class="form-row">
-                                <div class="collab-form-group">
-                                    <label class="collab-form-label">Company Name</label>
-                                    <input type="text" name="name" class="form-input" placeholder="e.g. AgroCorp Ltd" required>
-                                </div>
+                            <div class="collab-form-group">
+                                <label class="collab-form-label">Company Name</label>
+                                <input type="text" name="name" class="form-input" placeholder="e.g. AgroCorp Ltd" required>
                             </div>
                             <div class="collab-form-group">
                                 <label class="collab-form-label">Website URL</label>
@@ -4002,17 +4187,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </div>
                             </div>
                             <div class="collab-form-group" style="margin-bottom:0;">
-                                <label class="collab-form-label">Company Logo</label>
-                                <div class="image-upload-zone" style="padding:20px; border-style:dashed;">
-                                    <input type="file" name="logo" accept="image/*" required onchange="handleCollabLogoPreview(this)">
-                                    <div id="collab-upload-placeholder">
-                                        <div class="upload-icon" style="width:40px; height:40px; margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg></div>
-                                        <div style="font-size:13px; font-weight:600;">Choose Company Logo</div>
-                                        <div style="font-size:11px; color:var(--text-muted);">Recommended: transparent PNG, min 200px</div>
-                                    </div>
-                                    <div class="collab-input-preview" id="collab-logo-preview-wrap" style="display:none; border:none; background:none; margin:0; padding:0; justify-content:center;">
-                                        <img src="" id="collab-logo-img" class="collab-logo-preview" style="width:80px; height:80px;">
-                                    </div>
+                                <div style="display:flex; align-items:center; gap:12px; padding:15px; background:rgba(0,0,0,0.05); border-radius:8px; border:1px solid rgba(0,0,0,0.1);">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                                    <div style="font-size:12px; line-height:1.4;">The partner name will be displayed in high-end typography as configured in the About page.</div>
                                 </div>
                             </div>
                         </form>
@@ -4034,23 +4211,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 setTimeout(() => m.remove(), 400);
             }
         }
-
-        function handleCollabLogoPreview(input) {
-            const wrap = document.getElementById('collab-logo-preview-wrap');
-            const placeholder = document.getElementById('collab-upload-placeholder');
-            const img = document.getElementById('collab-logo-img');
-
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    img.src = e.target.result;
-                    wrap.style.display = 'flex';
-                    placeholder.style.display = 'none';
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
         function editCollaborator(id) {
             const collab = collaborators.find(c => Number(c.id) === Number(id));
             if (!collab) return;
@@ -4071,11 +4231,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                         <form id="collaboratorForm">
                             <input type="hidden" name="action" value="edit">
                             <input type="hidden" name="id" value="${id}">
-                            <div class="form-row">
-                                <div class="collab-form-group">
-                                    <label class="collab-form-label">Company Name</label>
-                                    <input type="text" name="name" value="${collab.name}" class="form-input" required>
-                                </div>
+                            <div class="collab-form-group">
+                                <label class="collab-form-label">Company Name</label>
+                                <input type="text" name="name" value="${collab.name}" class="form-input" required>
                             </div>
                             <div class="collab-form-group">
                                 <label class="collab-form-label">Website URL</label>
@@ -4085,17 +4243,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </div>
                             </div>
                             <div class="collab-form-group" style="margin-bottom:0;">
-                                <label class="collab-form-label">Logo Image</label>
-                                <div class="image-upload-zone" style="padding:20px; border-style:dashed;">
-                                    <input type="file" name="logo" accept="image/*" onchange="handleCollabLogoPreview(this)">
-                                    <div id="collab-upload-placeholder" style="display:none;">
-                                        <div class="upload-icon" style="width:40px; height:40px; margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg></div>
-                                        <div style="font-size:13px; font-weight:600;">Update Company Logo</div>
-                                    </div>
-                                    <div class="collab-input-preview" id="collab-logo-preview-wrap" style="display:flex; border:none; background:none; margin:0; padding:0; justify-content:center; flex-direction:column; align-items:center; gap:8px;">
-                                        <img src="${collab.logo}" id="collab-logo-img" class="collab-logo-preview" style="width:80px; height:80px;">
-                                        <span style="font-size:11px; color:var(--text-muted);">Current Logo</span>
-                                    </div>
+                                <div style="display:flex; align-items:center; gap:12px; padding:15px; background:rgba(0,0,0,0.05); border-radius:8px; border:1px solid rgba(0,0,0,0.1);">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                                    <div style="font-size:12px; line-height:1.4;">The partner name will be displayed in high-end typography (no logo required).</div>
                                 </div>
                             </div>
                         </form>
@@ -4548,10 +4698,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             });
             ['totalProfit', 'vs-revenue', 'totalRevenue'].forEach(id => {
                 const el = document.getElementById(id);
-                if (el) el.textContent = '$' + totalRevenue.toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
+                if (el) el.textContent = formatCurrency(totalRevenue);
             });
             ['totalStockRemaining'].forEach(id => {
                 const el = document.getElementById(id);
@@ -4649,7 +4796,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         <div class="rsw-name">${sale.productName}</div>
         <div class="rsw-qty">${sale.qty} unit${sale.qty > 1 ? 's' : ''} · ${sale.date}</div>
       </div>
-      <div class="rsw-profit" style="${sale.price > 0 ? '' : 'color:var(--text-muted);font-size:12px;'}">${sale.price > 0 ? '$' + sale.total.toFixed(2) : 'No price'}</div>
+      <div class="rsw-profit" style="${sale.price > 0 ? '' : 'color:var(--text-muted);font-size:12px;'}">${sale.price > 0 ? formatCurrency(sale.total) : 'No price'}</div>
     </div>`).join('');
         }
 
@@ -4688,8 +4835,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         <td><span style="font-weight:500;">${sale.productName}</span></td>
         <td><span style="text-transform:capitalize;font-size:12px;background:var(--bg-surface);padding:3px 8px;border-radius:12px;">${sale.category}</span></td>
         <td><strong>${sale.qty}</strong></td>
-        <td>${sale.price > 0 ? '$' + Number(sale.price).toFixed(2) : '<span style="color:var(--text-muted);">—</span>'}</td>
-        <td><strong style="color:var(--success);">${sale.price > 0 ? '$' + Number(sale.total).toFixed(2) : '<span style="color:var(--text-muted);">—</span>'}</strong></td>
+        <td>${sale.price > 0 ? formatCurrency(sale.price) : '<span style="color:var(--text-muted);">—</span>'}</td>
+        <td><strong style="color:var(--success);">${sale.price > 0 ? formatCurrency(sale.total) : '<span style="color:var(--text-muted);">—</span>'}</strong></td>
         <td style="color:var(--text-muted);font-size:13px;">${sale.note || '—'}</td>
         <td style="font-size:12px;color:var(--text-muted);white-space:nowrap;">${sale.date}</td>
         <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteSale('${sale.id}')" title="Delete sale"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></td>

@@ -620,7 +620,7 @@
     /* ════ PARTNERS ════ */
     .partners {
       background: #0B1E12;
-      padding: 120px var(--pad);
+      padding: 70px var(--pad);
       position: relative;
       overflow: hidden;
       isolation: isolate;
@@ -639,7 +639,7 @@
 
     .partners__header {
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 30px;
       position: relative;
       z-index: 1;
     }
@@ -706,6 +706,10 @@
       padding: 20px 0 30px;
     }
 
+    .carousel-viewport:active {
+      cursor: grabbing;
+    }
+
     .carousel-track {
       display: flex;
       gap: 22px;
@@ -714,158 +718,111 @@
     }
 
     .carousel-slide {
-      flex: 0 0 calc(25% - 17px);
-      min-width: 250px;
-      opacity: .38;
-      transform: scale(.93) translateY(10px);
-      transition: all .75s cubic-bezier(.16, 1, .3, 1);
+      flex: 0 0 auto;
+      min-width: 260px;
+      opacity: 1;
+      transform: none;
+      transition: none;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+    }
+
+    @media (max-width: 768px) {
+      .carousel-track {
+        gap: 8px !important;
+      }
+      .carousel-slide {
+        min-width: 240px !important;
+      }
     }
 
     .carousel-slide.is-active {
-      opacity: 1;
-      transform: scale(1) translateY(0);
+      transform: none;
+      z-index: 1;
     }
 
     .pitem__card {
       position: relative;
-      border-radius: 24px;
-      padding: 42px 24px 34px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      background: rgba(255, 255, 255, .035);
-      border: 1px solid rgba(255, 255, 255, .07);
-      transition: all .55s cubic-bezier(.16, 1, .3, 1);
-      overflow: hidden;
-    }
-
-    .pitem__card:hover {
-      transform: translateY(-12px);
-      border-color: rgba(200, 168, 75, .25);
-      background: rgba(255, 255, 255, .05);
-      box-shadow: 0 32px 64px rgba(0, 0, 0, .3);
-    }
-
-    .pitem__icon {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, .1);
-      background: rgba(255, 255, 255, .04);
-      display: flex;
-      align-items: center;
       justify-content: center;
-      margin-bottom: 24px;
+      transition: all 0.4s ease;
+      cursor: grab;
+      user-select: none;
+      padding: 20px 40px;
     }
 
-    .pitem__icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
+    /* Framing Gold Corners */
+    .pitem__card::before,
+    .pitem__card::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid var(--gold);
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0.6;
+      transition: all 0.4s ease;
+    }
+
+    .pitem__card::before {
+      top: 5px; left: 20px;
+      border-right: none; border-bottom: none;
+    }
+
+    .pitem__card::after {
+      bottom: 5px; right: 20px;
+      border-left: none; border-top: none;
+    }
+    
+    .pitem__card:hover::before,
+    .pitem__card:hover::after {
+      opacity: 1;
+      transform: scale(1.1);
     }
 
     .pitem__name {
       font-family: var(--fdis);
-      font-size: 22px;
-      color: #fff;
-      margin-bottom: 12px;
+      font-size: 28px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      transition: all 0.4s ease;
+      text-align: center;
+      margin-bottom: 8px;
     }
 
-    .pitem__divider {
-      width: 30px;
-      height: 1px;
-      background: rgba(200, 168, 75, .3);
-      margin-bottom: 20px;
+    .pitem__card:hover .pitem__name {
+      color: #fff;
     }
 
     .pitem__link {
       font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .2em;
+      font-weight: 600;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--goldlt);
+      color: var(--gold);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      opacity: 0.4;
+      transition: all 0.3s ease;
+    }
+
+    .pitem__card:hover .pitem__link {
+      opacity: 1;
     }
 
     .pitem__link svg {
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 2;
-    }
-
-    .carousel-nav {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 32px;
-    }
-
-    .carousel-btn {
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .carousel-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--gold);
-      transform: scale(0);
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: -1;
-      border-radius: 50%;
-    }
-
-    .carousel-btn:hover:not(.is-disabled) {
-      color: var(--deep);
-      border-color: var(--gold);
-      transform: translateY(-4px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(200, 168, 75, 0.15);
-    }
-
-    .carousel-btn:hover:not(.is-disabled)::before {
-      transform: scale(1);
-    }
-
-    .carousel-btn svg {
-      width: 24px;
-      height: 24px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      transition: transform 0.3s ease;
-    }
-
-    .carousel-btn:hover:not(.is-disabled) svg {
-      transform: scale(1.1);
-    }
-
-    .carousel-btn.is-disabled {
-      opacity: 0.15;
-      cursor: not-allowed;
-      filter: grayscale(1);
-      transform: none !important;
-      box-shadow: none !important;
+      stroke-width: 2.5;
     }
 
     .carousel-dots {
@@ -1049,7 +1006,8 @@
       }
 
       .carousel-slide {
-        flex: 0 0 100%
+        flex: 0 0 100%;
+        min-width: 0;
       }
     }
   </style>
@@ -1171,11 +1129,7 @@
                   echo "
                     <div class='carousel-slide $activeClass'>
                       <div class='pitem__card'>
-                        <div class='pitem__icon'>
-                          <img src='" . htmlspecialchars($c['logo'] ?? '') . "' alt='" . htmlspecialchars($c['name'] ?? '') . "'>
-                        </div>
                         <h3 class='pitem__name'>" . htmlspecialchars($c['name'] ?? '') . "</h3>
-                        <div class='pitem__divider'></div>
                         <a href='" . htmlspecialchars($c['website'] ?? '#') . "' target='_blank' class='pitem__link'>
                           Visit Website
                           <svg viewBox='0 0 24 24'><path d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3'/></svg>
@@ -1192,14 +1146,6 @@
         </div>
 
         <?php if (!empty($collabs) && count($collabs) > 1): ?>
-          <div class="carousel-nav">
-            <button class="carousel-btn" id="partPrevBtn"><svg viewBox="0 0 24 24">
-                <path d="M15 18l-6-6 6-6" />
-              </svg></button>
-            <button class="carousel-btn" id="partNextBtn"><svg viewBox="0 0 24 24">
-                <path d="M9 18l6-6-6-6" />
-              </svg></button>
-          </div>
           <div class="carousel-dots" id="partDots"></div>
         <?php endif; ?>
       </div>
@@ -1234,63 +1180,138 @@
       }, { threshold: .08 });
       document.querySelectorAll('.rv,.rvs').forEach(el => io.observe(el));
 
-      /* Partners Carousel */
+      /* Partners Continuous Seamless Draggable Infinite Carousel */
       (() => {
+        const viewport = document.querySelector('.carousel-viewport');
         const track = document.getElementById('partTrack');
-        const slides = Array.from(track?.children || []);
-        if (slides.length < 2) return;
+        if (!track || !viewport) return;
+        
+        let slides = Array.from(track.children || []);
+        const originalCount = slides.length;
+        if (originalCount < 1) return;
 
-        const nextBtn = document.getElementById('partNextBtn');
-        const prevBtn = document.getElementById('partPrevBtn');
         const dotsNav = document.getElementById('partDots');
-        let cur = 0;
+        
+        const allSlides = Array.from(track.children);
+        const isInfinite = false; // Disabled cloning to ensure each partner is displayed only once
 
-        slides.forEach((_, i) => {
-          const d = document.createElement('button');
-          d.className = `carousel-dot ${i === 0 ? 'is-active' : ''}`;
-          d.onclick = () => go(i);
-          dotsNav.appendChild(d);
-        });
-        const dots = Array.from(dotsNav.children || []);
+        // Dots setup
+        if (dotsNav) {
+          for (let i = 0; i < originalCount; i++) {
+            const d = document.createElement('button');
+            d.className = `carousel-dot ${i === 0 ? 'is-active' : ''}`;
+            d.onclick = () => { skipTo(i); };
+            dotsNav.appendChild(d);
+          }
+        }
+        const dots = dotsNav ? Array.from(dotsNav.children) : [];
 
-        function getW() {
-          const slideW = slides[0]?.getBoundingClientRect()?.width || 0;
-          return slideW + 22;
+        let slideW = 0, trackW = 0;
+        let x = 0; 
+        let isDown = false, startMouseX = 0, startX = 0;
+        let isTransitioning = false;
+
+        function refreshMetrics() {
+          const firstSlide = allSlides[0];
+          if (!firstSlide) return;
+          const rect = firstSlide.getBoundingClientRect();
+          const computedStyle = window.getComputedStyle(track);
+          const gap = parseFloat(computedStyle.gap) || 0;
+          
+          slideW = rect.width + gap;
+          trackW = originalCount * slideW;
         }
 
-        function go(idx) {
-          const len = slides.length;
-          // Wrap around for infinite loop
-          if (idx < 0) idx = len - 1;
-          if (idx >= len) idx = 0;
-
-          cur = idx;
-          const w = getW();
-          const vpW = track.parentElement.offsetWidth;
+        function updateUI() {
+          const vpW = viewport.offsetWidth;
+          const centerX = (vpW / 2) - (slideW / 2);
+          const relativeX = centerX - x;
+          const curIdx = Math.round(relativeX / slideW);
+          const realIdx = (curIdx % originalCount + originalCount) % originalCount;
           
-          // Calculate offset to center the active card
-          const centerX = (vpW / 2) - (w / 2);
-          const scrollX = centerX - (cur * w);
-          
-          track.style.transform = `translateX(${scrollX}px)`;
-
-          slides.forEach((s, i) => s.classList.toggle('is-active', i === cur));
-          dots.forEach((d, i) => d.classList.toggle('is-active', i === cur));
+          allSlides.forEach((s, i) => s.classList.toggle('is-active', i === curIdx));
+          dots.forEach((d, i) => d.classList.toggle('is-active', i === realIdx));
         }
 
-        if (nextBtn) nextBtn.onclick = () => go(cur + 1);
-        if (prevBtn) prevBtn.onclick = () => go(cur - 1);
+        refreshMetrics();
+        // Initial center position
+        const initialIdx = isInfinite ? originalCount : 0;
+        x = -initialIdx * slideW + (viewport.offsetWidth / 2) - (slideW / 2);
 
-        go(0); // init state
+        function skipTo(idx) {
+          const vpW = viewport.offsetWidth;
+          const centerX = (vpW / 2) - (slideW / 2);
+          x = -idx * slideW + centerX;
+          isTransitioning = true;
+          track.style.transition = 'transform 0.85s cubic-bezier(0.16, 1, 0.3, 1)';
+          setTimeout(() => { 
+            isTransitioning = false;
+            track.style.transition = 'none'; 
+          }, 850);
+        }
 
-        let auto = setInterval(() => go(cur + 1), 5000);
+        function loop() {
+          if (!isDown && !isTransitioning && isInfinite) {
+            const isHovering = viewport.matches(':hover');
+            const targetDrift = isHovering ? 0.15 : 1.35;
+            x -= targetDrift;
+            
+            const vpW = viewport.offsetWidth;
+            const centerX = (vpW / 2) - (slideW / 2);
+            const minX = -originalCount * 2 * slideW + centerX;
+            const maxX = -originalCount * slideW + centerX;
+            
+            if (x <= minX) x += trackW;
+            if (x >= maxX + trackW) x -= trackW;
+          }
 
-        track.parentElement.onmouseenter = () => clearInterval(auto);
-        track.parentElement.onmouseleave = () => {
-          clearInterval(auto);
-          auto = setInterval(() => go(cur + 1), 5000);
+          track.style.transform = `translateX(${x}px) translateZ(0)`;
+          updateUI();
+          requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+
+        const start = (e) => {
+          if (!isInfinite && originalCount <= 1) return;
+          isDown = true;
+          isTransitioning = false;
+          viewport.classList.add('active');
+          startMouseX = (e.pageX || e.touches[0].pageX);
+          startX = x;
+          track.style.transition = 'none';
         };
-        window.addEventListener('resize', () => go(cur));
+
+        const move = (e) => {
+          if (!isDown) return;
+          const currentMouseX = (e.pageX || e.touches[0].pageX);
+          const dist = currentMouseX - startMouseX;
+          x = startX + dist;
+        };
+
+        const stop = () => {
+          if (!isDown) return;
+          isDown = false;
+          viewport.classList.remove('active');
+          const vpW = viewport.offsetWidth;
+          const centerX = (vpW / 2) - (slideW / 2);
+          const snapIdx = Math.round((centerX - x) / slideW);
+          skipTo(snapIdx);
+        };
+
+        viewport.addEventListener('mousedown', start);
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', stop);
+        viewport.addEventListener('touchstart', start);
+        window.addEventListener('touchmove', move);
+        window.addEventListener('touchend', stop);
+
+        window.addEventListener('resize', () => {
+          refreshMetrics();
+          const vpW = viewport.offsetWidth;
+          const centerX = (vpW / 2) - (slideW / 2);
+          const currentIdx = Math.round((centerX - x) / slideW);
+          skipTo(currentIdx);
+        });
       })();
     })();
   </script>

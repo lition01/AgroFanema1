@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS collaborators (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    logo VARCHAR(255),
     website VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -42,9 +41,8 @@ CREATE TABLE IF NOT EXISTS contacts (
 -- 6. Admin Users
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
+    access_key VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    full_name VARCHAR(100),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -59,3 +57,25 @@ CREATE TABLE IF NOT EXISTS sales (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
+
+-- 8. Business Settings
+CREATE TABLE IF NOT EXISTS settings (
+    id INT PRIMARY KEY DEFAULT 1,
+    phone_1 VARCHAR(50),
+    phone_2 VARCHAR(50),
+    email VARCHAR(150),
+    address TEXT,
+    currency ENUM('ALL', 'EUR') DEFAULT 'ALL',
+    eur_to_all_rate DECIMAL(10, 2) DEFAULT 103.50, -- Current approximate rate
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert initial business settings if not exists
+INSERT IGNORE INTO settings (id, phone_1, phone_2, email, address, currency, eur_to_all_rate) 
+VALUES (1, '+355 693334644', '+355 682071125', 'agrofanema@gmail.com', 'Kozare, Kuçovë', 'ALL', 103.50);
+
+-- 9. Initial Administrative Account
+-- This seeds the database with the default access_key and password: agro2026
+-- Verify the password hash matches 'agro2026' exactly
+INSERT IGNORE INTO users (access_key, password) 
+VALUES ('agro2026', 'agro2026'); 

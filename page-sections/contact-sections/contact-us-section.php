@@ -1,4 +1,13 @@
-<?php // Contact Section — AgroFanema ?>
+<?php 
+require_once __DIR__ . '/../../essentials/db_connect.php';
+$settings_stmt = $pdo->query("SELECT * FROM settings WHERE id = 1");
+$site_settings = $settings_stmt->fetch(PDO::FETCH_ASSOC);
+
+$s_phone1 = $site_settings['phone_1'] ?? '+355 693334644';
+$s_phone2 = $site_settings['phone_2'] ?? '+355 682071125';
+$s_email = $site_settings['email'] ?? 'agrofanema@gmail.com';
+$s_addr = $site_settings['address'] ?? 'Kozare, Kuçovë';
+?>
 
 <section class="ct-simple-scope" id="contact" aria-label="Contact AgroFanema">
   <style>
@@ -375,18 +384,20 @@
         <ul class="info-list">
           <li class="info-item ct-rv ct-rv-d1">
             <span class="label"><?php echo t('headquarters'); ?></span>
-            <div class="value"><?php echo t('hq_address'); ?></div>
+            <div class="value"><?php echo $s_addr; ?></div>
             <span class="sub-value"><?php echo t('hq_sub'); ?></span>
           </li>
           <li class="info-item ct-rv ct-rv-d2">
             <span class="label"><?php echo t('phone_support'); ?></span>
-            <a href="tel:+355693334644" class="value">+355 693334644</a>
-            <a href="tel:+355682071125" class="value" style="display: block; margin-top: 4px;">+355 682071125</a>
+            <a href="tel:<?php echo $s_phone1; ?>" class="value"><?php echo $s_phone1; ?></a>
+            <?php if ($s_phone2): ?>
+            <a href="tel:<?php echo $s_phone2; ?>" class="value" style="display: block; margin-top: 4px;"><?php echo $s_phone2; ?></a>
+            <?php endif; ?>
             <span class="sub-value"><?php echo t('mon_fri'); ?>, 9:00 – 18:00</span>
           </li>
           <li class="info-item ct-rv ct-rv-d2" style="transition-delay: 0.3s">
             <span class="label"><?php echo t('email_enquiries'); ?></span>
-            <a href="mailto:agrofanema@gmail.com" class="value">agrofanema@gmail.com</a>
+            <a href="mailto:<?php echo $s_email; ?>" class="value"><?php echo $s_email; ?></a>
             <span class="sub-value"><?php echo t('avg_response'); ?></span>
           </li>
         </ul>

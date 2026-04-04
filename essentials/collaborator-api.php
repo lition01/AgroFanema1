@@ -1,13 +1,10 @@
 <?php
 /**
  * Collaborator Backend API — AgroFanema
- * Handles DB operations for Partner Companies
+ * Handles DB operations for Partner Companies (Typography-focused, no logos)
  */
 header('Content-Type: application/json');
 require_once 'db_connect.php';
-
-$uploadDir = __DIR__ . '/../images/collaborators/';
-if (!file_exists($uploadDir)) mkdir($uploadDir, 0777, true);
 
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
@@ -27,19 +24,10 @@ switch ($action) {
         $website = trim($_POST['website'] ?? '');
         if (empty($name)) die(json_encode(['success' => false, 'error' => 'Name required']));
 
-        $imagePath = '';
-        if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
-            $ext = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
-            $filename = uniqid('collab_') . '.' . $ext;
-            if (move_uploaded_file($_FILES['logo']['tmp_name'], $uploadDir . $filename)) {
-                $imagePath = 'images/collaborators/' . $filename;
-            }
-        }
-
         try {
-            $sql = "INSERT INTO collaborators (name, logo, website) VALUES (?, ?, ?)";
+            $sql = "INSERT INTO collaborators (name, website) VALUES (?, ?)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $imagePath, $website]);
+            $stmt->execute([$name, $website]);
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
@@ -63,17 +51,7 @@ switch ($action) {
         
         try {
             $sql = "UPDATE collaborators SET name = ?, website = ? WHERE id = ?";
-            $params = [$name, $website, $id];
-            $pdo->prepare($sql)->execute($params);
-
-            if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
-                $ext = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
-                $filename = uniqid('collab_') . '.' . $ext;
-                if (move_uploaded_file($_FILES['logo']['tmp_name'], $uploadDir . $filename)) {
-                    $img = 'images/collaborators/' . $filename;
-                    $pdo->prepare("UPDATE collaborators SET logo = ? WHERE id = ?")->execute([$img, $id]);
-                }
-            }
+            $pdo->prepare($sql)->execute([$name, $website, $id]);
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);

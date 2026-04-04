@@ -1,28 +1,61 @@
 <?php
 session_start();
+require_once 'essentials/db_connect.php';
 
+// --- LOGOUT LOGIC ---
 if (isset($_GET['logout'])) {
     session_destroy();
     header("Location: login.php");
     exit;
 }
 
-// Simple configuration - you should change these!
-$ACCESS_KEY = "agro2026";
-$PASSWORD = "agro2026";
+// --- REDIRECT IF ALREADY LOGGED IN ---
+if (isset($_SESSION['admin_logged_in'])) {
+    header("Location: admin-dashboard.php");
+    exit;
+}
+
+// --- INITIAL ADMIN SEEDING ---
+// If no users exist, create the default one
+$checkUsers = $pdo->query("SELECT COUNT(*) FROM users");
+if ($checkUsers->fetchColumn() == 0) {
+    $defaultUser = 'agro2026';
+    $defaultPass = 'agro2026';
+    // Using a verified Bcrypt hash for 'agro2026'
+    $hashed = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; 
+    $pdo->prepare("INSERT INTO users (access_key, password) VALUES (?, ?)")->execute([$defaultUser, $hashed]);
+}
 
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $input_key = $_POST['access_key'] ?? '';
+    $input_user = $_POST['access_key'] ?? ''; // We use the "Access Key" field
     $input_pass = $_POST['password'] ?? '';
 
-    if ($input_key === $ACCESS_KEY && $input_pass === $PASSWORD) {
-        $_SESSION['admin_logged_in'] = true;
-        header("Location: admin-dashboard.php");
-        exit;
-    } else {
-        $error = "Invalid Access Key or Password";
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE access_key = ?");
+        $stmt->execute([$input_user]);
+        $user = $stmt->fetch();
+
+        if ($user && (password_verify($input_pass, $user['password']) || $input_pass === $user['password'])) {
+            // If the password in DB was plain text, update it to a secure hash automatically
+            if ($input_pass === $user['password'] && !password_get_info($user['password'])['algo']) {
+                $secureHash = password_hash($input_pass, PASSWORD_DEFAULT);
+                $updateStmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+                $updateStmt->execute([$secureHash, $user['id']]);
+            }
+
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['admin_id'] = $user['id'];
+            $_SESSION['admin_access_key'] = $user['access_key'];
+            
+            header("Location: admin-dashboard.php");
+            exit;
+        } else {
+            $error = "Invalid Access Key or Password";
+        }
+    } catch (PDOException $e) {
+        $error = "Database Connection Error: " . $e->getMessage();
     }
 }
 ?>

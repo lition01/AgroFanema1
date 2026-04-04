@@ -1,3 +1,14 @@
+<?php
+require_once __DIR__ . '/db_connect.php';
+$settings_stmt = $pdo->query("SELECT * FROM settings WHERE id = 1");
+$site_settings = $settings_stmt->fetch(PDO::FETCH_ASSOC);
+
+// Fallbacks if DB is empty
+$s_phone1 = $site_settings['phone_1'] ?? '+355 693334644';
+$s_phone2 = $site_settings['phone_2'] ?? '+355 682071125';
+$s_email = $site_settings['email'] ?? 'agrofanema@gmail.com';
+$s_addr = $site_settings['address'] ?? 'Kozare, Kuçovë';
+?>
 <style>
 /* ══════════════════════════════════════════
    FOOTER (Scoped)
@@ -401,16 +412,18 @@ a.ft-contact-value:hover { color: #FFFFFF; }
                 <ul class="ft-contact-list">
                     <li class="ft-contact-item">
                         <span class="ft-contact-label"><?php echo t('email'); ?></span>
-                        <a href="mailto:agrofanema@gmail.com" class="ft-contact-value">agrofanema@gmail.com</a>
+                        <a href="mailto:<?php echo $s_email; ?>" class="ft-contact-value"><?php echo $s_email; ?></a>
                     </li>
                     <li class="ft-contact-item">
                         <span class="ft-contact-label"><?php echo t('phone'); ?></span>
-                        <a href="tel:+355693334644" class="ft-contact-value">+355 693334644</a>
-                        <a href="tel:+355682071125" class="ft-contact-value">+355 682071125</a>
+                        <a href="tel:<?php echo $s_phone1; ?>" class="ft-contact-value"><?php echo $s_phone1; ?></a>
+                        <?php if($s_phone2): ?>
+                        <a href="tel:<?php echo $s_phone2; ?>" class="ft-contact-value"><?php echo $s_phone2; ?></a>
+                        <?php endif; ?>
                     </li>
                     <li class="ft-contact-item">
                         <span class="ft-contact-label"><?php echo t('office'); ?></span>
-                        <span class="ft-contact-value">Kozare, Kuçovë</span>
+                        <span class="ft-contact-value"><?php echo $s_addr; ?></span>
                     </li>
                 </ul>
             </div>

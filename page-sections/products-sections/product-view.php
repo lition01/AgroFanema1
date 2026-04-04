@@ -1,759 +1,1293 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product | GreenGrow Fertilizers</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<?php // About Us Page Section — AgroFanema ?>
+
+<section class="gg-about-us-scope" id="about-lux" aria-label="About AgroFanema">
   <style>
-    *, *::before, *::after {
+    .gg-about-us-scope *,
+    .gg-about-us-scope *::before,
+    .gg-about-us-scope *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    :root {
+    .gg-about-us-scope {
+      --deep: #0A1B10;
+      --dark: #0F2418;
+      --mid: #1A3D26;
+      --vivid: #2E7D4F;
+      --bright: #3DAA68;
+      --gold: #C8A84B;
+      --goldlt: #E2C472;
       --bg: #F5F2EA;
-      --surface: #FFFFFF;
-      --accent: #C8A84B;
-      --primary: #1A3329;
-      --text: #1A1A1A;
+      --card: #FDFCF8;
+      --text: #2A2A26;
       --muted: #6B6B62;
-      --border: #E2E0DA;
-      --shadow-md: rgba(26, 51, 41, 0.13);
-      --shadow-lg: rgba(26, 51, 41, 0.18);
-      --ease: cubic-bezier(0.4, 0, 0.2, 1);
-      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    }
+      --border: #E2DFD8;
+      --pad: clamp(28px, 7vw, 100px);
+      --fdis: 'Cormorant Garamond', Georgia, serif;
+      --fbody: 'Outfit', sans-serif;
 
-    body {
-      font-family: 'Outfit', sans-serif;
+      font-family: var(--fbody);
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
     }
 
-    /* Panna-Inspired Product View Layout */
-    .product-view {
-      min-height: 100vh;
-      padding: 40px clamp(20px, 5vw, 80px);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: product-view-reveal 0.8s var(--ease) forwards;
+    .gg-about-us-scope .ds {
+      background: var(--deep);
+      color: #fff;
     }
 
-    @keyframes product-view-reveal {
+    .gg-about-us-scope .ls {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px)
+      }
+
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: none
       }
     }
 
-    .product-container {
-      max-width: 1400px;
-      margin: 0 auto;
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
     }
 
-    /* Back Navigation */
-    .back-nav {
-      margin-bottom: 40px;
+    @keyframes scalePop {
+      from {
+        opacity: 0;
+        transform: scale(.88)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1)
+      }
     }
 
-    .back-link {
+    @keyframes drawLine {
+      from {
+        stroke-dashoffset: 2000
+      }
+
+      to {
+        stroke-dashoffset: 0
+      }
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(200, 168, 75, .35)
+      }
+
+      50% {
+        box-shadow: 0 0 0 16px rgba(200, 168, 75, 0)
+      }
+    }
+
+    @keyframes kenburns {
+      0% {
+        transform: scale(1) translateX(0)
+      }
+
+      100% {
+        transform: scale(1.09) translateX(-20px)
+      }
+    }
+
+    @keyframes shimmer {
+      from {
+        transform: translateX(-100%)
+      }
+
+      to {
+        transform: translateX(200%)
+      }
+    }
+
+    @keyframes breathe {
+
+      0%,
+      100% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.015)
+      }
+    }
+
+    .rv {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .85s cubic-bezier(0, 0, .2, 1), transform .85s cubic-bezier(0, 0, .2, 1)
+    }
+
+    .rv.vis {
+      opacity: 1;
+      transform: none
+    }
+
+    .rv.d1 {
+      transition-delay: .08s
+    }
+
+    .rv.d2 {
+      transition-delay: .18s
+    }
+
+    .rv.d3 {
+      transition-delay: .29s
+    }
+
+    .rv.d4 {
+      transition-delay: .4s
+    }
+
+    .rvs {
+      opacity: 0;
+      transform: scale(.93);
+      transition: opacity .9s cubic-bezier(0, 0, .2, 1), transform .9s cubic-bezier(0, 0, .2, 1)
+    }
+
+    .rvs.vis {
+      opacity: 1;
+      transform: scale(1)
+    }
+
+    /* ════ HERO ════ */
+    .hero {
+      position: relative;
+      height: calc(100svh - 78px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=85&fit=crop') center/cover no-repeat;
+      animation: kenburns 24s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(to top,
+          rgba(5, 12, 7, .96) 0%,
+          rgba(5, 12, 7, .78) 25%,
+          rgba(5, 12, 7, .44) 52%,
+          rgba(5, 12, 7, .18) 74%,
+          rgba(5, 12, 7, .06) 100%),
+        linear-gradient(105deg,
+          rgba(5, 12, 7, .9) 0%,
+          rgba(5, 12, 7, .55) 40%,
+          rgba(5, 12, 7, .1) 70%,
+          transparent 100%);
+    }
+
+    .hero__grain {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: .05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 220px;
+    }
+
+    .hero__botanical {
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 560px;
+      height: 560px;
+      z-index: 2;
+      pointer-events: none;
+      opacity: .10;
+    }
+
+    .hero__botanical .b1,
+    .hero__botanical .b2,
+    .hero__botanical .b3,
+    .hero__botanical .b4 {
+      fill: none;
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+    }
+
+    .hero__botanical .b1 {
+      stroke: #C8A84B;
+      stroke-width: .7;
+      animation: drawLine 4.5s .3s ease-out forwards
+    }
+
+    .hero__botanical .b2 {
+      stroke: #C8A84B;
+      stroke-width: .45;
+      animation: drawLine 4.5s .9s ease-out forwards
+    }
+
+    .hero__botanical .b3 {
+      stroke: #C8A84B;
+      stroke-width: .3;
+      animation: drawLine 4.5s 1.5s ease-out forwards
+    }
+
+    .hero__botanical .b4 {
+      stroke: #3DAA68;
+      stroke-width: .25;
+      animation: drawLine 4.5s 2.1s ease-out forwards
+    }
+
+    .hero__side-label {
+      position: absolute;
+      left: 26px;
+      top: 50%;
+      z-index: 4;
+      transform: translateY(-50%) rotate(180deg);
+      writing-mode: vertical-rl;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .2);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: fadeIn 2s 2s both;
+    }
+
+    .hero__side-label::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 56px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, .22));
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 4;
+      padding: 0 var(--pad);
+      max-width: 860px;
+    }
+
+    .hero__eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.3s var(--ease);
-      padding: 12px 0;
+      gap: 14px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 30px;
+      animation: fadeUp .9s cubic-bezier(0, 0, .2, 1) both;
     }
 
-    .back-link:hover {
-      color: var(--primary);
+    .hero__eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      animation: pulse 2.6s ease-in-out infinite;
     }
 
-    .back-link svg {
+    .hero__eyebrow-line {
+      display: block;
+      width: 38px;
+      height: 1px;
+      background: var(--gold)
+    }
+
+    .hero__title {
+      font-family: var(--fdis);
+      font-size: clamp(58px, 9.5vw, 132px);
+      font-weight: 300;
+      line-height: .97;
+      letter-spacing: -.022em;
+      color: #fff;
+      animation: fadeUp .9s .12s cubic-bezier(0, 0, .2, 1) both;
+    }
+
+    .hero__title span {
+      display: block
+    }
+
+    .hero__title em {
+      display: block;
+      font-style: italic;
+      color: var(--goldlt)
+    }
+
+    .hero__underline {
+      position: relative;
+      overflow: hidden;
+      height: 1px;
+      width: clamp(120px, 20vw, 280px);
+      margin: 30px 0 34px;
+      background: linear-gradient(90deg, var(--gold), rgba(226, 196, 114, .28) 60%, transparent);
+      animation: fadeIn 1s .4s both;
+    }
+
+    .hero__underline::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, .75) 50%, transparent 100%);
+      animation: shimmer 3s 1.6s ease-in-out infinite;
+    }
+
+    .hero__tagline {
+      font-size: clamp(14px, 1.45vw, 17px);
+      line-height: 1.88;
+      color: rgba(255, 255, 255, .55);
+      font-weight: 300;
+      max-width: 460px;
+      margin-bottom: 42px;
+      animation: fadeUp .9s .24s cubic-bezier(0, 0, .2, 1) both;
+    }
+
+    .hero__badges {
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+      animation: fadeUp .9s .36s cubic-bezier(0, 0, .2, 1) both;
+    }
+
+    .hero__badge-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero__badge-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(200, 168, 75, .3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+    }
+
+    .hero__badge-icon svg {
       width: 18px;
       height: 18px;
-      stroke: currentColor;
-      stroke-width: 1.5;
-      fill: none;
-      transition: transform 0.3s var(--ease);
+      stroke-width: 1.5
     }
 
-    .back-link:hover svg {
-      transform: translateX(-4px);
+    .hero__badge-text {
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .7);
+      line-height: 1.3;
     }
 
-    /* Main Product Grid - Panna Style Split Layout */
-    .product-main {
+    .hero__badge-text strong {
+      display: block;
+      color: var(--goldlt);
+      font-weight: 700
+    }
+
+    /* ════ STORY ════ */
+    .story {
+      padding: 120px var(--pad);
+      position: relative
+    }
+
+    .story::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 60% 50% at 100% 0%, rgba(46, 125, 79, .06), transparent 60%), radial-gradient(ellipse 40% 40% at 0% 100%, rgba(200, 168, 75, .04), transparent 60%)
+    }
+
+    .story__grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
-      align-items: start;
-    }
-
-    /* Product Gallery */
-    .product-gallery {
-      position: sticky;
-      top: 40px;
-    }
-
-    .gallery-main {
-      width: 100%;
-      aspect-ratio: 4/5;
-      border-radius: 24px;
-      overflow: hidden;
-      background: var(--bg); /* Panna background */
-      box-shadow: 
-        0 30px 60px -20px rgba(26, 51, 41, 0.15),
-        0 15px 30px -10px rgba(26, 51, 41, 0.05); /* Premium multi-layered shadow */
+      align-items: center;
       position: relative;
-      border: 1px solid rgba(26, 51, 41, 0.03);
+      z-index: 1
     }
 
-    .gallery-main img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.8s var(--ease);
-    }
-
-    .gallery-main:hover img {
-      transform: scale(1.03);
-    }
-
-    .gallery-badge {
-      position: absolute;
-      top: 24px;
-      left: 24px;
-      padding: 8px 16px;
-      font-size: 0.7rem;
-      font-weight: 700;
+    .story__label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .26em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      border-radius: 6px;
-      background: var(--primary);
-      color: #FFFFFF;
-    }
-
-    .gallery-badge.new {
-      background: var(--accent);
-      color: var(--primary);
-    }
-
-    .gallery-badge.sale {
-      background: #B85C38;
-    }
-
-    /* Thumbnail Gallery */
-    .gallery-thumbs {
-      display: flex;
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .thumb-item {
-      width: 80px;
-      height: 80px;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: all 0.3s var(--ease);
-      background: var(--surface);
-    }
-
-    .thumb-item:hover,
-    .thumb-item.active {
-      border-color: var(--accent);
-    }
-
-    .thumb-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Product Details - Panna Inspired */
-    .product-details {
-      padding: 20px 0;
-    }
-
-    .product-category-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    .product-category-tag svg {
-      width: 14px;
-      height: 14px;
-      stroke: var(--accent);
-      stroke-width: 1.5;
-      fill: none;
-    }
-
-    .product-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 4vw, 3.5rem);
-      font-weight: 600;
-      color: var(--primary);
-      line-height: 1.15;
-      margin-bottom: 20px;
-      letter-spacing: -0.02em;
-    }
-
-
-
-    .product-description {
-      font-size: 1.05rem;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 40px;
-      max-width: 500px;
-    }
-
-    /* Quantity Selector */
-    .quantity-section {
-      margin-bottom: 32px;
-    }
-
-    .quantity-label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .quantity-selector {
-      display: inline-flex;
-      align-items: center;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .qty-btn {
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: var(--text);
-      transition: all 0.2s var(--ease);
-    }
-
-    .qty-btn:hover {
-      background: var(--bg);
-    }
-
-    .qty-btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      stroke-width: 1.5;
-      fill: none;
-    }
-
-    .qty-input {
-      width: 60px;
-      height: 50px;
-      border: none;
-      text-align: center;
-      font-family: 'Outfit', sans-serif;
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--text);
-      background: transparent;
-    }
-
-    .qty-input:focus {
-      outline: none;
-    }
-
-    /* Action Buttons */
-    .action-buttons {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 48px;
-    }
-
-    .btn-add-cart {
-      flex: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 18px 40px;
-      background: var(--primary);
-      color: #FFFFFF;
-      border: none;
-      border-radius: 100px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      cursor: pointer;
-      transition: all 0.4s var(--ease);
-      text-decoration: none;
-    }
-
-    .btn-add-cart:hover {
-      background: #0D1A14;
-      box-shadow: 0 12px 32px rgba(26, 51, 41, 0.2);
-    }
-
-    .btn-add-cart svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      stroke-width: 1.5;
-      fill: none;
-    }
-
-    .btn-wishlist {
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      cursor: pointer;
-      transition: all 0.3s var(--ease);
-    }
-
-    .btn-wishlist:hover {
-      border-color: var(--accent);
-      background: #FAFAF8;
-    }
-
-    .btn-wishlist svg {
-      width: 22px;
-      height: 22px;
-      stroke: var(--muted);
-      stroke-width: 1.5;
-      fill: none;
-      transition: all 0.3s var(--ease);
-    }
-
-    .btn-wishlist:hover svg {
-      stroke: var(--accent);
-    }
-
-    /* Features List */
-    .product-features {
-      border-top: 1px solid var(--border);
-      padding-top: 40px;
-    }
-
-    .features-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 24px;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .feature-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 16px;
-      background: var(--surface);
-      border-radius: 14px;
-      border: 1px solid var(--border);
-    }
-
-    .feature-icon {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg);
-      border-radius: 10px;
-      flex-shrink: 0;
-    }
-
-    .feature-icon svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--accent);
-      stroke-width: 1.5;
-      fill: none;
-    }
-
-    .feature-content h4 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-
-    .feature-content p {
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    /* Shipping Info Bar */
-    .shipping-bar {
-      display: flex;
-      gap: 24px;
-      margin-top: 32px;
-      padding: 20px;
-      background: var(--surface);
-      border-radius: 14px;
-      border: 1px solid var(--border);
-    }
-
-    .shipping-item {
+      color: var(--vivid);
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.85rem;
+      margin-bottom: 20px
+    }
+
+    .story__label::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--vivid);
+      display: block
+    }
+
+    .story__title {
+      font-family: var(--fdis);
+      font-size: clamp(38px, 4.5vw, 58px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--deep);
+      margin-bottom: 8px
+    }
+
+    .story__title em {
+      font-style: italic;
+      color: var(--gold)
+    }
+
+    .story__divider {
+      width: 52px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--goldlt), transparent);
+      margin: 28px 0
+    }
+
+    .story__body {
+      font-size: 15.5px;
+      line-height: 1.9;
       color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 20px
     }
 
-    .shipping-item svg {
-      width: 18px;
-      height: 18px;
-      stroke: var(--accent);
-      stroke-width: 1.5;
+    .story__quote {
+      border-left: 2px solid var(--gold);
+      padding: 4px 0 4px 24px;
+      margin: 32px 0;
+      font-family: var(--fdis);
+      font-size: 21px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--deep);
+      line-height: 1.6;
+      opacity: .8
+    }
+
+    .story__metrics {
+      display: flex;
+      gap: 40px;
+      margin-top: 36px
+    }
+
+    .story__metric-num {
+      font-family: var(--fdis);
+      font-size: 38px;
+      font-weight: 500;
+      color: var(--vivid);
+      line-height: 1
+    }
+
+    .story__metric-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px
+    }
+
+    .story__photos {
+      position: relative;
+      height: 600px
+    }
+
+    .story__photo {
+      position: absolute;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(10, 27, 16, .14)
+    }
+
+    .story__photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    .story__photo--main {
+      width: 78%;
+      height: 76%;
+      top: 0;
+      left: 0
+    }
+
+    .story__photo--secondary {
+      width: 52%;
+      height: 48%;
+      bottom: 0;
+      right: 0;
+      border: 4px solid var(--bg);
+      z-index: 2
+    }
+
+    .story__corner {
+      position: absolute;
+      top: -16px;
+      left: -16px;
+      width: 64px;
+      height: 64px;
+      border-top: 2px solid rgba(200, 168, 75, .3);
+      border-left: 2px solid rgba(200, 168, 75, .3);
+      pointer-events: none
+    }
+
+    .story__badge {
+      position: absolute;
+      top: 42%;
+      right: -20px;
+      width: 96px;
+      height: 96px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      box-shadow: 0 10px 32px rgba(200, 168, 75, .32);
+      animation: pulse 3s ease-in-out infinite
+    }
+
+    .story__badge-num {
+      font-family: var(--fdis);
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--deep);
+      line-height: 1
+    }
+
+    .story__badge-txt {
+      font-size: 8.5px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--deep);
+      opacity: .7;
+      text-align: center;
+      line-height: 1.4;
+      margin-top: 2px
+    }
+
+    /* ════ PARTNERS ════ */
+    .partners {
+      background: #0B1E12;
+      padding: 70px var(--pad);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .partners::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+      opacity: .028;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .partners__header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .partners__label {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .46em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .partners__label::before,
+    .partners__label::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+
+    .partners__label::after {
+      background: linear-gradient(270deg, transparent, var(--gold));
+    }
+
+    .partners__title {
+      font-family: var(--fdis);
+      font-size: clamp(44px, 5.5vw, 76px);
+      color: #fff;
+      font-weight: 300;
+      line-height: .97;
+      margin-bottom: 22px;
+      letter-spacing: -.022em;
+    }
+
+    .partners__title em {
+      font-style: italic;
+      color: var(--goldlt);
+    }
+
+    .partners__sub {
+      font-size: 15.5px;
+      color: rgba(255, 255, 255, .38);
+      font-weight: 300;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.85;
+    }
+
+    .carousel-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .carousel-viewport {
+      overflow: hidden;
+      cursor: grab;
+      mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+      padding: 20px 0 30px;
+    }
+
+    .carousel-viewport:active {
+      cursor: grabbing;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 22px;
+      transition: transform .85s cubic-bezier(.16, 1, .3, 1);
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      flex: 0 0 auto;
+      min-width: 260px;
+      opacity: 1;
+      transform: none;
+      transition: none;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+    }
+
+    .carousel-slide.is-active {
+      transform: none;
+      z-index: 1;
+    }
+
+    /* ── Compact Premium Partner Card ── */
+    .pitem__card {
+      position: relative;
+      width: 200px;
+      height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: grab;
+      user-select: none;
+    }
+
+    .pitem__card:hover {
+      transform: scale(1.1);
+      z-index: 10;
+    }
+
+    /* --- Removing Elegant Gold Corners --- */
+    .pitem__card::before,
+    .pitem__card::after {
+      content: none;
+    }
+
+    .pitem__card::before {
+      top: -8px;
+      left: -8px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .pitem__card::after {
+      bottom: -8px;
+      right: -8px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .pitem__logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: none;
+      opacity: 0.85;
+      transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pitem__card:hover .pitem__logo-box img {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+
+    .pitem__name {
+      margin-top: 16px;
+      font-family: var(--fdis);
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: all 0.4s ease;
+      pointer-events: none;
+    }
+
+    .pitem__card:hover .pitem__name {
+      color: var(--gold);
+      opacity: 1;
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 36px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0;
+    }
+
+    .carousel-dot:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.2);
+    }
+
+    .carousel-dot.is-active {
+      background: var(--gold);
+      width: 32px;
+      border-radius: 20px;
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(200, 168, 75, 0.4);
+    }
+
+    /* ════ CTA ════ */
+    .cta {
+      padding: 130px var(--pad);
+      text-align: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 65% 65% at 50% 55%, rgba(46, 125, 79, .07), transparent);
+      pointer-events: none
+    }
+
+    .cta__ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none
+    }
+
+    .cta__ring:nth-child(1) {
+      width: 680px;
+      height: 680px;
+      border: 1px solid rgba(46, 125, 79, .055)
+    }
+
+    .cta__ring:nth-child(2) {
+      width: 450px;
+      height: 450px;
+      border: 1px solid rgba(46, 125, 79, .085)
+    }
+
+    .cta__ring:nth-child(3) {
+      width: 230px;
+      height: 230px;
+      border: 1px solid rgba(200, 168, 75, .13)
+    }
+
+    .cta__eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--vivid);
+      margin-bottom: 22px
+    }
+
+    .cta__title {
+      font-family: var(--fdis);
+      font-size: clamp(40px, 5.5vw, 74px);
+      font-weight: 300;
+      color: var(--deep);
+      max-width: 660px;
+      margin: 0 auto 26px;
+      line-height: 1.1
+    }
+
+    .cta__title em {
+      font-style: italic;
+      color: var(--gold)
+    }
+
+    .cta__sub {
+      font-size: 15.5px;
+      color: var(--muted);
+      max-width: 450px;
+      margin: 0 auto 52px;
+      font-weight: 300;
+      line-height: 1.8
+    }
+
+    .cta__btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 38px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: all .38s
+    }
+
+    .btn svg {
+      width: 15px;
+      height: 15px;
       fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
     }
 
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .product-main {
+    .btn--solid {
+      background: var(--deep);
+      color: #fff;
+      border: 1px solid var(--deep)
+    }
+
+    .btn--solid:hover {
+      background: var(--mid);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(10, 27, 16, .18)
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--deep);
+      border: 1px solid var(--border)
+    }
+
+    .btn--outline:hover {
+      background: rgba(0, 0, 0, 0.03);
+      transform: translateY(-3px)
+    }
+
+    @media(max-width:900px) {
+      .story__grid {
         grid-template-columns: 1fr;
-        gap: 48px;
+        gap: 48px
       }
 
-      .product-gallery {
-        position: relative;
-        top: 0;
+      .story__photos {
+        height: 400px;
+        order: -1
       }
 
-      .gallery-main {
-        aspect-ratio: 1;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .product-view {
-        padding: 24px 16px;
-      }
-
-      .product-title {
-        font-size: 2rem;
-      }
-
-
-
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .action-buttons {
-        flex-direction: column;
-      }
-
-      .btn-wishlist {
-        width: 100%;
-      }
-
-      .shipping-bar {
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .gallery-thumbs {
-        gap: 10px;
-      }
-
-      .thumb-item {
-        width: 60px;
-        height: 60px;
+      .carousel-slide {
+        flex: 0 0 calc(50% - 11px)
       }
     }
 
-    @media (max-width: 480px) {
-      .back-nav {
-        margin-bottom: 24px;
+    @media(max-width:640px) {
+      .hero__title {
+        font-size: clamp(50px, 14vw, 80px)
       }
 
-      .product-category-tag {
-        margin-bottom: 16px;
-      }
-
-      .product-title {
-        font-size: 1.75rem;
-        margin-bottom: 16px;
-      }
-
-
-
-      .product-description {
-        font-size: 0.95rem;
-        margin-bottom: 32px;
-      }
-
-      .quantity-section {
-        margin-bottom: 24px;
-      }
-
-      .btn-add-cart {
-        padding: 16px 32px;
+      .carousel-slide {
+        flex: 0 0 100%;
+        min-width: 0;
       }
     }
   </style>
-</head>
-<body>
-  <?php // Product View Section — AgroFanema ?>
 
-  <section class="gg-product-view-scope" id="product-view" aria-label="AgroFanema Product Detail">
-    <div class="product-container">
-      <nav class="back-nav">
-        <a href="products.html" class="back-link">
-          <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-          Back to Products
-        </a>
-      </nav>
-
-      <div class="product-main">
-        <!-- Product Gallery -->
-        <div class="product-gallery">
-          <div class="gallery-main">
-            <span class="gallery-badge" id="product-badge"></span>
-            <img id="main-image" src="" alt="">
+  <!-- HERO -->
+  <div class="ds">
+    <section class="hero">
+      <div class="hero__bg"></div>
+      <div class="hero__overlay"></div>
+      <div class="hero__grain"></div>
+      <svg class="hero__botanical" viewBox="0 0 560 560" fill="none">
+        <circle class="b1" cx="280" cy="280" r="265" />
+        <circle class="b2" cx="280" cy="280" r="215" />
+        <circle class="b3" cx="280" cy="280" r="158" />
+        <circle class="b4" cx="280" cy="280" r="95" />
+        <line class="b1" x1="280" y1="15" x2="280" y2="545" />
+        <line class="b1" x1="15" y1="280" x2="545" y2="280" />
+      </svg>
+      <div class="hero__side-label"><?php echo t('scroll_explore'); ?></div>
+      <div class="hero__content">
+        <div class="hero__eyebrow">
+          <div class="hero__eyebrow-dot"></div><span class="hero__eyebrow-line"></span><?php echo t('heritage'); ?>
+        </div>
+        <h1 class="hero__title"><span><?php echo t('about'); ?></span><em>AgroFanema</em></h1>
+        <div class="hero__underline"></div>
+        <p class="hero__tagline"><?php echo t('nourish_earth'); ?></p>
+        <div class="hero__badges">
+          <div class="hero__badge-item">
+            <div class="hero__badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg></div>
+            <div class="hero__badge-text"><strong><?php echo t('premium_organic'); ?></strong></div>
           </div>
-          <div class="gallery-thumbs" id="gallery-thumbs">
-            <!-- Thumbnails rendered by JS -->
+          <div class="hero__badge-item">
+            <div class="hero__badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg></div>
+            <div class="hero__badge-text"><strong><?php echo t('certified_standard'); ?></strong></div>
+          </div>
+          <div class="hero__badge-item">
+            <div class="hero__badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg></div>
+            <div class="hero__badge-text"><strong><?php echo t('since'); ?></strong>1994</div>
           </div>
         </div>
+      </div>
+    </section>
+  </div>
 
-        <!-- Product Details -->
-        <div class="product-details">
-          <div class="product-category-tag" id="product-category">
-            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/></svg>
-            <span id="category-text">Organic</span>
-          </div>
-
-          <h1 class="product-title" id="product-title">Premium Organic Compost</h1>
-
-          <p class="product-description" id="product-description">
-            Elevate your garden with our premium organic compost, carefully crafted from the finest natural ingredients. Rich in essential nutrients and beneficial microorganisms, it transforms ordinary soil into a thriving ecosystem for your plants.
-          </p>
-
-          <div class="quantity-section">
-            <label class="quantity-label">Quantity</label>
-            <div class="quantity-selector">
-              <button class="qty-btn" id="qty-minus">
-                <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-              </button>
-              <input type="number" class="qty-input" id="qty-input" value="1" min="1" max="99">
-              <button class="qty-btn" id="qty-plus">
-                <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-              </button>
+  <!-- STORY -->
+  <div class="ls">
+    <div class="story">
+      <div class="story__grid">
+        <div>
+          <div class="story__label rv"><?php echo t('our_origin'); ?></div>
+          <h2 class="story__title rv d1"><?php echo t('rooted_passion'); ?></h2>
+          <div class="story__divider rv d2"></div>
+          <p class="story__body rv d2"><?php echo t('origin_1'); ?></p>
+          <p class="story__body rv d3"><?php echo t('origin_2'); ?></p>
+          <blockquote class="story__quote rv d3"><?php echo t('founder_quote'); ?></blockquote>
+          <p class="story__body rv d4"><?php echo t('origin_3'); ?></p>
+          <div class="story__metrics rv d4">
+            <div>
+              <div class="story__metric-num">28</div>
+              <div class="story__metric-label"><?php echo t('countries'); ?></div>
+            </div>
+            <div>
+              <div class="story__metric-num">32</div>
+              <div class="story__metric-label"><?php echo t('years_active'); ?></div>
+            </div>
+            <div>
+              <div class="story__metric-num">50K+</div>
+              <div class="story__metric-label"><?php echo t('growers'); ?></div>
             </div>
           </div>
-
-          <div class="action-buttons">
-            <a href="contact.php" class="btn-add-cart" id="add-to-cart">
-              <svg viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-              Add to Cart
-            </a>
-            <button class="btn-wishlist" id="btn-wishlist">
-              <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-            </button>
-          </div>
-
-          <div class="product-features">
-            <h3 class="features-title">Why Choose This Product</h3>
-            <div class="features-grid" id="product-features-grid">
-              <!-- Features rendered by JS -->
-            </div>
-          </div>
-
-          <div class="shipping-bar">
-            <div class="shipping-item">
-              <svg viewBox="0 0 24 24"><path d="M13 17V3"/><path d="M18 6h-5"/><path d="M13 20h-2"/><path d="M5 10V3"/><path d="M10 6H5"/><path d="M5 20v-7"/><path d="M21 10v10"/><path d="M21 10H11"/></svg>
-              <span>Free shipping over $50</span>
-            </div>
-            <div class="shipping-item">
-              <svg viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>
-              <span>Secure payment</span>
-            </div>
-            <div class="shipping-item">
-              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
-              <span>30-day returns</span>
-            </div>
+        </div>
+        <div class="story__photos rvs">
+          <div class="story__corner"></div>
+          <div class="story__photo story__photo--main"><img
+              src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=700&q=80&fit=crop"
+              alt="Organic farming" /></div>
+          <div class="story__photo story__photo--secondary"><img
+              src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=500&q=80&fit=crop"
+              alt="Healthy plants" /></div>
+          <div class="story__badge">
+            <div class="story__badge-num">32</div>
+            <div class="story__badge-txt"><?php echo t('years_excellence'); ?></div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+
+  <!-- PARTNERS -->
+  <div class="ds" id="partners-anchor">
+    <section class="partners">
+      <div class="partners__header">
+        <div class="partners__label rv"><?php echo t('trusted_network'); ?></div>
+        <h2 class="partners__title rv d1"><?php echo t('partners_certifications'); ?></h2>
+        <p class="partners__sub rv d2"><?php echo t('partners_sub'); ?></p>
+      </div>
+
+      <div class="carousel-container rv d3">
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="partTrack">
+            <?php
+            try {
+              $stmt = $pdo->query("SELECT * FROM collaborators ORDER BY created_at DESC");
+              $collabs = $stmt->fetchAll();
+
+              if (empty($collabs)) {
+                echo '<div style="color:rgba(255,255,255,0.3); text-align:center; width:100%; padding:80px; font-size:18px;">No partners listed yet.</div>';
+              } else {
+                foreach ($collabs as $index => $c) {
+                  $activeClass = ($index === 0) ? "is-active" : "";
+                  echo "
+                    <div class='carousel-slide $activeClass'>
+                      <div class='pitem__card'>
+                        <div class='pitem__logo-box'>
+                          <img src='" . htmlspecialchars($c['logo'] ?? '') . "' alt='" . htmlspecialchars($c['name'] ?? '') . "'>
+                        </div>
+                        <h3 class='pitem__name'>" . htmlspecialchars($c['name'] ?? '') . "</h3>
+                      </div>
+                    </div>";
+                }
+              }
+            } catch (Exception $e) {
+              echo "<!-- Carousel Error: " . $e->getMessage() . " -->";
+            }
+            ?>
+          </div>
+        </div>
+
+        <?php if (!empty($collabs) && count($collabs) > 1): ?>
+          <div class="carousel-dots" id="partDots"></div>
+        <?php endif; ?>
+      </div>
+    </section>
+  </div>
+
+  <!-- CTA -->
+  <div class="ls">
+    <div class="cta">
+      <div class="cta__ring"></div>
+      <div class="cta__ring"></div>
+      <div class="cta__ring"></div>
+      <p class="cta__eyebrow rv"><?php echo t('ready_grow'); ?></p>
+      <h2 class="cta__title rv d1"><?php echo t('heavy_lifting'); ?></h2>
+      <p class="cta__sub rv d2"><?php echo t('cta_sub'); ?></p>
+      <div class="cta__btns rv d3">
+        <a href="products.php" class="btn btn--solid"><?php echo t('explore_products'); ?> <svg viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg></a>
+        <a href="contact.php" class="btn btn--outline"><?php echo t('contact_us'); ?></a>
+      </div>
+    </div>
+  </div>
 
   <script>
-    const categoryIcons = {
-      biostimulants: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 3.5-2 3.5s2.24-.5 3.5-2M19.5 7.5c1.5-1.26 2-3.5 2-3.5s-2.24.5-3.5 2M8 12a4 4 0 1 0 8 0 4 4 0 1 0-8 0M2 2l20 20"/></svg>',
-      crystalline: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 12L2 9zM11 3v18M22 9H2M4.5 6h15M16.5 18L18 9M7.5 18L6 9"/></svg>',
-      granular: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="1"/><circle cx="17" cy="7" r="1"/><circle cx="7" cy="17" r="1"/><circle cx="17" cy="17" r="1"/><circle cx="12" cy="12" r="1"/></svg>',
-      soil_improvers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10V3M12 10a4 4 0 1 0 0 8 4 4 0 1 0 0-8ZM3 21h18M7 21v-3M17 21v-3M12 21v-3"/></svg>'
-    };
-
-    const featureIcons = [
-      '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>',
-      '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/></svg>',
-      '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
-      '<svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>'
-    ];
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      // Get product ID from URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const productId = urlParams.get('id');
-
-      if (!productId) {
-        window.location.href = 'products.php';
-        return;
-      }
-
-      // Fetch all products from API
-      let product = null;
-      try {
-        const res = await fetch('essentials/product-api.php?action=list');
-        const data = await res.json();
-        if (data.success) {
-          product = data.products.find(p => p.id === productId);
-        }
-      } catch (e) { console.error(e); }
-
-      if (!product) {
-        document.body.innerHTML = '<div style="padding: 100px; text-align: center;"><h1>Product Not Found</h1><a href="products.php">Back to products</a></div>';
-        return;
-      }
-
-      // Update page content
-      document.title = `${product.name_en} | GreenGrow Fertilizers`;
-      
-      document.getElementById('product-title').textContent = product.name_en;
-      document.getElementById('main-image').src = product.image || '';
-      document.getElementById('main-image').alt = product.name_en;
-      document.getElementById('product-description').textContent = product.desc_en || '';
-      
-      // Update category
-      const categoryText = product.category.charAt(0).toUpperCase() + product.category.slice(1);
-      const categoryTag = document.getElementById('product-category');
-      categoryTag.innerHTML = (categoryIcons[product.category] || categoryIcons.granular) + `<span id="category-text">${categoryText}</span>`;
-
-      // Render Features
-      const featuresGrid = document.getElementById('product-features-grid');
-      featuresGrid.innerHTML = '';
-      const features = product.features_en || [];
-      features.forEach((feature, i) => {
-        const icon = featureIcons[i % featureIcons.length];
-        featuresGrid.innerHTML += `
-          <div class="feature-item">
-            <div class="feature-icon">${icon}</div>
-            <div class="feature-content">
-              <h4>${feature}</h4>
-              <p>Key quality of our premium product line.</p>
-            </div>
-          </div>
-        `;
-      });
-
-      // Generate thumbnail gallery (using same image with different crops for demo)
-      const thumbsContainer = document.getElementById('gallery-thumbs');
-      const thumbAngles = ['', '&sat=-10', '&bri=5', '&con=10'];
-      thumbAngles.forEach((angle, i) => {
-        const thumb = document.createElement('div');
-        thumb.className = `thumb-item ${i === 0 ? 'active' : ''}`;
-        thumb.innerHTML = `<img src="${product.image}${angle}" alt="${product.name} view ${i + 1}">`;
-        thumb.addEventListener('click', () => {
-          document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
-          thumb.classList.add('active');
-          document.getElementById('main-image').src = product.image + angle;
+    (() => {
+      /* Scroll-reveal */
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); }
         });
-        thumbsContainer.appendChild(thumb);
-      });
+      }, { threshold: .08 });
+      document.querySelectorAll('.rv,.rvs').forEach(el => io.observe(el));
 
-      // Quantity controls
-      const qtyInput = document.getElementById('qty-input');
-      const qtyMinus = document.getElementById('qty-minus');
-      const qtyPlus = document.getElementById('qty-plus');
+      /* Partners Continuous Seamless Draggable Infinite Carousel */
+      (() => {
+        const viewport = document.querySelector('.carousel-viewport');
+        const track = document.getElementById('partTrack');
+        if (!track || !viewport) return;
 
-      qtyMinus.addEventListener('click', () => {
-        const current = parseInt(qtyInput.value) || 1;
-        if (current > 1) {
-          qtyInput.value = current - 1;
+        let slides = Array.from(track.children || []);
+        if (slides.length < 1) return;
+
+        const dotsNav = document.getElementById('partDots');
+        const originalCount = slides.length;
+
+        // Clone slides (triple them to ensure smooth continuous marquee)
+        slides.forEach(s => track.appendChild(s.cloneNode(true)));
+        slides.slice().reverse().forEach(s => track.prepend(s.cloneNode(true)));
+        const allSlides = Array.from(track.children);
+
+        // Dots setup
+        if (dotsNav) {
+          for (let i = 0; i < originalCount; i++) {
+            const d = document.createElement('button');
+            d.className = `carousel-dot ${i === 0 ? 'is-active' : ''}`;
+            d.onclick = () => { skipTo(i + originalCount); };
+            dotsNav.appendChild(d);
+          }
         }
-      });
+        const dots = dotsNav ? Array.from(dotsNav.children) : [];
 
-      qtyPlus.addEventListener('click', () => {
-        const current = parseInt(qtyInput.value) || 1;
-        if (current < 99) {
-          qtyInput.value = current + 1;
+        let slideW = 0, trackW = 0;
+        let x = 0, targetX = 0, drift = 1.35; // increased drift speed for faster movement
+        let isDown = false, startMouseX = 0, startX = 0;
+        let isTransitioning = false;
+
+        function refreshMetrics() {
+          slideW = (allSlides[0]?.getBoundingClientRect()?.width || 0) + 22;
+          trackW = originalCount * slideW;
         }
-      });
 
-      qtyInput.addEventListener('change', () => {
-        let value = parseInt(qtyInput.value) || 1;
-        if (value < 1) value = 1;
-        if (value > 99) value = 99;
-        qtyInput.value = value;
-      });
+        function updateUI() {
+          // Center-relative current index
+          const vpW = viewport.offsetWidth;
+          const relativeX = (vpW / 2) - (slideW / 2) - x;
+          const curIdx = Math.round(relativeX / slideW);
+          const realIdx = (curIdx % originalCount + originalCount) % originalCount;
 
-      // Wishlist toggle
-      const wishlistBtn = document.getElementById('btn-wishlist');
-      let isWishlisted = false;
-
-      wishlistBtn.addEventListener('click', () => {
-        isWishlisted = !isWishlisted;
-        const svg = wishlistBtn.querySelector('svg');
-        if (isWishlisted) {
-          svg.style.fill = 'var(--accent)';
-          svg.style.stroke = 'var(--accent)';
-        } else {
-          svg.style.fill = 'none';
-          svg.style.stroke = 'var(--muted)';
+          allSlides.forEach((s, i) => s.classList.toggle('is-active', i === curIdx));
+          dots.forEach((d, i) => d.classList.toggle('is-active', i === realIdx));
         }
-      });
-    });
+
+        // Initial setup
+        refreshMetrics();
+        x = -originalCount * slideW + (viewport.offsetWidth / 2) - (slideW / 2);
+
+        function skipTo(idx) {
+          const vpW = viewport.offsetWidth;
+          const centerX = (vpW / 2) - (slideW / 2);
+          x = -idx * slideW + centerX;
+          isTransitioning = true;
+          track.style.transition = 'transform 0.85s cubic-bezier(0.16, 1, 0.3, 1)';
+          setTimeout(() => {
+            isTransitioning = false;
+            track.style.transition = 'none';
+          }, 850);
+        }
+
+        function loop() {
+          if (!isDown && !isTransitioning) {
+            // Check if mouse is hovering over viewport to slow down or pause
+            const isHovering = viewport.matches(':hover');
+            const targetDrift = isHovering ? 0.15 : 1.35;
+
+            // Smooth velocity transition
+            x -= targetDrift;
+
+            // Seamless wrap
+            const vpW = viewport.offsetWidth;
+            const centerX = (vpW / 2) - (slideW / 2);
+            const minX = -originalCount * 2 * slideW + centerX;
+            const maxX = -originalCount * slideW + centerX;
+
+            if (x <= minX) x += trackW;
+            if (x >= maxX + trackW) x -= trackW;
+          }
+
+          track.style.transform = `translateX(${x}px) translateZ(0)`;
+          updateUI();
+          requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+
+        // Dragging
+        const start = (e) => {
+          isDown = true;
+          isTransitioning = false;
+          viewport.classList.add('active');
+          startMouseX = (e.pageX || e.touches[0].pageX);
+          startX = x;
+          track.style.transition = 'none';
+        };
+
+        const move = (e) => {
+          if (!isDown) return;
+          const currentMouseX = (e.pageX || e.touches[0].pageX);
+          const dist = currentMouseX - startMouseX;
+          x = startX + dist;
+        };
+
+        const stop = () => {
+          if (!isDown) return;
+          isDown = false;
+          viewport.classList.remove('active');
+          // No snapping, let it drift from here, or snap if desired
+          // I'll add a soft snap for premium feel
+          const vpW = viewport.offsetWidth;
+          const centerX = (vpW / 2) - (slideW / 2);
+          const snapIdx = Math.round((centerX - x) / slideW);
+          skipTo(snapIdx);
+        };
+
+        viewport.addEventListener('mousedown', start);
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', stop);
+        viewport.addEventListener('touchstart', start);
+        window.addEventListener('touchmove', move);
+        window.addEventListener('touchend', stop);
+
+        window.addEventListener('resize', () => {
+          refreshMetrics();
+          skipTo(Math.round((viewport.offsetWidth / 2 - slideW / 2 - x) / slideW), true);
+        });
+      })();
+    })();
   </script>
-</body>
-</html>
+</section>
