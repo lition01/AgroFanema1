@@ -4,9 +4,25 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     header("Location: login.php");
     exit;
 }
+
+require_once 'essentials/db_connect.php';
+
+// Fetch settings for language
+try {
+    $stmt = $pdo->query("SELECT admin_language FROM settings WHERE id = 1");
+    $settings = $stmt->fetch();
+    $admin_lang = $settings['admin_language'] ?? 'en';
+} catch (PDOException $e) {
+    $admin_lang = 'en';
+}
+
+require_once 'essentials/admin-translations.php';
 ?>
+<script>
+    const adminLang = '<?php echo $admin_lang; ?>';
+</script>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $admin_lang; ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -404,11 +420,13 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         .metric-trend {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            padding: 4px 8px;
+            gap: 2px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
             border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .metric-trend.up {
@@ -560,11 +578,13 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 justify-content: flex-start !important;
                 gap: 16px !important;
             }
+
             .search-pill-wrapper {
                 margin-left: 0 !important;
                 flex: none !important;
                 width: 350px !important;
             }
+
             .status-badge-wrapper {
                 margin-left: auto !important;
             }
@@ -1049,9 +1069,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         /* ── Product Selector ── */
         .product-selector {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            max-height: 220px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+            max-height: 350px;
             overflow-y: auto;
             padding-right: 4px;
             margin-bottom: 16px;
@@ -1693,9 +1713,10 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         /* ── Add Product Form ── */
         .add-product-layout {
             display: grid;
-            grid-template-columns: 1fr 360px;
+            grid-template-columns: 1fr;
             gap: 24px;
             align-items: start;
+            width: 100%;
         }
 
         .form-panel {
@@ -1894,19 +1915,19 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
         .category-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 12px;
         }
 
         .category-option {
             border: 1.5px solid var(--border-color);
             border-radius: 10px;
-            padding: 10px 12px;
+            padding: 12px 16px;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
-            flex-direction: column;
-            gap: 4px;
+            align-items: center;
+            gap: 12px;
             position: relative;
         }
 
@@ -1926,9 +1947,20 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         }
 
         .category-option-name {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
+            color: var(--text-primary);
         }
+
+        .category-option-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            width: 24px;
+            height: 24px;
+        }
+
 
         .category-option-desc {
             font-size: 11px;
@@ -2148,8 +2180,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
         html[data-theme="light"] .modal {
             background: rgba(255, 255, 255, 0.8);
-            border-color: rgba(0,0,0,0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         .modal-overlay.active .modal {
@@ -2247,7 +2279,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
         html[data-theme="light"] .collab-form-group .form-input {
             background: #fff;
-            border-color: rgba(0,0,0,0.1);
+            border-color: rgba(0, 0, 0, 0.1);
             color: var(--text-primary);
         }
 
@@ -2442,10 +2474,59 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         @media(max-width:768px) {
             .sidebar {
                 transform: translateX(-100%);
+                z-index: 2000;
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.4);
+                backdrop-filter: blur(4px);
+                z-index: 1999;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
             }
 
             .main {
                 margin-left: 0;
+            }
+
+            .topbar {
+                left: 0;
+                padding: 0 16px;
+            }
+
+            .topbar-left {
+                display: flex;
+                align-items: center;
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--bg-surface);
+                border: 1px solid var(--border-color);
+                color: var(--text-primary);
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+
+            .date-label, .time-label {
+                display: none !important;
             }
 
             .metrics-grid,
@@ -2456,6 +2537,18 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
             .form-row {
                 grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+
+        @media(min-width:769px) {
+            .menu-toggle, .sidebar-overlay {
+                display: none !important;
             }
         }
     </style>
@@ -2475,7 +2568,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             </div>
         </div>
         <nav class="nav-section">
-            <div class="nav-label">Main</div>
+            <div class="nav-label"><?php echo at('main_section'); ?></div>
             <div class="nav-item active" data-section="overview">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="3" width="7" height="9" rx="1" />
@@ -2483,7 +2576,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <rect x="14" y="12" width="7" height="9" rx="1" />
                     <rect x="3" y="16" width="7" height="5" rx="1" />
                 </svg>
-                <span>Overview</span>
+                <span><?php echo at('overview'); ?></span>
             </div>
             <div class="nav-item" data-section="view-products">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2491,31 +2584,31 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <line x1="3" y1="6" x2="21" y2="6" />
                     <path d="M16 10a4 4 0 01-8 0" />
                 </svg>
-                <span>View Products</span>
+                <span><?php echo at('inventory'); ?></span>
             </div>
             <div class="nav-item" data-section="add-product">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="12" y1="5" x2="12" y2="19" />
                     <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
-                <span>Add Product</span>
+                <span><?php echo at('add_product'); ?></span>
             </div>
             <div class="nav-divider"></div>
-            <div class="nav-label">Sales</div>
+            <div class="nav-label"><?php echo at('sales_section'); ?></div>
             <div class="nav-item" data-section="add-sale">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="9" cy="21" r="1" />
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
                 </svg>
-                <span>Add Sale</span>
+                <span><?php echo at('record_sale'); ?></span>
             </div>
             <div class="nav-item" data-section="view-sales">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" />
                     <polyline points="17,6 23,6 23,12" />
                 </svg>
-                <span>View Sales</span>
+                <span><?php echo at('sales_history'); ?></span>
             </div>
             <div class="nav-item" data-section="messages">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2523,7 +2616,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <polyline points="22,6 12,13 2,6" />
                 </svg>
                 <span style="display:flex; align-items:center; gap:8px;">
-                    Messages <span class="badge" id="sidebarMsgBadge" style="display:none; background:var(--accent-gold); color:var(--primary-dark); font-size:10px; font-weight:800; padding:2px 6px; border-radius:100px;">0</span>
+                    <?php echo at('leads'); ?> <span class="badge" id="sidebarMsgBadge"
+                        style="display:none; background:var(--accent-gold); color:var(--primary-dark); font-size:10px; font-weight:800; padding:2px 6px; border-radius:100px;">0</span>
                 </span>
             </div>
             <div class="nav-item" data-section="collaborators">
@@ -2533,7 +2627,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                <span>Collaborators</span>
+                <span><?php echo at('collaborators'); ?></span>
             </div>
             <div class="nav-item" data-section="analytics">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2541,17 +2635,17 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <line x1="12" y1="20" x2="12" y2="4" />
                     <line x1="6" y1="20" x2="6" y2="14" />
                 </svg>
-                <span>Analytics</span>
+                <span><?php echo at('analytics'); ?></span>
             </div>
             <div class="nav-divider"></div>
-            <div class="nav-label">Account</div>
+            <div class="nav-label"><?php echo at('account'); ?></div>
             <div class="nav-item" data-section="settings">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3" />
                     <path
                         d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
                 </svg>
-                <span>Settings</span>
+                <span><?php echo at('settings'); ?></span>
             </div>
             <div class="nav-item danger" data-section="logout">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2559,7 +2653,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <polyline points="16,17 21,12 16,7" />
                     <line x1="21" y1="12" x2="9" y2="12" />
                 </svg>
-                <span>Logout</span>
+                <span><?php echo at('logout'); ?></span>
             </div>
             <a href="index.php" class="nav-item"
                 style="text-decoration: none; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 16px;">
@@ -2567,21 +2661,31 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
-                <span>Return to Home</span>
+                <span><?php echo at('return_home'); ?></span>
             </a>
         </nav>
         <div class="user-profile">
-            <div class="user-avatar" id="sidebarAvatar">JD</div>
+            <div class="user-avatar" id="sidebarAvatar">NM</div>
             <div class="user-info">
-                <div class="user-name" id="sidebarName">John Doe</div>
-                <div class="user-role">Administrator</div>
+                <div class="user-name" id="sidebarName">NM</div>
+                <div class="user-role"><?php echo at('administrator'); ?></div>
             </div>
         </div>
     </aside>
 
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <main class="main">
         <header class="topbar">
-            <div class="topbar-left"></div>
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
             <div class="topbar-actions">
                 <div class="date-label" id="currentDate"
                     style="display: flex; align-items: center; background: var(--bg-primary); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); margin-right: 8px;">
@@ -2607,7 +2711,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                         style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading
                         time...</span>
                 </div>
-                <div class="user-avatar" style="width:32px;height:32px;font-size:12px;" id="topbarAvatar">JD</div>
+                <div class="user-avatar" style="width:32px;height:32px;font-size:12px;" id="topbarAvatar">NM</div>
             </div>
         </header>
 
@@ -2617,7 +2721,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="section active" id="section-overview">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Dashboard Overview</h1>
+                        <h1 class="page-title"><?php echo at('overview'); ?></h1>
                         <p class="page-subtitle" id="overviewDate">Loading...</p>
                     </div>
                     <button class="btn btn-secondary btn-sm" onclick="refreshOverview()">
@@ -2627,7 +2731,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <polyline points="1,20 1,13 8,13" />
                             <path d="M3.51 9a9 9 0 0114.85-3.36L23 11M1 13l4.64 4.36A9 9 0 0020.49 15" />
                         </svg>
-                        Refresh
+                        <?php echo at('refresh'); ?>
                     </button>
                     <script>
                         async function refreshOverview() {
@@ -2641,15 +2745,11 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 <div class="metrics-grid">
                     <div class="metric-card" onclick="switchSection('view-sales')">
                         <div class="metric-header">
-                            <div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <line x1="12" y1="1" x2="12" y2="23" />
-                                    <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-                                </svg></div>
+                            <div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg></div>
                             <span class="metric-trend neutral" id="ov-revenue-trend">0 sales</span>
                         </div>
-                        <div class="metric-value" id="ov-revenue">$0.00</div>
-                        <div class="metric-label">Total Revenue</div>
+                        <div class="metric-value" id="ov-revenue">0.00</div>
+                        <div class="metric-label"><?php echo at('revenue'); ?></div>
                     </div>
                     <div class="metric-card" onclick="switchSection('view-sales')">
                         <div class="metric-header">
@@ -2661,7 +2761,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <span class="metric-trend neutral" id="ov-units-trend">0 transactions</span>
                         </div>
                         <div class="metric-value" id="ov-units">0</div>
-                        <div class="metric-label">Units Sold</div>
+                        <div class="metric-label"><?php echo at('products_sold'); ?></div>
                     </div>
                     <div class="metric-card" onclick="switchSection('view-products')">
                         <div class="metric-header">
@@ -2673,7 +2773,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <span class="metric-trend neutral" id="ov-stock-trend">0 products</span>
                         </div>
                         <div class="metric-value" id="ov-stock">0</div>
-                        <div class="metric-label">Items in Stock</div>
+                        <div class="metric-label"><?php echo at('items_in_stock'); ?></div>
                     </div>
                     <div class="metric-card" onclick="switchSection('view-products')">
                         <div class="metric-header">
@@ -2686,19 +2786,29 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <span class="metric-trend neutral" id="ov-low-trend">warning</span>
                         </div>
                         <div class="metric-value" id="ov-low">0</div>
-                        <div class="metric-label">Low Stock Items</div>
+                        <div class="metric-label"><?php echo at('stock_low'); ?></div>
                     </div>
                 </div>
                 <div class="overview-bottom">
                     <div class="activity-card">
-                        <div class="activity-header"><span class="activity-title">🏆 Best Sellers</span></div>
+                        <div class="activity-header">
+                            <span class="activity-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px; vertical-align:text-bottom;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34c0-.5-.37-.91-.87-.98a10.007 10.007 0 0 1-2.26 0c-.5.07-.87.48-.87.98ZM15 7c0-1.66-1.34-3-3-3s-3 1.34-3 3c0 1.25.77 2.3 1.83 2.76A10.003 10.003 0 0 0 12 11c.06 0 .11 0 .17-.01A3.003 3.003 0 0 0 15 7Z"/></svg>
+                                <?php echo at('best_sellers'); ?>
+                            </span>
+                        </div>
                         <div id="ov-best-sellers">
                             <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No sales
                                 yet.</div>
                         </div>
                     </div>
                     <div class="activity-card">
-                        <div class="activity-header"><span class="activity-title">📦 Inventory Breakdown</span></div>
+                        <div class="activity-header">
+                            <span class="activity-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px; vertical-align:text-bottom;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                <?php echo at('inventory_breakdown'); ?>
+                            </span>
+                        </div>
                         <div id="ov-inventory">
                             <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No
                                 products added yet.</div>
@@ -2711,8 +2821,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="section" id="section-view-products">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">View Products</h1>
-                        <p class="page-subtitle">Manage your product inventory</p>
+                        <h1 class="page-title"><?php echo at('view_products'); ?></h1>
+                        <p class="page-subtitle"><?php echo at('inventory'); ?></p>
                     </div>
                     <button class="btn btn-primary" onclick="switchSection('add-product')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -2720,7 +2830,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
-                        Add Product
+                        <?php echo at('add_product'); ?>
                     </button>
                 </div>
                 <div class="cards-grid" style="margin-bottom:24px;">
@@ -2733,7 +2843,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </svg></div>
                         </div>
                         <div class="metric-value" id="totalProductsCount">0</div>
-                        <div class="metric-label">Total Products</div>
+                        <div class="metric-label"><?php echo at('total_products'); ?></div>
                     </div>
                     <div class="metric-card filter-trigger" data-filter="active">
                         <div class="metric-header">
@@ -2743,7 +2853,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </svg></div>
                         </div>
                         <div class="metric-value" id="activeProductsCount">0</div>
-                        <div class="metric-label">In Stock</div>
+                        <div class="metric-label"><?php echo at('in_stock'); ?></div>
                     </div>
                     <div class="metric-card filter-trigger" data-filter="low-stock">
                         <div class="metric-header">
@@ -2756,7 +2866,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </svg></div>
                         </div>
                         <div class="metric-value" id="lowStockCount">0</div>
-                        <div class="metric-label">Low Stock</div>
+                        <div class="metric-label"><?php echo at('stock_low'); ?></div>
                     </div>
                 </div>
 
@@ -2776,9 +2886,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
                                 </svg>
                                 <span class="dropdown-label"
-                                    style="opacity:0.6; font-weight:400; font-size:13px;">Filter:</span>
+                                    style="opacity:0.6; font-weight:400; font-size:13px;"><?php echo at('filter'); ?>:</span>
                                 <span class="dropdown-current" id="currentFilterLabel"
-                                    style="font-weight:600; font-size:13px;">All Products</span>
+                                    style="font-weight:600; font-size:13px;"><?php echo at('all_products'); ?></span>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" style="opacity:0.4;">
                                     <polyline points="6 9 12 15 18 9" />
@@ -2804,7 +2914,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                     <path d="M6 9h12M18 15H6" />
                                 </svg>
                                 <span class="dropdown-label"
-                                    style="opacity:0.6; font-weight:400; font-size:13px;">Sort:</span>
+                                    style="opacity:0.6; font-weight:400; font-size:13px;"><?php echo at('sort'); ?>:</span>
                                 <span class="dropdown-current" id="currentSortLabel"
                                     style="font-weight:600; font-size:13px;">Newest First</span>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -2818,7 +2928,6 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 <div style="height:1px; background:var(--border-color); margin:5px 8px;"></div>
                                 <button class="dropdown-option" data-sort="az">Name A-Z</button>
                                 <button class="dropdown-option" data-sort="za">Name Z-A</button>
-                                <div style="height:1px; background:var(--border-color); margin:5px 8px;"></div>
                                 <button class="dropdown-option" data-sort="stock-low">Low Stock First</button>
                                 <button class="dropdown-option" data-sort="stock-high">High Stock First</button>
                             </div>
@@ -2854,7 +2963,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="section" id="section-add-product">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Add New Product</h1>
+                        <h1 class="page-title"><?php echo at('add_product'); ?></h1>
                         <p class="page-subtitle">Fill in the details below to add a product to your catalogue.</p>
                     </div>
                 </div>
@@ -2869,31 +2978,57 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                         <line x1="5" y1="12" x2="19" y2="12" />
                                     </svg></div>
                                 <div class="form-panel-header-text">
-                                    <h3>Product Details</h3>
-                                    <p>Basic information &amp; content</p>
+                                    <h3><?php echo at('product_details'); ?></h3>
+                                    <p><?php echo at('basic_info_content'); ?></p>
                                 </div>
                             </div>
                             <div class="form-panel-body">
-                                <div class="form-section-divider"><span>Product Names</span></div>
+                                <div class="form-section-divider"><span><?php echo at('product_names'); ?></span></div>
                                 <div class="lang-tabs" id="nameLangTabs">
-                                    <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 Albanian</button>
-                                    <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
+                                    <button type="button" class="lang-tab active" data-lang="sq"><?php echo at('albanian'); ?></button>
+                                    <button type="button" class="lang-tab" data-lang="en"><?php echo at('english'); ?></button>
                                 </div>
                                 <div class="lang-content active" id="name-sq-content">
-                                    <div class="form-group"><label class="form-label">Product Name
-                                            (Albanian)</label><input type="text" name="name_sq" id="name_sq"
+                                    <div class="form-group"><label class="form-label"><?php echo at('product_name_sq'); ?></label><input type="text" name="name_sq" id="name_sq"
                                             class="form-input" placeholder="p.sh. Pleh Granular Premium" required></div>
                                 </div>
                                 <div class="lang-content" id="name-en-content">
-                                    <div class="form-group"><label class="form-label">Product Name
-                                            (English)</label><input type="text" name="name_en" id="name_en"
+                                    <div class="form-group"><label class="form-label"><?php echo at('product_name_en'); ?></label><input type="text" name="name_en" id="name_en"
                                             class="form-input" placeholder="e.g. Premium Granular Fertilizer" required>
                                     </div>
                                 </div>
-                                <div class="form-section-divider"><span>Descriptions</span></div>
+                                
+                                <div class="form-section-divider"><span><?php echo at('category'); ?></span></div>
+                                <div class="category-grid" id="categoryGrid" style="margin-bottom:24px;">
+                                    <label class="category-option selected"><input type="radio" name="category" value="biostimulants" checked>
+                                        <div class="category-option-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 4 10-4 10-4-10z"/></svg></div>
+                                        <div class="category-option-name"><?php echo at('biostimulants'); ?></div>
+                                    </label>
+                                    <label class="category-option"><input type="radio" name="category" value="crystalline">
+                                        <div class="category-option-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 13L2 9z"/></svg></div>
+                                        <div class="category-option-name"><?php echo at('crystalline'); ?></div>
+                                    </label>
+                                    <label class="category-option"><input type="radio" name="category" value="granular">
+                                        <div class="category-option-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5.45 5.45l13.1 13.1M18.55 5.45 5.45 18.55"/></svg></div>
+                                        <div class="category-option-name"><?php echo at('granular'); ?></div>
+                                    </label>
+                                    <label class="category-option"><input type="radio" name="category" value="soil_improvers">
+                                        <div class="category-option-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7c0-1.1.9-2 2-2s2 .9 2 2M11 11c0-1.1.9-2 2-2s2 .9 2 2"/><path d="M3 13a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4V6"/><path d="m11 21-2-2 2-2 2 2-2 2z"/></svg></div>
+                                        <div class="category-option-name"><?php echo at('soil_improvers'); ?></div>
+                                    </label>
+                                </div>
+
+                                <div class="form-section-divider"><span><?php echo at('stock_quantity'); ?></span></div>
+                                <div class="form-group" style="margin-bottom:24px;">
+                                    <div class="qty-control" style="width:100%; height:48px;"><button type="button" class="qty-btn" id="qtyMinus">−</button>
+                                        <input type="number" name="quantity" id="quantity" class="qty-input" value="0" min="0">
+                                        <button type="button" class="qty-btn" id="qtyPlus">+</button>
+                                    </div>
+                                </div>
+                                <div class="form-section-divider"><span><?php echo at('desc'); ?></span></div>
                                 <div class="lang-tabs" id="descLangTabs">
-                                    <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 Albanian</button>
-                                    <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
+                                    <button type="button" class="lang-tab active" data-lang="sq"><?php echo at('albanian'); ?></button>
+                                    <button type="button" class="lang-tab" data-lang="en"><?php echo at('english'); ?></button>
                                 </div>
                                 <div class="lang-content active" id="desc-sq-content">
                                     <div class="form-group"><label class="form-label">Description
@@ -2907,7 +3042,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                             style="height:90px;resize:vertical;"
                                             placeholder="Write a product description..."></textarea></div>
                                 </div>
-                                <div class="form-section-divider"><span>Product Image</span></div>
+                                <div class="form-section-divider"><span><?php echo at('image'); ?></span></div>
                                 <div class="image-upload-zone" id="uploadZone">
                                     <input type="file" name="image" id="image" accept="image/*"
                                         onchange="handleImagePreview(event)">
@@ -2918,93 +3053,26 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                                 <circle cx="8.5" cy="8.5" r="1.5" />
                                                 <polyline points="21,15 16,10 5,21" />
                                             </svg></div>
-                                        <div class="upload-title">Drop image or click to browse</div>
-                                        <div class="upload-sub">PNG, JPG, WEBP up to 5MB</div>
+                                        <div class="upload-title"><?php echo at('drop_image_browse'); ?></div>
                                     </div>
                                     <div class="upload-preview" id="uploadPreview"><img id="previewImg" src=""
                                             alt="Preview"><button type="button" class="upload-preview-remove"
                                             onclick="removePreview()">✕</button></div>
                                 </div>
-                                <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary" id="saveProductBtn">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2">
+                                </div>
+                                <div class="form-actions" style="margin-top:32px; padding-top:24px; border-top:1px solid var(--border-color);">
+                                    <button type="submit" class="btn btn-primary" id="saveProductBtn" style="height:50px; padding:0 32px;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" style="margin-right:8px;">
                                             <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
                                             <polyline points="17,21 17,13 7,13 7,21" />
                                             <polyline points="7,3 7,8 15,8" />
                                         </svg>
                                         Save Product
                                     </button>
-                                    <button type="button" class="btn btn-secondary"
-                                        id="cancelProductBtn">Cancel</button>
+                                    <button type="button" class="btn btn-secondary" id="cancelProductBtn" style="height:50px;">Cancel</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="product-sidebar-panel">
-                            <div class="sidebar-widget">
-                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M4 6h16M4 12h16M4 18h7" />
-                                    </svg>Category</div>
-                                <div class="sidebar-widget-body">
-                                    <div class="category-grid" id="categoryGrid">
-                                        <label class="category-option selected"><input type="radio" name="category"
-                                                value="biostimulants" checked>
-                                            <div class="category-option-icon">🧬</div>
-                                            <div class="category-option-name">Biostimulants</div>
-                                            <div class="category-option-desc">Growth enhancers</div>
-                                        </label>
-                                        <label class="category-option"><input type="radio" name="category"
-                                                value="crystalline">
-                                            <div class="category-option-icon">💎</div>
-                                            <div class="category-option-name">Crystalline Fertilizers</div>
-                                            <div class="category-option-desc">Soluble crystals</div>
-                                        </label>
-                                        <label class="category-option"><input type="radio" name="category"
-                                                value="granular">
-                                            <div class="category-option-icon">🌾</div>
-                                            <div class="category-option-name">Granular Fertilizers</div>
-                                            <div class="category-option-desc">Dry granules</div>
-                                        </label>
-                                        <label class="category-option"><input type="radio" name="category"
-                                                value="soil_improvers">
-                                            <div class="category-option-icon">🪴</div>
-                                            <div class="category-option-name">Soil Improvers</div>
-                                            <div class="category-option-desc">Structure & Health</div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sidebar-widget">
-                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2">
-                                        <path
-                                            d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-                                    </svg>Stock Quantity</div>
-                                <div class="sidebar-widget-body">
-                                    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Set the
-                                        available stock for this product.</p>
-                                    <div class="qty-control"><button type="button" class="qty-btn"
-                                            id="qtyMinus">−</button><input type="number" name="quantity" id="quantity"
-                                            class="qty-input" value="0" min="0"><button type="button" class="qty-btn"
-                                            id="qtyPlus">+</button></div>
-                                </div>
-                            </div>
-                            <div class="sidebar-widget">
-                                <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <line x1="12" y1="8" x2="12" y2="12" />
-                                        <line x1="12" y1="16" x2="12.01" y2="16" />
-                                    </svg>Tips</div>
-                                <div class="sidebar-widget-body" style="display:flex;flex-direction:column;gap:10px;">
-                                    <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">• Add names
-                                        in both Albanian and English for multilingual support.</p>
-                                    <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">• Images
-                                        should be at least 600×600px for best quality.</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </form>
             </div>
@@ -3013,61 +3081,30 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="section" id="section-add-sale">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Add Sale</h1>
+                        <h1 class="page-title"><?php echo at('record_sale'); ?></h1>
                         <p class="page-subtitle">Record a new product sale</p>
                     </div>
                 </div>
-                <div class="sales-metrics-grid">
-                    <div class="sales-metric-card sold">
-                        <div class="smc-top">
-                            <div class="smc-icon sold"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" />
-                                    <polyline points="17,6 23,6 23,12" />
-                                </svg></div><span class="smc-badge">All time</span>
-                        </div>
-                        <div class="smc-value" id="totalUnitsSold">0</div>
-                        <div class="smc-label">Total Units Sold</div>
-                    </div>
-                    <div class="sales-metric-card profit">
-                        <div class="smc-top">
-                            <div class="smc-icon profit"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <line x1="12" y1="1" x2="12" y2="23" />
-                                    <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-                                </svg></div><span class="smc-badge">Revenue</span>
-                        </div>
-                        <div class="smc-value" id="totalProfit">$0.00</div>
-                        <div class="smc-label">Total Revenue</div>
-                    </div>
-                    <div class="sales-metric-card stock">
-                        <div class="smc-top">
-                            <div class="smc-icon stock"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <path
-                                        d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-                                </svg></div><span class="smc-badge">Inventory</span>
-                        </div>
-                        <div class="smc-value" id="totalStockRemaining">0</div>
-                        <div class="smc-label">Items in Stock</div>
-                    </div>
-                </div>
-                <div class="add-sale-layout">
-                    <div class="sale-form-card">
-                        <div class="sale-form-header">
-                            <div class="sale-form-header-icon"><svg width="20" height="20" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2">
+
+                <div class="add-sale-layout" style="display:flex; flex-direction:column; gap:32px; width:100%; margin:0;">
+                    <div class="sale-form-card" style="width:100%; box-shadow:var(--shadow-lg);">
+                        <div class="sale-form-header" style="padding:28px 32px; border-bottom:1px solid rgba(255,255,255,0.1);">
+                            <div class="sale-form-header-icon" style="width:48px; height:48px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); color:#fff;"><svg width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5">
                                     <line x1="12" y1="5" x2="12" y2="19" />
                                     <line x1="5" y1="12" x2="19" y2="12" />
                                 </svg></div>
                             <div>
-                                <h3>Record a Sale</h3>
-                                <p>Select a product and enter quantity</p>
+                                <h3 style="font-size:20px; font-weight:700; color:#fff;"><?php echo at('record_sale'); ?></h3>
+                                <p style="font-size:13px; color:rgba(255,255,255,0.7);"><?php echo at('record_sale_desc'); ?></p>
                             </div>
                         </div>
-                        <div class="sale-form-body">
-                            <div class="form-group" style="margin-bottom:12px;">
-                                <label class="form-label">Choose Product</label>
+                        <div class="sale-form-body" style="padding:32px;">
+                            <div class="form-group" style="margin-bottom:24px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                                    <label class="form-label" style="margin-bottom:0; font-weight:700;"><?php echo at('choose_product'); ?></label>
+                                    <div id="selectionStatus" style="font-size:12px; font-weight:600; color:var(--text-muted);">No product selected</div>
+                                </div>
                                 <div class="search-input-wrap">
                                     <input type="text" id="salesProductSearch" class="form-input"
                                         placeholder="Search products by name or category..." autocomplete="off">
@@ -3079,31 +3116,33 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </div>
                             </div>
                             <div class="product-selector" id="salesProductSelector">
-                                <div
-                                    style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">
+                                <div style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">
                                     Loading products…</div>
                             </div>
-                            <div class="form-section-divider" style="margin:16px 0 14px;"><span>Sale Details</span>
+                            <div class="form-section-divider" style="margin:24px 0 20px;"><span style="background:var(--bg-secondary); padding:0 15px; font-weight:700; font-size:12px; color:var(--accent-gold); text-transform:uppercase; letter-spacing:1px;">Sale Details</span>
                             </div>
-                            <div class="sale-qty-row">
-                                <div class="form-group"><label class="form-label">Quantity Sold</label>
-                                    <div class="qty-control"><button type="button" class="qty-btn"
-                                            id="saleQtyMinus">−</button><input type="number" id="saleQty"
-                                            class="qty-input" value="1" min="1"><button type="button" class="qty-btn"
-                                            id="saleQtyPlus">+</button></div>
+                            <div class="sale-qty-row" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+                                <div class="form-group"><label class="form-label" style="font-weight:600;"><?php echo at('quantity_sold'); ?></label>
+                                    <div class="qty-control" style="height:48px; background:var(--bg-surface);"><button type="button" class="qty-btn"
+                                            id="saleQtyMinus" style="font-size:18px;">−</button><input type="number" id="saleQty"
+                                            class="qty-input" value="1" min="1" style="font-size:16px; font-weight:700;"><button type="button" class="qty-btn"
+                                            id="saleQtyPlus" style="font-size:18px;">+</button></div>
                                 </div>
-                                <div class="form-group"><label class="form-label">Unit Price (optional)</label><input
-                                        type="number" id="salePrice" class="form-input" placeholder="0.00" min="0"
-                                        step="0.01"></div>
+                                <div class="form-group"><label class="form-label" style="font-weight:600;"><?php echo at('unit_price'); ?></label>
+                                    <div style="position:relative;">
+                                        <div style="position:absolute; left:14px; top:14px; font-weight:700; color:var(--text-muted); font-size:14px;" id="saleCurrencySymbol">Lek</div>
+                                        <input type="number" id="salePrice" class="form-input" placeholder="0.00" min="0" step="0.01" style="height:48px; padding-left:48px; font-weight:700; font-size:16px; border-radius:12px; background:var(--bg-surface);">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group" style="margin-bottom:0;margin-top:4px;"><label
-                                    class="form-label">Note (optional)</label><input type="text" id="saleNote"
-                                    class="form-input" placeholder="e.g. Wholesale order, cash payment..."></div>
-                            <div style="margin-top:20px;">
-                                <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;"
+                            <div class="form-group" style="margin-bottom:0;"><label
+                                    class="form-label" style="font-weight:600;">Note (optional)</label><input type="text" id="saleNote"
+                                    class="form-input" placeholder="e.g. Wholesale order, cash payment..." style="height:48px; border-radius:12px; background:var(--bg-surface);"></div>
+                            <div style="margin-top:32px;">
+                                <button type="button" class="btn btn-primary" style="width:100%; justify-content:center; height:56px; font-size:16px; font-weight:700; border-radius:12px; box-shadow:0 4px 15px rgba(212,168,83,0.3);"
                                     onclick="recordSale()">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" style="margin-right:10px;">
                                         <polyline points="20,6 9,17 4,12" />
                                     </svg>
                                     Record Sale
@@ -3111,10 +3150,10 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             </div>
                         </div>
                     </div>
-                    <div class="recent-sales-card">
-                        <div class="rsw-header">Recent Sales</div>
+                    <div class="recent-sales-card" style="width:100%; background:var(--bg-secondary); border-radius:16px; border:1px solid var(--border-color); padding:24px;">
+                        <div class="rsw-header" style="margin-bottom:20px; font-weight:700; font-size:16px; display:flex; align-items:center; gap:10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg><?php echo at('recent_sales'); ?></div>
                         <div id="recentSalesList">
-                            <div class="rsw-empty">No sales recorded yet.</div>
+                            <div class="rsw-empty"><?php echo at('sales_history_empty'); ?></div>
                         </div>
                     </div>
                 </div>
@@ -3133,7 +3172,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <polyline points="3,6 5,6 21,6" />
                             <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
                         </svg>
-                        Clear All
+                        <?php echo at('clear_all'); ?>
                     </button>
                 </div>
                 <div class="sales-metrics-grid" style="margin-bottom:20px;">
@@ -3145,18 +3184,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </svg></div>
                         </div>
                         <div class="smc-value" id="vs-units">0</div>
-                        <div class="smc-label">Total Units Sold</div>
+                        <div class="smc-label"><?php echo at('total_units_sold'); ?></div>
                     </div>
                     <div class="sales-metric-card profit">
                         <div class="smc-top">
-                            <div class="smc-icon profit"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <line x1="12" y1="1" x2="12" y2="23" />
-                                    <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
-                                </svg></div>
+                            <div class="smc-icon profit"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg></div>
                         </div>
-                        <div class="smc-value" id="vs-revenue">$0.00</div>
-                        <div class="smc-label">Total Revenue</div>
+                        <div class="smc-value" id="vs-revenue">0.00</div>
+                        <div class="smc-label"><?php echo at('total_revenue_short'); ?></div>
                     </div>
                     <div class="sales-metric-card stock">
                         <div class="smc-top">
@@ -3167,22 +3202,22 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                 </svg></div>
                         </div>
                         <div class="smc-value" id="vs-count">0</div>
-                        <div class="smc-label">Total Transactions</div>
+                        <div class="smc-label"><?php echo at('total_transactions'); ?></div>
                     </div>
                 </div>
                 <!-- Filters -->
                 <div class="view-sales-filters">
-                    <div class="filter-chip active" data-vsfilter="all">All Categories</div>
-                    <div class="filter-chip" data-vsfilter="biostimulants">🧬 Biostimulants</div>
-                    <div class="filter-chip" data-vsfilter="crystalline">💎 Crystalline</div>
-                    <div class="filter-chip" data-vsfilter="granular">🌾 Granular</div>
-                    <div class="filter-chip" data-vsfilter="soil_improvers">🪴 Soil Improvers</div>
+                    <div class="filter-chip active" data-vsfilter="all"><?php echo at('all_categories'); ?></div>
+                    <div class="filter-chip" data-vsfilter="biostimulants"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="m12 2 4 10-4 10-4-10z"/></svg><?php echo at('biostimulants'); ?></div>
+                    <div class="filter-chip" data-vsfilter="crystalline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M6 3h12l4 6-10 13L2 9z"/></svg><?php echo at('crystalline'); ?></div>
+                    <div class="filter-chip" data-vsfilter="granular"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M12 2v20M2 12h20M5.45 5.45l13.1 13.1M18.55 5.45 5.45 18.55"/></svg><?php echo at('granular'); ?></div>
+                    <div class="filter-chip" data-vsfilter="soil_improvers"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M7 7c0-1.1.9-2 2-2s2 .9 2 2M11 11c0-1.1.9-2 2-2s2 .9 2 2"/><path d="M3 13a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4V6"/><path d="m11 21-2-2 2-2 2 2-2 2z"/></svg><?php echo at('soil_improvers'); ?></div>
                     <input type="text" id="salesSearch" class="form-input search-inline"
-                        placeholder="🔍 Search sales history..." oninput="renderSalesTable()">
+                        placeholder="<?php echo at('search'); ?>..." oninput="renderSalesTable()">
                 </div>
                 <div class="sales-table-card">
                     <div class="sales-table-header">
-                        <div class="sales-table-title">Sales History <span class="sales-count-badge"
+                        <div class="sales-table-title"><?php echo at('sales_history'); ?> <span class="sales-count-badge"
                                 id="salesCountBadge">0</span></div>
                     </div>
                     <div id="salesTableContainer">
@@ -3203,8 +3238,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="section" id="section-collaborators">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Collaborator Companies</h1>
-                        <p class="page-subtitle">Manage companies that collaborate with AgroFanema</p>
+                        <h1 class="page-title"><?php echo at('collaborator_companies'); ?></h1>
+                        <p class="page-subtitle"><?php echo at('manage_collaborators_desc'); ?></p>
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button class="btn btn-primary btn-sm" onclick="showAddCollaboratorModal()">
@@ -3220,7 +3255,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
                 <div class="sales-table-card">
                     <div class="sales-table-header">
-                        <div class="sales-table-title">Collaborators <span class="sales-count-badge"
+                        <div class="sales-table-title"><?php echo at('collaborators'); ?> <span class="sales-count-badge"
                                 id="collaboratorCountBadge">0</span></div>
                     </div>
                     <div id="collaboratorsTableContainer" style="overflow-x:auto;">
@@ -3233,8 +3268,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 </svg></div>
-                            <h4>No Collaborators Yet</h4>
-                            <p>Add companies that collaborate with AgroFanema.</p>
+                            <h4><?php echo at('no_collaborators_yet'); ?></h4>
+                            <p><?php echo at('add_collaborators_desc'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -3244,31 +3279,24 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="section" id="section-analytics">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Analytics</h1>
-                        <p class="page-subtitle">Visual insights from your actual sales data</p>
+                        <h1 class="page-title"><?php echo at('analytics'); ?></h1>
+                        <p class="page-subtitle"><?php echo at('visual_insights'); ?></p>
                     </div>
                 </div>
 
                 <!-- Monthly Sales Bar Chart -->
-                <div class="analytics-card">
-                    <div class="analytics-card-header">
-                        <h3 class="analytics-card-title">📈 Monthly Sales Revenue</h3>
-                        <div style="display:flex;gap:16px;">
-                            <div class="chart-legend">
-                                <div class="legend-item">
-                                    <div class="legend-dot" style="background:var(--accent-gold);"></div>Revenue
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-dot" style="background:var(--info);border-radius:50%;"></div>
-                                    Units
-                                </div>
-                            </div>
+                <div class="analytics-two-col" style="margin-bottom:20px;">
+                    <div class="analytics-card" style="margin-bottom:0;">
+                        <div class="analytics-card-header">
+                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Revenue Distribution</h3>
                         </div>
+                        <div id="revenuePieWrap"><div class="no-data-msg">No sales recorded.</div></div>
                     </div>
-                    <div id="monthlySalesChart" style="min-height:240px;"></div>
-                    <div id="monthlySalesEmpty" class="no-data-msg" style="display:none;">
-                        <h4>No sales data yet</h4>
-                        <p>Record some sales to see your monthly performance chart.</p>
+                    <div class="analytics-card" style="margin-bottom:0;">
+                        <div class="analytics-card-header">
+                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Inquiry Response Status</h3>
+                        </div>
+                        <div id="messagePieWrap"><div class="no-data-msg">No messages.</div></div>
                     </div>
                 </div>
 
@@ -3276,23 +3304,23 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 <div class="analytics-two-col">
                     <div class="analytics-card" style="margin-bottom:0;">
                         <div class="analytics-card-header">
-                            <h3 class="analytics-card-title">🥧 Sales by Category</h3>
+                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>Inventory Health Breakdown</h3>
                         </div>
                         <div id="categoryPieWrap">
                             <div class="no-data-msg">
-                                <h4>No sales data yet</h4>
-                                <p>Record sales to see category breakdown.</p>
+                                <h4><?php echo at('no_sales_data'); ?></h4>
+                                <p><?php echo at('record_sales_category'); ?></p>
                             </div>
                         </div>
                     </div>
                     <div class="analytics-card" style="margin-bottom:0;">
                         <div class="analytics-card-header">
-                            <h3 class="analytics-card-title">🏆 Top Products by Units</h3>
+                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34c0-.5-.37-.91-.87-.98a10.007 10.007 0 0 1-2.26 0c-.5.07-.87.48-.87.98ZM15 7c0-1.66-1.34-3-3-3s-3 1.34-3 3c0 1.25.77 2.3 1.83 2.76A10.003 10.003 0 0 0 12 11c.06 0 .11 0 .17-.01A3.003 3.003 0 0 0 15 7Z"/></svg><?php echo at('top_products'); ?></h3>
                         </div>
                         <div id="topProductsChart">
                             <div class="no-data-msg">
-                                <h4>No sales data yet</h4>
-                                <p>Record sales to see your top performers.</p>
+                                <h4><?php echo at('no_sales_data'); ?></h4>
+                                <p><?php echo at('record_sales_top'); ?></p>
                             </div>
                         </div>
                     </div>
@@ -3306,26 +3334,27 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="section" id="section-messages">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Inquiry Messages</h1>
-                        <p class="page-subtitle">Manage messages from the contact form</p>
+                        <h1 class="page-title"><?php echo at('inquiry_messages'); ?></h1>
+                        <p class="page-subtitle"><?php echo at('manage_messages_desc'); ?></p>
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button class="btn btn-secondary btn-sm" onclick="clearAllMessages()">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                </path>
                                 <line x1="14" y1="11" x2="14" y2="17"></line>
                             </svg>
-                            Clear All
+                            <?php echo at('clear_all'); ?>
                         </button>
                     </div>
                 </div>
 
                 <div class="sales-table-card">
                     <div class="sales-table-header">
-                        <div class="sales-table-title">Recent Inquiries <span class="sales-count-badge"
+                        <div class="sales-table-title"><?php echo at('recent_inquiries'); ?> <span class="sales-count-badge"
                                 id="messageCountBadge">0</span></div>
                     </div>
                     <div id="messagesTableContainer" style="overflow-x:auto;">
@@ -3337,8 +3366,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                         d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                     <polyline points="22,6 12,13 2,6" />
                                 </svg></div>
-                            <h4>No Messages Yet</h4>
-                            <p>Inquiries from the website will appear here.</p>
+                            <h4><?php echo at('no_messages_yet'); ?></h4>
+                            <p><?php echo at('inquiries_web_desc'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -3348,85 +3377,153 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             <div class="section" id="section-settings">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Settings</h1>
-                        <p class="page-subtitle">Manage your dashboard preferences</p>
+                        <h1 class="page-title"><?php echo at('settings'); ?></h1>
+                        <p class="page-subtitle"><?php echo at('manage_preferences'); ?></p>
                     </div>
                 </div>
                 <div class="settings-content">
                     <!-- Business Information Section -->
                     <div class="settings-section">
-                        <h3 class="settings-section-title">Business Information</h3>
+                        <h3 class="settings-section-title"><?php echo at('business_info'); ?></h3>
                         <form id="businessInfoForm">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">Phone Number 1</label>
-                                    <input type="text" name="phone_1" id="set_phone_1" class="form-input" placeholder="+383 49 000 000">
+                                    <label class="form-label"><?php echo at('phone_1'); ?></label>
+                                    <input type="text" name="phone_1" id="set_phone_1" class="form-input"
+                                        placeholder="+383 49 000 000">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Phone Number 2</label>
-                                    <input type="text" name="phone_2" id="set_phone_2" class="form-input" placeholder="+383 44 000 000">
+                                    <label class="form-label"><?php echo at('phone_2'); ?></label>
+                                    <input type="text" name="phone_2" id="set_phone_2" class="form-input"
+                                        placeholder="+383 44 000 000">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Business Email</label>
-                                <input type="email" name="email" id="set_email" class="form-input" placeholder="info@agrofanema.com">
+                                <label class="form-label"><?php echo at('email'); ?></label>
+                                <input type="email" name="email" id="set_email" class="form-input"
+                                    placeholder="info@agrofanema.com">
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Physical Address</label>
-                                <textarea name="address" id="set_address" class="form-input" style="height: 80px; resize: none;" placeholder="Enter company address..."></textarea>
+                                <label class="form-label"><?php echo at('address'); ?></label>
+                                <textarea name="address" id="set_address" class="form-input"
+                                    style="height: 80px; resize: none;"
+                                    placeholder="Enter company address..."></textarea>
                             </div>
 
                             <div class="settings-section-divider"></div>
 
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">Primary Currency</label>
-                                    <select name="currency" id="set_currency" class="form-input" style="background-image: none;">
-                                        <option value="ALL">Albanian Lek (ALL)</option>
-                                        <option value="EUR">Euro (EUR)</option>
+                                    <label class="form-label"><?php echo at('primary_currency'); ?></label>
+                                    <select name="currency" id="set_currency" class="form-input"
+                                        style="background-image: none;">
+                                        <option value="ALL"><?php echo at('albanian_lek'); ?> (ALL)</option>
+                                        <option value="EUR"><?php echo at('euro'); ?> (EUR)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">EUR to ALL Exchange Rate</label>
-                                    <div style="position: relative;">
-                                        <input type="number" step="0.01" name="eur_to_all_rate" id="set_rate" class="form-input" placeholder="103.50">
-                                        <span style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted);">1 EUR = x ALL</span>
-                                    </div>
+                                    <label class="form-label"><?php echo at('dashboard_language'); ?></label>
+                                    <select name="admin_language" id="set_admin_lang" class="form-input"
+                                        style="background-image: none;">
+                                        <option value="en" <?php echo $admin_lang == 'en' ? 'selected' : ''; ?>>
+                                            <?php echo at('english'); ?></option>
+                                        <option value="sq" <?php echo $admin_lang == 'sq' ? 'selected' : ''; ?>>
+                                            <?php echo at('albanian'); ?></option>
+                                    </select>
                                 </div>
                             </div>
-                            
-                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save All Settings</button>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save All
+                                Settings</button>
                         </form>
                     </div>
 
                     <!-- Security Section -->
                     <div class="settings-section">
-                        <h3 class="settings-section-title">Security</h3>
+                        <h3 class="settings-section-title"><?php echo at('security'); ?></h3>
                         <form id="changePasswordForm">
                             <div class="form-group">
-                                <label class="form-label">Current Password</label>
-                                <input type="password" name="current_password" class="form-input" placeholder="Enter current password" required>
+                                <div style="position: relative;">
+                                    <input type="password" id="current_password" name="current_password"
+                                        class="form-input" placeholder="Enter current password" required>
+                                    <button type="button" class="password-toggle" data-target="current_password"
+                                        style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; padding: 4px;">
+                                        <svg class="eye-show" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        <svg class="eye-hide" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" style="display: none;">
+                                            <path
+                                                d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                                            </path>
+                                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">New Password</label>
-                                    <input type="password" name="new_password" class="form-input" placeholder="Enter new password" required>
+                                    <div style="position: relative;">
+                                        <input type="password" id="new_password" name="new_password" class="form-input"
+                                            placeholder="Enter new password" required>
+                                        <button type="button" class="password-toggle" data-target="new_password"
+                                            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; padding: 4px;">
+                                            <svg class="eye-show" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <svg class="eye-hide" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" style="display: none;">
+                                                <path
+                                                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                                                </path>
+                                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Confirm New Password</label>
-                                    <input type="password" name="confirm_password" class="form-input" placeholder="Confirm new password" required>
+                                    <div style="position: relative;">
+                                        <input type="password" id="confirm_password" name="confirm_password"
+                                            class="form-input" placeholder="Confirm new password" required>
+                                        <button type="button" class="password-toggle" data-target="confirm_password"
+                                            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; padding: 4px;">
+                                            <svg class="eye-show" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                            <svg class="eye-hide" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" style="display: none;">
+                                                <path
+                                                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                                                </path>
+                                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary" style="background: var(--primary-dark); color: #fff;">Change Password</button>
+                            <button type="submit" class="btn btn-primary"
+                                style="background: var(--primary-dark); color: #fff;">Change Password</button>
                         </form>
                     </div>
 
                     <!-- Appearance Section (Moved Above Danger Zone) -->
                     <div class="settings-section" style="margin-top: 48px;">
-                        <h3 class="settings-section-title">Appearance</h3>
+                        <h3 class="settings-section-title"><?php echo at('appearance'); ?></h3>
                         <div class="toggle-row">
                             <div class="toggle-label">
-                                <div class="toggle-label-title">Dark Mode</div>
+                                <div class="toggle-label-title"><?php echo at('dark_mode'); ?></div>
                                 <div class="toggle-label-desc">Switch between light and dark themes</div>
                             </div>
                             <label class="toggle">
@@ -3439,13 +3536,13 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <!-- Danger Zone Section -->
                     <div class="settings-section" style="margin-top: 48px;">
                         <h3 class="settings-section-title"
-                            style="color:var(--danger); border-color: rgba(239,68,68,0.2);">Danger Zone</h3>
+                            style="color:var(--danger); border-color: rgba(239,68,68,0.2);"><?php echo at('danger_zone'); ?></h3>
                         <div
                             style="border:1px solid rgba(239,68,68,0.3); border-radius:12px; overflow:hidden; background: rgba(239,68,68,0.02);">
                             <div
                                 style="padding:20px; border-bottom:1px solid rgba(239,68,68,0.1); display:flex; align-items:center; justify-content:space-between;">
                                 <div>
-                                    <div style="font-size:14px; font-weight:600;">Clear All Sales Data</div>
+                                    <div style="font-size:14px; font-weight:600;"><?php echo at('clear_sales'); ?></div>
                                     <div style="font-size:12px; color:var(--text-muted);">Permanently delete all
                                         recorded sales history</div>
                                 </div>
@@ -3453,7 +3550,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             </div>
                             <div style="padding:20px; display:flex; align-items:center; justify-content:space-between;">
                                 <div>
-                                    <div style="font-size:14px; font-weight:600;">Delete All Products</div>
+                                    <div style="font-size:14px; font-weight:600;"><?php echo at('delete_products'); ?></div>
                                     <div style="font-size:12px; color:var(--text-muted);">Remove every product from your
                                         inventory</div>
                                 </div>
@@ -3478,9 +3575,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 style="padding:20px 30px; background:var(--bg-secondary); border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
                 <div>
                     <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--text-primary);">
-                        Edit Product</h2>
-                    <p style="font-size:13px; color:var(--text-muted);" id="editModalSubtitle">Update product
-                        information</p>
+                        <?php echo at('edit_product'); ?></h2>
+                    <p style="font-size:13px; color:var(--text-muted);" id="editModalSubtitle"><?php echo at('update_product_info'); ?></p>
                 </div>
                 <button class="btn-close" onclick="closeEditModal()"
                     style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><svg width="24"
@@ -3497,7 +3593,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <div class="add-product-layout" style="padding:30px; gap:30px; grid-template-columns: 1.5fr 1fr;">
                         <div class="form-panel" style="background:none; border:none; padding:0; box-shadow:none;">
                             <div class="form-panel-body" style="padding:0;">
-                                <div class="form-section-divider" style="margin-top:0;"><span>Product Names</span></div>
+                                <div class="form-section-divider" style="margin-top:0;"><span><?php echo at('product_names'); ?></span></div>
                                 <div class="lang-tabs" id="editNameLangTabs">
                                     <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 Albanian</button>
                                     <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
@@ -3558,23 +3654,23 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                     <div class="category-grid" id="editCategoryGrid">
                                         <label class="category-option"><input type="radio" name="category"
                                                 value="biostimulants">
-                                            <div class="category-option-icon">🧬</div>
-                                            <div class="category-option-name">Biostimulants</div>
+                                            <div class="category-option-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 4 10-4 10-4-10z"/></svg></div>
+                                            <div class="category-option-name"><?php echo at('biostimulants'); ?></div>
                                         </label>
                                         <label class="category-option"><input type="radio" name="category"
                                                 value="crystalline">
-                                            <div class="category-option-icon">💎</div>
-                                            <div class="category-option-name">Crystalline Fertilizers</div>
+                                            <div class="category-option-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 13L2 9z"/></svg></div>
+                                            <div class="category-option-name"><?php echo at('crystalline'); ?></div>
                                         </label>
                                         <label class="category-option"><input type="radio" name="category"
                                                 value="granular">
-                                            <div class="category-option-icon">🌾</div>
-                                            <div class="category-option-name">Granular Fertilizers</div>
+                                            <div class="category-option-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5.45 5.45l13.1 13.1M18.55 5.45 5.45 18.55"/></svg></div>
+                                            <div class="category-option-name"><?php echo at('granular'); ?></div>
                                         </label>
                                         <label class="category-option"><input type="radio" name="category"
                                                 value="soil_improvers">
-                                            <div class="category-option-icon">🪴</div>
-                                            <div class="category-option-name">Soil Improvers</div>
+                                            <div class="category-option-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7c0-1.1.9-2 2-2s2 .9 2 2M11 11c0-1.1.9-2 2-2s2 .9 2 2"/><path d="M3 13a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4V6"/><path d="m11 21-2-2 2-2 2 2-2 2z"/></svg></div>
+                                            <div class="category-option-name"><?php echo at('soil_improvers'); ?></div>
                                         </label>
                                     </div>
                                 </div>
@@ -3584,7 +3680,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                                         fill="none" stroke="currentColor" stroke-width="2">
                                         <path
                                             d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-                                    </svg>Stock Quantity</div>
+                                    </svg><?php echo at('stock_quantity'); ?></div>
                                 <div class="sidebar-widget-body">
                                     <div class="qty-control"><button type="button" class="qty-btn"
                                             onclick="adjustEditQty(-1)">−</button><input type="number" name="quantity"
@@ -3595,9 +3691,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                             <div
                                 style="margin-top:auto; padding-top:20px; display:flex; flex-direction:column; gap:12px;">
                                 <button type="submit" class="btn btn-primary"
-                                    style="width:100%; justify-content:center;">Save Changes</button>
+                                    style="width:100%; justify-content:center;"><?php echo at('save'); ?></button>
                                 <button type="button" class="btn btn-secondary" onclick="closeEditModal()"
-                                    style="width:100%; justify-content:center;">Cancel</button>
+                                    style="width:100%; justify-content:center;"><?php echo at('cancel'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -3614,12 +3710,12 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <polyline points="16,17 21,12 16,7" />
                     <line x1="21" y1="12" x2="9" y2="12" />
                 </svg></div>
-            <div class="modal-title">Sign Out</div>
-            <div class="modal-desc">Are you sure you want to sign out of the dashboard?</div>
+            <div class="modal-title"><?php echo at('sign_out'); ?></div>
+            <div class="modal-desc"><?php echo at('sign_out_desc'); ?></div>
             <div class="modal-actions">
                 <button class="btn btn-secondary"
-                    onclick="document.getElementById('logoutModal').classList.remove('active')">Cancel</button>
-                <button class="btn btn-danger" onclick="window.location.href='login.php?logout=1'">Sign Out</button>
+                    onclick="document.getElementById('logoutModal').classList.remove('active')"><?php echo at('cancel'); ?></button>
+                <button class="btn btn-danger" onclick="window.location.href='login.php?logout=1'"><?php echo at('logout'); ?></button>
             </div>
         </div>
     </div>
@@ -3717,6 +3813,20 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             if (id === 'collaborators') renderCollaboratorsTable();
             if (id === 'add-product') resetProductForm();
         }
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (menuToggle && sidebar && overlay) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                overlay.classList.add('active');
+            });
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        }
 
         document.querySelectorAll('.nav-item[data-section]').forEach(item => {
             item.addEventListener('click', function () {
@@ -3726,6 +3836,10 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     return;
                 }
                 switchSection(s);
+                if (window.innerWidth <= 768 && sidebar && overlay) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
             });
         });
 
@@ -3817,7 +3931,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         /* ═══════════════════════════════════════════════════
            SETTINGS LOAD & SAVE
         ═══════════════════════════════════════════════════ */
-        let siteSettings = { currency: 'ALL', rate: 103.50 };
+        let siteSettings = { currency: 'ALL', rate: 100 };
 
         async function fetchSettings() {
             try {
@@ -3826,14 +3940,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 if (d.success && d.settings) {
                     const s = d.settings;
                     siteSettings.currency = s.currency || 'ALL';
-                    siteSettings.rate = parseFloat(s.eur_to_all_rate) || 103.50;
+                    siteSettings.rate = 100; // Fixed rate as requested
 
                     document.getElementById('set_phone_1').value = s.phone_1 || '';
                     document.getElementById('set_phone_2').value = s.phone_2 || '';
                     document.getElementById('set_email').value = s.email || '';
                     document.getElementById('set_address').value = s.address || '';
                     document.getElementById('set_currency').value = siteSettings.currency;
-                    document.getElementById('set_rate').value = siteSettings.rate;
+                    document.getElementById('set_admin_lang').value = s.admin_language || 'en';
 
                     // Re-render components that might depend on currency
                     updateAllMetrics();
@@ -3864,8 +3978,10 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     body: fd
                 });
                 const d = await res.json();
-                if (d.success) showToast('Business info updated', 'success');
-                else showToast(d.error || 'Error updating info', 'error');
+                if (d.success) {
+                    showToast('Business info updated', 'success');
+                    setTimeout(() => window.location.reload(), 1000);
+                } else showToast(d.error || 'Error updating info', 'error');
             } catch (err) { showToast('Connection error', 'error'); }
             finally { btn.textContent = originalText; btn.disabled = false; }
         });
@@ -3892,6 +4008,26 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 }
             } catch (err) { showToast('Connection error', 'error'); }
             finally { btn.textContent = originalText; btn.disabled = false; }
+        });
+
+        // Password Visibility Toggles
+        document.querySelectorAll('.password-toggle').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const targetId = this.dataset.target;
+                const input = document.getElementById(targetId);
+                const eyeShow = this.querySelector('.eye-show');
+                const eyeHide = this.querySelector('.eye-hide');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    eyeShow.style.display = 'none';
+                    eyeHide.style.display = 'block';
+                } else {
+                    input.type = 'password';
+                    eyeShow.style.display = 'block';
+                    eyeHide.style.display = 'none';
+                }
+            });
         });
 
         // Initialize Settings
@@ -4038,13 +4174,13 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 <table>
                     <thead>
                         <tr>
-                            <th>Status</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Message</th>
-                            <th>Date</th>
-                            <th>Actions</th>
+                            <th><?php echo at('status'); ?></th>
+                            <th><?php echo at('name'); ?></th>
+                            <th><?php echo at('email'); ?></th>
+                            <th><?php echo at('phone'); ?></th>
+                            <th><?php echo at('message'); ?></th>
+                            <th><?php echo at('date'); ?></th>
+                            <th><?php echo at('actions'); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -4410,8 +4546,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 card.innerHTML = `
       <div class="product-card-img">${product.image ? `<img src="${product.image}" alt="">` : `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>`}</div>
       <div class="product-card-body">
-        <div class="product-card-title">${product.name_en || product.name_sq}</div>
-        <div class="product-card-sku">${product.name_sq ? product.name_sq + ' · ' : ''}#${product.id}</div>
+        <div class="product-card-title">${adminLang === 'sq' ? (product.name_sq || product.name_en) : (product.name_en || product.name_sq)}</div>
+        <div class="product-card-sku">${adminLang === 'sq' ? (product.name_en || '') : (product.name_sq || '')} · #${product.id}</div>
         <div class="product-card-meta">
           <span style="background:var(--bg-surface);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:capitalize;">${product.category}</span>
           <span class="status-pill ${stockStatus}"><span class="status-dot"></span>${stockLabel} (${product.quantity})</span>
@@ -4672,7 +4808,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 const opt = document.createElement('div');
                 opt.className = `ps-option${oos ? ' out-of-stock' : ''}${selectedSaleProductId === p.id ? ' selected' : ''}`;
                 opt.dataset.id = p.id;
-                opt.innerHTML = `<div class="ps-option-name">${p.name_en || p.name_sq}</div><div class="ps-option-meta"><span style="text-transform:capitalize;">${p.category}</span><span>${oos ? '❌ Out of stock' : 'Qty: ' + p.quantity}</span></div>`;
+                opt.innerHTML = `<div class="ps-option-name">${adminLang === 'sq' ? (p.name_sq || p.name_en) : (p.name_en || p.name_sq)}</div><div class="ps-option-meta"><span style="text-transform:capitalize;">${p.category}</span><span>${oos ? (adminLang === 'sq' ? 'Pa gjendje' : 'Out of stock') : (adminLang === 'sq' ? 'Sasia: ' : 'Qty: ') + p.quantity}</span></div>`;
                 if (!oos) {
                     opt.addEventListener('click', () => {
                         selectedSaleProductId = p.id;
@@ -4681,6 +4817,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                         const qtyEl = document.getElementById('saleQty');
                         qtyEl.max = p.quantity;
                         qtyEl.value = Math.min(+qtyEl.value || 1, p.quantity);
+                        
+                        const status = document.getElementById('selectionStatus');
+                        if (status) status.innerHTML = `<span style="color:var(--success)">Selected:</span> ${adminLang === 'sq' ? (p.name_sq || p.name_en) : (p.name_en || p.name_sq)}`;
                     });
                 }
                 c.appendChild(opt);
@@ -4700,6 +4839,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 const el = document.getElementById(id);
                 if (el) el.textContent = formatCurrency(totalRevenue);
             });
+            const curSymbolEl = document.getElementById('saleCurrencySymbol');
+            if (curSymbolEl) curSymbolEl.textContent = siteSettings.currency;
             ['totalStockRemaining'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.textContent = totalStock.toLocaleString();
@@ -4718,7 +4859,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                         id: 'SALE-' + s.id,
                         dbId: s.id,
                         productId: s.product_id,
-                        productName: s.name_en || s.name_sq,
+                        productName: adminLang === 'sq' ? (s.name_sq || s.name_en) : (s.name_en || s.name_sq),
                         category: s.category,
                         qty: parseInt(s.quantity),
                         price: parseFloat(s.unit_price),
@@ -4726,7 +4867,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                         note: s.note,
                         date: new Date(s.created_at).toLocaleString()
                     }));
-                    
+
                     updateInventoryMetrics();
                     updateSalesMetrics();
                     updateOverviewMetrics();
@@ -4742,7 +4883,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             const qty = parseInt(document.getElementById('saleQty').value) || 1;
             const priceInput = parseFloat(document.getElementById('salePrice').value) || 0;
             const note = document.getElementById('saleNote').value.trim();
-            
+
             const btn = document.querySelector('.btn-record-sale');
             if (btn) btn.disabled = true;
 
@@ -4759,14 +4900,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 });
                 const d = await res.json();
                 if (d.status === 'success') {
-                    showToast(`✅ Recorded: ${qty} units sold`, 'success');
-                    
+                    showToast(`Recorded: ${qty} units sold`, 'success');
+
                     // Reset fields
                     selectedSaleProductId = null;
                     document.getElementById('saleQty').value = 1;
                     document.getElementById('salePrice').value = '';
                     document.getElementById('saleNote').value = '';
-                    
+
                     // Refresh data
                     await fetchProducts();
                     await updateAllMetrics();
@@ -4827,7 +4968,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
             c.innerHTML = `<table>
     <thead><tr>
-      <th>Sale ID</th><th>Product</th><th>Category</th><th>Qty</th><th>Unit Price</th><th>Total</th><th>Note</th><th>Date</th><th></th>
+      <th><?php echo at('sale_id'); ?></th><th><?php echo at('product'); ?></th><th><?php echo at('category'); ?></th><th><?php echo at('qty'); ?></th><th><?php echo at('unit_price'); ?></th><th><?php echo at('total'); ?></th><th><?php echo at('note'); ?></th><th><?php echo at('date'); ?></th><th></th>
     </tr></thead>
     <tbody>${filtered.map((sale, idx) => `
       <tr>
@@ -4916,17 +5057,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 const el = document.getElementById(id);
                 if (el) el.textContent = val;
             };
-            setEl('ov-revenue', '$' + totalRevenue.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }));
+            setEl('ov-revenue', formatCurrency(totalRevenue));
             setEl('ov-revenue-trend', dashboardStats.sale_count + ' sales');
             setEl('ov-units', totalUnits.toLocaleString());
             setEl('ov-units-trend', dashboardStats.sale_count + ' transactions');
             setEl('ov-stock', totalStock.toLocaleString());
             setEl('ov-stock-trend', dashboardStats.total_items + ' products');
             setEl('ov-low', lowStock);
-            setEl('ov-low-trend', lowStock > 0 ? '⚠ Needs restock' : '✓ OK');
+            setEl('ov-low-trend', lowStock > 0 ? 'Needs restock' : 'Stock OK');
 
             // Update metric trend classes
             ['ov-revenue-trend', 'ov-units-trend', 'ov-stock-trend'].forEach(id => {
@@ -5011,80 +5149,80 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         }
 
         function renderMonthlySalesChart() {
-            const container = document.getElementById('monthlySalesChart');
-            const empty = document.getElementById('monthlySalesEmpty');
-            if (!container) return;
+            renderRevenuePie();
+            renderMessagePie();
+        }
+
+        function renderRevenuePie() {
+            const wrap = document.getElementById('revenuePieWrap');
+            if (!wrap) return;
 
             if (salesHistory.length === 0) {
-                container.style.display = 'none';
-                if (empty) empty.style.display = 'block';
+                wrap.innerHTML = '<div class="no-data-msg">No sales recorded.</div>';
                 return;
             }
-            container.style.display = 'block';
-            if (empty) empty.style.display = 'none';
 
-            // Aggregate by month for current year
-            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const currentYear = new Date().getFullYear();
-            const byMonth = Array(12).fill(null).map(() => ({
-                revenue: 0,
-                units: 0
-            }));
-
-            salesHistory.forEach(sale => {
-                let month = sale.month;
-                let year = sale.year;
-                // Handle older format without month/year
-                if (month === undefined || year === undefined) {
-                    try {
-                        const d = new Date(sale.dateObj || sale.date);
-                        month = d.getMonth();
-                        year = d.getFullYear();
-                    } catch {
-                        month = new Date().getMonth();
-                        year = currentYear;
-                    }
-                }
-                if (year === currentYear) {
-                    byMonth[month].revenue += Number(sale.total) || 0;
-                    byMonth[month].units += Number(sale.qty) || 0;
-                }
+            const catRev = {};
+            salesHistory.forEach(s => {
+                catRev[s.category] = (catRev[s.category] || 0) + (Number(s.total) || 0);
             });
 
-            const maxRevenue = Math.max(...byMonth.map(m => m.revenue), 1);
-            const maxUnits = Math.max(...byMonth.map(m => m.units), 1);
+            const total = Object.values(catRev).reduce((a, b) => a + b, 0);
+            const colors = { biostimulants: '#D4A853', crystalline: '#3B82F6', granular: '#10B981', soil_improvers: '#F59E0B' };
+            
+            const r = 50, cx = 60, cy = 60, sw = 18, circ = 2 * Math.PI * r;
+            let offset = 0;
+            const entries = Object.entries(catRev).sort((a,b) => b[1] - a[1]);
 
-            container.innerHTML = `
-    <div style="padding:0 24px 16px;">
-      <div style="display:flex;align-items:flex-end;gap:4px;height:200px;border-bottom:1px solid var(--border-color);padding-bottom:0;position:relative;">
-        ${byMonth.map((m, i) => {
-                const revH = maxRevenue > 0 ? Math.max(2, (m.revenue / maxRevenue) * 170) : 2;
-                const unitH = maxUnits > 0 ? Math.max(2, (m.units / maxUnits) * 170) : 2;
-                const hasData = m.revenue > 0 || m.units > 0;
-                return `
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative;cursor:${hasData ? 'pointer' : 'default'};" class="month-col">
-            <div style="display:flex;align-items:flex-end;gap:1px;height:170px;">
-              <div style="width:calc(50% - 1px);height:${revH}px;background:var(--accent-gold);border-radius:3px 3px 0 0;transition:all 0.7s ease;position:relative;" 
-                   title="${monthNames[i]}: $${m.revenue.toFixed(2)} revenue"
-                   onmouseover="showBarTip(event,'${monthNames[i]}: $${m.revenue.toFixed(2)}')"
-                   onmouseout="hideBarTip()"></div>
-              <div style="width:calc(50% - 1px);height:${unitH}px;background:var(--info);border-radius:3px 3px 0 0;transition:all 0.7s ease;opacity:0.7;"
-                   title="${monthNames[i]}: ${m.units} units"
-                   onmouseover="showBarTip(event,'${monthNames[i]}: ${m.units} units sold')"
-                   onmouseout="hideBarTip()"></div>
-            </div>
-          </div>`;
-            }).join('')}
-      </div>
-      <div style="display:flex;gap:4px;margin-top:6px;">
-        ${monthNames.map(m => `<div style="flex:1;text-align:center;font-size:9px;color:var(--text-muted);">${m}</div>`).join('')}
-      </div>
-      <div style="display:flex;gap:20px;margin-top:12px;">
-        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);"><div style="width:10px;height:10px;border-radius:2px;background:var(--accent-gold);"></div>Revenue ($)</div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);"><div style="width:10px;height:10px;border-radius:2px;background:var(--info);opacity:0.7;"></div>Units Sold</div>
-      </div>
-    </div>
-  `;
+            const svgCircles = entries.map(([cat, val]) => {
+                const sda = (val / total) * circ;
+                const c = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${colors[cat] || '#888'}" stroke-width="${sw}" stroke-dasharray="${sda} ${circ}" stroke-dashoffset="${-offset}" style="transition:all 0.6s ease;"/>`;
+                offset += sda;
+                return c;
+            }).join('');
+
+            const legend = entries.map(([cat, val]) => {
+                const pct = Math.round((val / total) * 100);
+                return `<div class="donut-legend-item" style="gap:8px;margin-bottom:6px;">
+                    <div class="donut-legend-dot" style="background:${colors[cat] || '#888'};"></div>
+                    <span style="font-size:12px;flex:1;">${cat.replace('_',' ').charAt(0).toUpperCase()+cat.replace('_',' ').slice(1)}</span>
+                    <span style="font-size:11px;font-weight:700;">${pct}%</span>
+                </div>`;
+            }).join('');
+
+            wrap.innerHTML = `<div style="display:flex;align-items:center;gap:20px;">
+                <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg);flex-shrink:0;">${svgCircles}</svg>
+                <div style="flex:1;">${legend}</div>
+            </div>`;
+        }
+
+        function renderMessagePie() {
+            const wrap = document.getElementById('messagePieWrap');
+            if (!wrap) return;
+
+            if (messages.length === 0) {
+                wrap.innerHTML = '<div class="no-data-msg">No messages yet.</div>';
+                return;
+            }
+
+            const read = messages.filter(m => m.status === 'read' || m.status === 'replied').length;
+            const unread = messages.length - read;
+            const total = messages.length;
+
+            const r = 50, cx = 60, cy = 60, sw = 18, circ = 2 * Math.PI * r;
+            const readSda = (read / total) * circ;
+            const unreadSda = (unread / total) * circ;
+
+            wrap.innerHTML = `<div style="display:flex;align-items:center;gap:20px;">
+                <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg);flex-shrink:0;">
+                    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--success)" stroke-width="${sw}" stroke-dasharray="${readSda} ${circ}" stroke-dashoffset="0" />
+                    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--danger)" stroke-width="${sw}" stroke-dasharray="${unreadSda} ${circ}" stroke-dashoffset="${-readSda}" />
+                </svg>
+                <div style="flex:1;">
+                    <div class="donut-legend-item" style="gap:8px;margin-bottom:8px;"><div class="donut-legend-dot" style="background:var(--success);"></div><span style="font-size:12px;flex:1;">Read / Replied</span><span style="font-size:11px;font-weight:700;">${read} items</span></div>
+                    <div class="donut-legend-item" style="gap:8px;"><div class="donut-legend-dot" style="background:var(--danger);"></div><span style="font-size:12px;flex:1;">New / Unread</span><span style="font-size:11px;font-weight:700;">${unread} items</span></div>
+                </div>
+            </div>`;
         }
 
         let tipTimeout;
@@ -5112,88 +5250,63 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
             const wrap = document.getElementById('categoryPieWrap');
             if (!wrap) return;
 
-            if (salesHistory.length === 0) {
-                wrap.innerHTML = '<div class="no-data-msg"><h4>No sales data yet</h4><p>Record sales to see category breakdown.</p></div>';
+            if (products.length === 0) {
+                wrap.innerHTML = '<div class="no-data-msg"><h4>No products yet</h4><p>Add products to see inventory health.</p></div>';
                 return;
             }
 
-            // Aggregate by category
-            const cats = {};
-            salesHistory.forEach(sale => {
-                const cat = sale.category || 'other';
-                if (!cats[cat]) cats[cat] = {
-                    units: 0,
-                    revenue: 0
-                };
-                cats[cat].units += Number(sale.qty);
-                cats[cat].revenue += Number(sale.total);
+            const status = {
+                in_stock: { label: 'In Stock', count: 0, color: '#10B981', icon: '✅' },
+                low_stock: { label: 'Low Stock', count: 0, color: '#F59E0B', icon: '⚠' },
+                out_of_stock: { label: 'Out of Stock', count: 0, color: '#EF4444', icon: '❌' }
+            };
+
+            products.forEach(p => {
+                if (p.quantity <= 0) status.out_of_stock.count++;
+                else if (p.quantity <= 10) status.low_stock.count++;
+                else status.in_stock.count++;
             });
 
-            const catColors = {
-                granular: '#D4A853',
-                liquid: '#3B82F6',
-                organic: '#10B981',
-                specialty: '#F59E0B',
-                other: '#8B5CF6'
-            };
-            const catEmojis = {
-                granular: '🌾',
-                liquid: '💧',
-                organic: '🌿',
-                specialty: '⭐',
-                other: '📦'
-            };
-            const entries = Object.entries(cats).sort((a, b) => b[1].units - a[1].units);
-            const totalUnits = entries.reduce((s, [, v]) => s + v.units, 0);
+            const entries = Object.entries(status).filter(([, v]) => v.count > 0);
+            const total = products.length;
 
-            // SVG donut
-            const r = 60,
-                cx = 80,
-                cy = 80,
-                sw = 24,
-                circ = 2 * Math.PI * r;
+            const r = 60, cx = 80, cy = 80, sw = 24, circ = 2 * Math.PI * r;
             let offset = 0;
-            const segments = entries.map(([cat, data]) => {
-                const pct = data.units / totalUnits;
+            const segments = entries.map(([key, data]) => {
+                const pct = data.count / total;
                 const sda = pct * circ;
-                const seg = {
-                    cat,
-                    data,
-                    pct,
-                    sda,
-                    offset
-                };
+                const seg = { key, data, pct, sda, offset };
                 offset += sda;
                 return seg;
             });
 
             const svgCircles = segments.map(seg =>
-                `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${catColors[seg.cat] || '#888'}" stroke-width="${sw}" stroke-dasharray="${seg.sda} ${circ}" stroke-dashoffset="${-seg.offset}" style="transition:all 0.6s ease;"/>`
+                `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${seg.data.color}" stroke-width="${sw}" stroke-dasharray="${seg.sda} ${circ}" stroke-dashoffset="${-seg.offset}" style="transition:all 0.6s ease;"/>`
             ).join('');
 
-            const legend = entries.map(([cat, data]) => {
-                const pct = Math.round(data.units / totalUnits * 100);
+            const legend = entries.map(([key, data]) => {
+                const pct = Math.round(data.count / total * 100);
                 return `<div class="donut-legend-item">
-      <div class="donut-legend-dot" style="background:${catColors[cat] || '#888'};"></div>
-      <span class="donut-legend-text">${catEmojis[cat] || '📦'} ${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
-      <span class="donut-legend-value">${data.units} units</span>
-      <span class="donut-legend-pct">${pct}%</span>
-    </div>`;
+                    <div class="donut-legend-dot" style="background:${data.color};"></div>
+                    <span class="donut-legend-text">${data.icon} ${data.label}</span>
+                    <span class="donut-legend-value">${data.count} items</span>
+                    <span class="donut-legend-pct">${pct}%</span>
+                </div>`;
             }).join('');
 
             wrap.innerHTML = `
-    <div class="donut-container">
-      <div class="donut-chart-wrap" style="width:160px;height:160px;flex-shrink:0;">
-        <svg width="160" height="160" viewBox="0 0 160 160" style="transform:rotate(-90deg);">
-          ${svgCircles}
-        </svg>
-        <div class="donut-center">
-          <div class="donut-value">${totalUnits}</div>
-          <div class="donut-label">units sold</div>
-        </div>
-      </div>
-      <div class="donut-legend">${legend}</div>
-    </div>`;
+                <div class="donut-container">
+                  <div class="donut-chart-wrap" style="width:160px;height:160px;flex-shrink:0;">
+                    <svg width="160" height="160" viewBox="0 0 160 160" style="transform:rotate(-90deg);">
+                      ${svgCircles}
+                    </svg>
+                    <div class="donut-center" style="width:100px;">
+                      <div class="donut-value">${total}</div>
+                      <div class="donut-label" style="font-size:9px;">total products</div>
+                    </div>
+                  </div>
+                  <div class="donut-legend" style="flex:1;">${legend}</div>
+                </div>`;
         }
 
         function renderTopProducts() {
@@ -5230,7 +5343,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
       </div>
       <div style="text-align:right;margin-left:8px;">
         <div style="font-size:13px;font-weight:700;">${p.qty} <span style="font-size:11px;font-weight:400;color:var(--text-muted);">units</span></div>
-        ${p.revenue > 0 ? `<div style="font-size:11px;color:var(--success);">$${p.revenue.toFixed(2)}</div>` : ''}
+        ${p.revenue > 0 ? `<div style="font-size:11px;color:var(--success);">${formatCurrency(p.revenue)}</div>` : ''}
       </div>
     </div>`).join('');
         }
@@ -5254,19 +5367,19 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                 return Object.entries(cats).sort((a, b) => b[1] - a[1])[0]?.[0] || '—';
             })();
 
-            const catEmojis = {
-                granular: '🌾',
-                liquid: '💧',
-                organic: '🌿',
-                specialty: '⭐',
-                other: '📦'
+            const catIcons = {
+                granular: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M12 2v20M2 12h20M5.45 5.45l13.1 13.1M18.55 5.45 5.45 18.55"/></svg>',
+                crystalline: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M6 3h12l4 6-10 13L2 9z"/></svg>',
+                biostimulants: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="m12 2 4 10-4 10-4-10z"/></svg>',
+                soil_improvers: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M7 7c0-1.1.9-2 2-2s2 .9 2 2M11 11c0-1.1.9-2 2-2s2 .9 2 2"/><path d="M3 13a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4V6"/><path d="m11 21-2-2 2-2 2 2-2 2z"/></svg>',
+                other: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>'
             };
 
             c.innerHTML = `
-    <div class="metric-card"><div class="metric-header"><div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div></div><div class="metric-value">$${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div><div class="metric-label">Total Revenue</div></div>
+    <div class="metric-card"><div class="metric-header"><div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg></div></div><div class="metric-value">${formatCurrency(totalRevenue)}</div><div class="metric-label">Total Revenue</div></div>
     <div class="metric-card"><div class="metric-header"><div class="metric-icon orders"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/></svg></div></div><div class="metric-value">${totalUnits.toLocaleString()}</div><div class="metric-label">Total Units Sold</div></div>
-    <div class="metric-card"><div class="metric-header"><div class="metric-icon customers"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div></div><div class="metric-value">$${avgOrderValue.toFixed(2)}</div><div class="metric-label">Avg. Sale Value</div></div>
-    <div class="metric-card"><div class="metric-header"><div class="metric-icon growth"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div></div><div class="metric-value">${catEmojis[topCat] || ''} ${topCat.charAt(0).toUpperCase() + topCat.slice(1)}</div><div class="metric-label">Top Category</div></div>
+    <div class="metric-card"><div class="metric-header"><div class="metric-icon customers"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div></div><div class="metric-value">${formatCurrency(avgOrderValue)}</div><div class="metric-label">Avg. Sale Value</div></div>
+    <div class="metric-card"><div class="metric-header"><div class="metric-icon growth"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div></div><div class="metric-value">${catIcons[topCat] || ''} ${topCat.charAt(0).toUpperCase() + topCat.slice(1)}</div><div class="metric-label">Top Category</div></div>
   `;
         }
 

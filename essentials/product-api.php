@@ -52,12 +52,12 @@ switch($action) {
             // Handle uploaded image
             $imagePath = '';
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                if (!is_dir(__DIR__ . '/../images')) mkdir(__DIR__ . '/../images', 0755, true);
-                $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                $imagePath = 'images/' . uniqid('p_') . '.' . $ext;
-                move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../' . $imagePath);
+                // Instead of saving to folder, convert to Base64 string
+                $imgData = file_get_contents($_FILES['image']['tmp_name']);
+                $mime = $_FILES['image']['type'];
+                $imagePath = 'data:' . $mime . ';base64,' . base64_encode($imgData);
             } else if (isset($_POST['image'])) {
-                $imagePath = $_POST['image']; // Base64 or existing path
+                $imagePath = $_POST['image']; // Existing base64
             }
 
             $pdo->beginTransaction();
@@ -87,10 +87,10 @@ switch($action) {
             // Check for new image
             $imagePath = $_POST['image'] ?? ''; 
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                if (!is_dir(__DIR__ . '/../images')) mkdir(__DIR__ . '/../images', 0755, true);
-                $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                $imagePath = 'images/' . uniqid('p_') . '.' . $ext;
-                move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../' . $imagePath);
+                // Instead of saving to folder, convert to Base64 string
+                $imgData = file_get_contents($_FILES['image']['tmp_name']);
+                $mime = $_FILES['image']['type'];
+                $imagePath = 'data:' . $mime . ';base64,' . base64_encode($imgData);
             }
 
             $sql = "UPDATE products SET name_sq = ?, name_en = ?, desc_sq = ?, desc_en = ?, quantity = ?, category = ?, image = ? WHERE id = ?";

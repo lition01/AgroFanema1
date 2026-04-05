@@ -66,13 +66,13 @@ CREATE TABLE IF NOT EXISTS settings (
     email VARCHAR(150),
     address TEXT,
     currency ENUM('ALL', 'EUR') DEFAULT 'ALL',
-    eur_to_all_rate DECIMAL(10, 2) DEFAULT 103.50, -- Current approximate rate
+    admin_language ENUM('en', 'sq') DEFAULT 'en',
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Insert initial business settings if not exists
-INSERT IGNORE INTO settings (id, phone_1, phone_2, email, address, currency, eur_to_all_rate) 
-VALUES (1, '+355 693334644', '+355 682071125', 'agrofanema@gmail.com', 'Kozare, Kuçovë', 'ALL', 103.50);
+INSERT IGNORE INTO settings (id, phone_1, phone_2, email, address, currency, admin_language) 
+VALUES (1, '+355 693334644', '+355 682071125', 'agrofanema@gmail.com', 'Kozare, Kuçovë', 'ALL', 'en');
 
 -- 9. Initial Administrative Account
 -- This seeds the database with the default access_key and password: agro2026

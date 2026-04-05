@@ -27,11 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $email = $_POST['email'] ?? '';
         $address = $_POST['address'] ?? '';
         $currency = $_POST['currency'] ?? 'ALL';
-        $rate = $_POST['eur_to_all_rate'] ?? 103.50;
+        $admin_language = $_POST['admin_language'] ?? 'en';
 
         try {
-            $stmt = $pdo->prepare("UPDATE settings SET phone_1 = ?, phone_2 = ?, email = ?, address = ?, currency = ?, eur_to_all_rate = ? WHERE id = 1");
-            $stmt->execute([$phone_1, $phone_2, $email, $address, $currency, $rate]);
+            $stmt = $pdo->prepare("UPDATE settings SET phone_1 = ?, phone_2 = ?, email = ?, address = ?, currency = ?, admin_language = ? WHERE id = 1");
+            $stmt->execute([$phone_1, $phone_2, $email, $address, $currency, $admin_language]);
             echo json_encode(['success' => true]);
         } catch (PDOException $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);

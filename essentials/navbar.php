@@ -420,7 +420,6 @@
     .gg-nav-scope .dropdown-menu .lang-mobile {
       margin-top: 24px;
       padding-top: 24px;
-      border-top: 1px solid var(--gg-nav-border);
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -478,7 +477,11 @@
     .gg-nav-scope .dropdown-menu a:hover,
     .gg-nav-scope .dropdown-menu a.active {
       color: var(--gg-nav-primary);
-      padding-left: 8px;
+      padding-left: 14px;
+    }
+
+    .gg-nav-scope .dropdown-menu a.active {
+      border-left: 4px solid var(--gg-nav-accent);
     }
 
     @media (max-width: 992px) {
