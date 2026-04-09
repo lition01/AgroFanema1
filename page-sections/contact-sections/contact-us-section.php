@@ -393,7 +393,6 @@ $s_addr = $site_settings['address'] ?? 'Kozare, Kuçovë';
             <?php if ($s_phone2): ?>
             <a href="tel:<?php echo $s_phone2; ?>" class="value" style="display: block; margin-top: 4px;"><?php echo $s_phone2; ?></a>
             <?php endif; ?>
-            <span class="sub-value"><?php echo t('mon_fri'); ?>, 9:00 – 18:00</span>
           </li>
           <li class="info-item ct-rv ct-rv-d2" style="transition-delay: 0.3s">
             <span class="label"><?php echo t('email_enquiries'); ?></span>

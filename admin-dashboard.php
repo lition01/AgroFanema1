@@ -20,6 +20,7 @@ require_once 'essentials/admin-translations.php';
 ?>
 <script>
     const adminLang = '<?php echo $admin_lang; ?>';
+    const T = <?php echo getTranslationsJson(); ?>;
 </script>
 <!DOCTYPE html>
 <html lang="<?php echo $admin_lang; ?>">
@@ -63,20 +64,60 @@ require_once 'essentials/admin-translations.php';
         }
 
         html[data-theme="dark"] {
-            --bg-primary: #0F1115;
-            --bg-secondary: rgba(26, 29, 36, 0.6);
-            --bg-surface: rgba(31, 35, 43, 0.6);
-            --bg-elevated: #272B36;
-            --text-primary: #F9FAFB;
-            --text-secondary: #9CA3AF;
-            --text-muted: #6B7280;
-            --accent-gold: #FCD34D;
-            --accent-gold-hover: #FBBF24;
-            --primary-dark: #111827;
-            --border-color: rgba(255, 255, 255, 0.06);
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.4);
+            --bg-primary: #0c0e14;
+            --bg-secondary: rgba(18, 21, 30, 0.85);
+            --bg-surface: rgba(22, 26, 38, 0.75);
+            --bg-elevated: #1a1f2e;
+            --text-primary: #E8ECF4;
+            --text-secondary: #8B95A8;
+            --text-muted: #525E73;
+            --accent-gold: #E8B94F;
+            --accent-gold-hover: #D4A43A;
+            --primary-dark: #0f1219;
+            --border-color: rgba(136, 165, 216, 0.08);
+            --success: #34D399;
+            --warning: #FBBF24;
+            --danger: #F87171;
+            --info: #60A5FA;
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
+            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.45);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.55);
+        }
+
+        /* Active nav link = gold/yellow accent (both themes) */
+
+        /* Dark mode: sidebar logo span color adjustment */
+        html[data-theme="dark"] .sidebar-header .logo span {
+            color: #ffffff !important;
+        }
+
+        /* Keep logo as is in dark mode (user says it is white) */
+        html[data-theme="dark"] .sidebar-header .logo-icon img {
+            filter: none;
+        }
+
+        /* Custom Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 20px;
+            border: 2px solid var(--bg-primary);
+            transition: background 0.2s ease;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+        
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--text-muted) var(--bg-primary);
         }
 
         body {
@@ -162,18 +203,18 @@ require_once 'essentials/admin-translations.php';
         }
 
         .nav-item:hover {
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: rgba(232, 185, 79, 0.08);
+            color: var(--accent-gold);
         }
 
         .nav-item.active {
-            background: var(--primary-dark);
-            color: #fff;
-            box-shadow: var(--shadow-sm);
+            background: rgba(232, 185, 79, 0.12);
+            color: var(--accent-gold);
+            box-shadow: inset 3px 0 0 var(--accent-gold), 0 2px 8px rgba(232, 185, 79, 0.08);
         }
 
         .nav-item.active .nav-icon {
-            color: #fff;
+            color: var(--accent-gold);
             opacity: 1;
         }
 
@@ -1082,7 +1123,7 @@ require_once 'essentials/admin-translations.php';
         }
 
         .product-selector::-webkit-scrollbar-thumb {
-            background: var(--border-color);
+            background: var(--text-muted);
             border-radius: 4px;
         }
 
@@ -2551,6 +2592,13 @@ require_once 'essentials/admin-translations.php';
                 display: none !important;
             }
         }
+
+        /* ── Print Receipt Styles ── */
+        @media print {
+            body * { visibility: hidden !important; }
+            #receiptPrintFrame, #receiptPrintFrame * { visibility: visible !important; }
+            #receiptPrintFrame { position: fixed; left: 0; top: 0; width: 100%; }
+        }
     </style>
 </head>
 
@@ -2558,13 +2606,13 @@ require_once 'essentials/admin-translations.php';
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <div class="logo" style="gap: 0; align-items: center; display: flex;">
-                <div class="logo-icon" style="background: none; width: 44px; height: 44px;">
+            <div class="logo" style="gap: 2px; align-items: center; display: flex;">
+                <div class="logo-icon" style="background: none; width: 54px; height: 54px;">
                     <img src="images/logo.svg" alt="AgroFanema Logo"
                         style="width: 100%; height: 100%; object-fit: contain;">
                 </div>
                 <span
-                    style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 800; color: #000000; margin-left: -5px; line-height: 1;">AgroFanema</span>
+                    style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 800; color: var(--text-primary); margin-left: -6px; line-height: 1;">AgroFanema</span>
             </div>
         </div>
         <nav class="nav-section">
@@ -2697,8 +2745,7 @@ require_once 'essentials/admin-translations.php';
                         <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
                     <span id="dateText"
-                        style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading
-                        date...</span>
+                        style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;"><?php echo at('loading_date'); ?></span>
                 </div>
                 <div class="time-label" id="currentTime"
                     style="display: flex; align-items: center; background: var(--bg-primary); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border-color); margin-right: 16px;">
@@ -2708,8 +2755,7 @@ require_once 'essentials/admin-translations.php';
                         <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
                     <span id="clockText"
-                        style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">Loading
-                        time...</span>
+                        style="font-weight: 600; font-size: 0.95rem; color: var(--text-secondary); font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;"><?php echo at('loading_time'); ?></span>
                 </div>
                 <div class="user-avatar" style="width:32px;height:32px;font-size:12px;" id="topbarAvatar">NM</div>
             </div>
@@ -2738,7 +2784,7 @@ require_once 'essentials/admin-translations.php';
                             await updateAllMetrics();
                             await updateOverviewMetrics();
                             await fetchMessages();
-                            showToast('Overview refreshed');
+                            showToast(T.toast_overview_refreshed);
                         }
                     </script>
                 </div>
@@ -2746,7 +2792,7 @@ require_once 'essentials/admin-translations.php';
                     <div class="metric-card" onclick="switchSection('view-sales')">
                         <div class="metric-header">
                             <div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg></div>
-                            <span class="metric-trend neutral" id="ov-revenue-trend">0 sales</span>
+                            <span class="metric-trend neutral" id="ov-revenue-trend">0 <?php echo at('sales'); ?></span>
                         </div>
                         <div class="metric-value" id="ov-revenue">0.00</div>
                         <div class="metric-label"><?php echo at('revenue'); ?></div>
@@ -2758,7 +2804,7 @@ require_once 'essentials/admin-translations.php';
                                     <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" />
                                     <polyline points="17,6 23,6 23,12" />
                                 </svg></div>
-                            <span class="metric-trend neutral" id="ov-units-trend">0 transactions</span>
+                            <span class="metric-trend neutral" id="ov-units-trend">0 <?php echo at('total_transactions'); ?></span>
                         </div>
                         <div class="metric-value" id="ov-units">0</div>
                         <div class="metric-label"><?php echo at('products_sold'); ?></div>
@@ -2770,7 +2816,7 @@ require_once 'essentials/admin-translations.php';
                                     <path
                                         d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
                                 </svg></div>
-                            <span class="metric-trend neutral" id="ov-stock-trend">0 products</span>
+                            <span class="metric-trend neutral" id="ov-stock-trend">0 <?php echo at('total_products'); ?></span>
                         </div>
                         <div class="metric-value" id="ov-stock">0</div>
                         <div class="metric-label"><?php echo at('items_in_stock'); ?></div>
@@ -2783,7 +2829,7 @@ require_once 'essentials/admin-translations.php';
                                     <line x1="12" y1="8" x2="12" y2="12" />
                                     <line x1="12" y1="16" x2="12.01" y2="16" />
                                 </svg></div>
-                            <span class="metric-trend neutral" id="ov-low-trend">warning</span>
+                            <span class="metric-trend neutral" id="ov-low-trend"><?php echo at('stock_low'); ?></span>
                         </div>
                         <div class="metric-value" id="ov-low">0</div>
                         <div class="metric-label"><?php echo at('stock_low'); ?></div>
@@ -2798,8 +2844,7 @@ require_once 'essentials/admin-translations.php';
                             </span>
                         </div>
                         <div id="ov-best-sellers">
-                            <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No sales
-                                yet.</div>
+                            <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;"><?php echo at('no_sales_yet_overview'); ?></div>
                         </div>
                     </div>
                     <div class="activity-card">
@@ -2810,8 +2855,7 @@ require_once 'essentials/admin-translations.php';
                             </span>
                         </div>
                         <div id="ov-inventory">
-                            <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No
-                                products added yet.</div>
+                            <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;"><?php echo at('no_products_added'); ?></div>
                         </div>
                     </div>
                 </div>
@@ -2895,13 +2939,12 @@ require_once 'essentials/admin-translations.php';
                                 </svg>
                             </button>
                             <div class="dropdown-panel" id="filterDropdownPanel">
-                                <button class="dropdown-option active" data-category="all">All Products</button>
+                                <button class="dropdown-option active" data-category="all"><?php echo at('all_products'); ?></button>
                                 <div style="height:1px; background:var(--border-color); margin:5px 8px;"></div>
-                                <button class="dropdown-option" data-category="biostimulants">Biostimulants</button>
-                                <button class="dropdown-option" data-category="crystalline">Crystalline
-                                    Fertilizers</button>
-                                <button class="dropdown-option" data-category="granular">Granular Fertilizers</button>
-                                <button class="dropdown-option" data-category="soil_improvers">Soil Improvers</button>
+                                <button class="dropdown-option" data-category="biostimulants"><?php echo at('biostimulants'); ?></button>
+                                <button class="dropdown-option" data-category="crystalline"><?php echo at('crystalline'); ?></button>
+                                <button class="dropdown-option" data-category="granular"><?php echo at('granular'); ?></button>
+                                <button class="dropdown-option" data-category="soil_improvers"><?php echo at('soil_improvers'); ?></button>
                             </div>
                         </div>
 
@@ -2916,20 +2959,20 @@ require_once 'essentials/admin-translations.php';
                                 <span class="dropdown-label"
                                     style="opacity:0.6; font-weight:400; font-size:13px;"><?php echo at('sort'); ?>:</span>
                                 <span class="dropdown-current" id="currentSortLabel"
-                                    style="font-weight:600; font-size:13px;">Newest First</span>
+                                    style="font-weight:600; font-size:13px;"><?php echo at('newest_first'); ?></span>
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" style="opacity:0.4;">
                                     <polyline points="6 9 12 15 18 9" />
                                 </svg>
                             </button>
                             <div class="dropdown-panel" id="sortDropdownPanel">
-                                <button class="dropdown-option active" data-sort="newest">Newest First</button>
-                                <button class="dropdown-option" data-sort="oldest">Oldest First</button>
+                                <button class="dropdown-option active" data-sort="newest"><?php echo at('newest_first'); ?></button>
+                                <button class="dropdown-option" data-sort="oldest"><?php echo at('oldest_first'); ?></button>
                                 <div style="height:1px; background:var(--border-color); margin:5px 8px;"></div>
-                                <button class="dropdown-option" data-sort="az">Name A-Z</button>
-                                <button class="dropdown-option" data-sort="za">Name Z-A</button>
-                                <button class="dropdown-option" data-sort="stock-low">Low Stock First</button>
-                                <button class="dropdown-option" data-sort="stock-high">High Stock First</button>
+                                <button class="dropdown-option" data-sort="az"><?php echo at('name_az'); ?></button>
+                                <button class="dropdown-option" data-sort="za"><?php echo at('name_za'); ?></button>
+                                <button class="dropdown-option" data-sort="stock-low"><?php echo at('low_stock_first'); ?></button>
+                                <button class="dropdown-option" data-sort="stock-high"><?php echo at('high_stock_first'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -2937,7 +2980,7 @@ require_once 'essentials/admin-translations.php';
                     <!-- Center: Search -->
                     <div class="search-pill-wrapper" style="position:relative; width:400px; order:2;">
                         <input type="text" id="productSearchInput" class="form-input"
-                            placeholder="Search by name, description..."
+                            placeholder="<?php echo at('search_by_name_desc'); ?>"
                             style="width:100%; padding-left:38px; height:45px; border-radius:100px; background:var(--bg-surface); border:1px solid var(--border-color); font-size:13px; box-shadow:var(--shadow-sm);">
                         <div
                             style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted); pointer-events:none;">
@@ -2952,7 +2995,7 @@ require_once 'essentials/admin-translations.php';
                     <!-- Right: Count -->
                     <div class="status-badge-wrapper"
                         style="background:rgba(200,168,75,0.1); color:var(--accent-gold); padding:9px 18px; border-radius:100px; font-size:12px; font-weight:600; border:1px solid rgba(200,168,75,0.2); white-space:nowrap; order:3; min-width:120px; text-align:center;">
-                        <span id="filteredCount" style="font-weight:800;">0</span> Products Available
+                        <span id="filteredCount" style="font-weight:800;">0</span> <?php echo at('products_available'); ?>
                     </div>
                 </div>
 
@@ -2964,7 +3007,7 @@ require_once 'essentials/admin-translations.php';
                 <div class="page-header">
                     <div>
                         <h1 class="page-title"><?php echo at('add_product'); ?></h1>
-                        <p class="page-subtitle">Fill in the details below to add a product to your catalogue.</p>
+                        <p class="page-subtitle"><?php echo at('fill_details_add_product'); ?></p>
                     </div>
                 </div>
                 <form id="productForm">
@@ -3031,14 +3074,12 @@ require_once 'essentials/admin-translations.php';
                                     <button type="button" class="lang-tab" data-lang="en"><?php echo at('english'); ?></button>
                                 </div>
                                 <div class="lang-content active" id="desc-sq-content">
-                                    <div class="form-group"><label class="form-label">Description
-                                            (Albanian)</label><textarea name="desc_sq" id="desc_sq" class="form-input"
+                                    <div class="form-group"><label class="form-label"><?php echo at('description_sq'); ?></label><textarea name="desc_sq" id="desc_sq" class="form-input"
                                             style="height:90px;resize:vertical;"
                                             placeholder="Shkruani përshkrimin..."></textarea></div>
                                 </div>
                                 <div class="lang-content" id="desc-en-content">
-                                    <div class="form-group"><label class="form-label">Description
-                                            (English)</label><textarea name="desc_en" id="desc_en" class="form-input"
+                                    <div class="form-group"><label class="form-label"><?php echo at('description_en'); ?></label><textarea name="desc_en" id="desc_en" class="form-input"
                                             style="height:90px;resize:vertical;"
                                             placeholder="Write a product description..."></textarea></div>
                                 </div>
@@ -3068,9 +3109,9 @@ require_once 'essentials/admin-translations.php';
                                             <polyline points="17,21 17,13 7,13 7,21" />
                                             <polyline points="7,3 7,8 15,8" />
                                         </svg>
-                                        Save Product
+                                        <?php echo at('save_product'); ?>
                                     </button>
-                                    <button type="button" class="btn btn-secondary" id="cancelProductBtn" style="height:50px;">Cancel</button>
+                                    <button type="button" class="btn btn-secondary" id="cancelProductBtn" style="height:50px;"><?php echo at('cancel'); ?></button>
                                 </div>
                             </div>
                     </div>
@@ -3082,7 +3123,7 @@ require_once 'essentials/admin-translations.php';
                 <div class="page-header">
                     <div>
                         <h1 class="page-title"><?php echo at('record_sale'); ?></h1>
-                        <p class="page-subtitle">Record a new product sale</p>
+                        <p class="page-subtitle"><?php echo at('record_sale_desc'); ?></p>
                     </div>
                 </div>
 
@@ -3103,11 +3144,11 @@ require_once 'essentials/admin-translations.php';
                             <div class="form-group" style="margin-bottom:24px;">
                                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                                     <label class="form-label" style="margin-bottom:0; font-weight:700;"><?php echo at('choose_product'); ?></label>
-                                    <div id="selectionStatus" style="font-size:12px; font-weight:600; color:var(--text-muted);">No product selected</div>
+                                    <div id="selectionStatus" style="font-size:12px; font-weight:600; color:var(--text-muted);"><?php echo at('no_product_selected'); ?></div>
                                 </div>
                                 <div class="search-input-wrap">
                                     <input type="text" id="salesProductSearch" class="form-input"
-                                        placeholder="Search products by name or category..." autocomplete="off">
+                                        placeholder="<?php echo at('search_products_name'); ?>" autocomplete="off">
                                     <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2">
                                         <circle cx="11" cy="11" r="8"></circle>
@@ -3117,9 +3158,9 @@ require_once 'essentials/admin-translations.php';
                             </div>
                             <div class="product-selector" id="salesProductSelector">
                                 <div style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">
-                                    Loading products…</div>
+                                    <?php echo at('loading_products'); ?></div>
                             </div>
-                            <div class="form-section-divider" style="margin:24px 0 20px;"><span style="background:var(--bg-secondary); padding:0 15px; font-weight:700; font-size:12px; color:var(--accent-gold); text-transform:uppercase; letter-spacing:1px;">Sale Details</span>
+                            <div class="form-section-divider" style="margin:24px 0 20px;"><span style="background:var(--bg-secondary); padding:0 15px; font-weight:700; font-size:12px; color:var(--accent-gold); text-transform:uppercase; letter-spacing:1px;"><?php echo at('sale_details'); ?></span>
                             </div>
                             <div class="sale-qty-row" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
                                 <div class="form-group"><label class="form-label" style="font-weight:600;"><?php echo at('quantity_sold'); ?></label>
@@ -3136,8 +3177,8 @@ require_once 'essentials/admin-translations.php';
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom:0;"><label
-                                    class="form-label" style="font-weight:600;">Note (optional)</label><input type="text" id="saleNote"
-                                    class="form-input" placeholder="e.g. Wholesale order, cash payment..." style="height:48px; border-radius:12px; background:var(--bg-surface);"></div>
+                                    class="form-label" style="font-weight:600;"><?php echo at('note_optional'); ?></label><input type="text" id="saleNote"
+                                    class="form-input" placeholder="<?php echo at('note_placeholder'); ?>" style="height:48px; border-radius:12px; background:var(--bg-surface);"></div>
                             <div style="margin-top:32px;">
                                 <button type="button" class="btn btn-primary" style="width:100%; justify-content:center; height:56px; font-size:16px; font-weight:700; border-radius:12px; box-shadow:0 4px 15px rgba(212,168,83,0.3);"
                                     onclick="recordSale()">
@@ -3145,7 +3186,7 @@ require_once 'essentials/admin-translations.php';
                                         stroke-width="2.5" style="margin-right:10px;">
                                         <polyline points="20,6 9,17 4,12" />
                                     </svg>
-                                    Record Sale
+                                    <?php echo at('record_sale_btn'); ?>
                                 </button>
                             </div>
                         </div>
@@ -3163,8 +3204,8 @@ require_once 'essentials/admin-translations.php';
             <div class="section" id="section-view-sales">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">View Sales</h1>
-                        <p class="page-subtitle">Browse and manage all your recorded sales</p>
+                        <h1 class="page-title"><?php echo at('view_sales'); ?></h1>
+                        <p class="page-subtitle"><?php echo at('browse_manage_sales'); ?></p>
                     </div>
                     <button class="btn btn-danger btn-sm" onclick="clearSalesHistory()">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -3227,8 +3268,8 @@ require_once 'essentials/admin-translations.php';
                                     <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" />
                                     <polyline points="17,6 23,6 23,12" />
                                 </svg></div>
-                            <h4>No Sales Yet</h4>
-                            <p>Go to <strong>Add Sale</strong> to record your first sale.</p>
+                            <h4><?php echo at('no_sales_yet'); ?></h4>
+                            <p><?php echo at('go_add_sale'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -3248,7 +3289,7 @@ require_once 'essentials/admin-translations.php';
                                 <line x1="12" y1="5" x2="12" y2="19"></line>
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                             </svg>
-                            Add Collaborator
+                            <?php echo at('add_collaborator'); ?>
                         </button>
                     </div>
                 </div>
@@ -3288,15 +3329,15 @@ require_once 'essentials/admin-translations.php';
                 <div class="analytics-two-col" style="margin-bottom:20px;">
                     <div class="analytics-card" style="margin-bottom:0;">
                         <div class="analytics-card-header">
-                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Revenue Distribution</h3>
+                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><?php echo at('revenue_distribution'); ?></h3>
                         </div>
-                        <div id="revenuePieWrap"><div class="no-data-msg">No sales recorded.</div></div>
+                        <div id="revenuePieWrap"><div class="no-data-msg"><?php echo at('no_sales_recorded'); ?></div></div>
                     </div>
                     <div class="analytics-card" style="margin-bottom:0;">
                         <div class="analytics-card-header">
-                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Inquiry Response Status</h3>
+                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><?php echo at('inquiry_response_status'); ?></h3>
                         </div>
-                        <div id="messagePieWrap"><div class="no-data-msg">No messages.</div></div>
+                        <div id="messagePieWrap"><div class="no-data-msg"><?php echo at('no_messages'); ?></div></div>
                     </div>
                 </div>
 
@@ -3304,7 +3345,7 @@ require_once 'essentials/admin-translations.php';
                 <div class="analytics-two-col">
                     <div class="analytics-card" style="margin-bottom:0;">
                         <div class="analytics-card-header">
-                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>Inventory Health Breakdown</h3>
+                            <h3 class="analytics-card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-top;"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg><?php echo at('inventory_health'); ?></h3>
                         </div>
                         <div id="categoryPieWrap">
                             <div class="no-data-msg">
@@ -3407,7 +3448,7 @@ require_once 'essentials/admin-translations.php';
                                 <label class="form-label"><?php echo at('address'); ?></label>
                                 <textarea name="address" id="set_address" class="form-input"
                                     style="height: 80px; resize: none;"
-                                    placeholder="Enter company address..."></textarea>
+                                    placeholder="<?php echo at('enter_address'); ?>"></textarea>
                             </div>
 
                             <div class="settings-section-divider"></div>
@@ -3433,8 +3474,7 @@ require_once 'essentials/admin-translations.php';
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save All
-                                Settings</button>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;"><?php echo at('save_all_settings'); ?></button>
                         </form>
                     </div>
 
@@ -3469,7 +3509,7 @@ require_once 'essentials/admin-translations.php';
                                 <div class="form-group">
                                     <div style="position: relative;">
                                         <input type="password" id="new_password" name="new_password" class="form-input"
-                                            placeholder="Enter new password" required>
+                                            placeholder="<?php echo at('enter_new_password'); ?>" required>
                                         <button type="button" class="password-toggle" data-target="new_password"
                                             style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; padding: 4px;">
                                             <svg class="eye-show" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -3514,7 +3554,7 @@ require_once 'essentials/admin-translations.php';
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary"
-                                style="background: var(--primary-dark); color: #fff;">Change Password</button>
+                                style="background: var(--primary-dark); color: #fff;"><?php echo at('change_password'); ?></button>
                         </form>
                     </div>
 
@@ -3524,7 +3564,7 @@ require_once 'essentials/admin-translations.php';
                         <div class="toggle-row">
                             <div class="toggle-label">
                                 <div class="toggle-label-title"><?php echo at('dark_mode'); ?></div>
-                                <div class="toggle-label-desc">Switch between light and dark themes</div>
+                                <div class="toggle-label-desc"><?php echo at('theme_switch_desc'); ?></div>
                             </div>
                             <label class="toggle">
                                 <input type="checkbox" id="settingsThemeToggle">
@@ -3543,20 +3583,17 @@ require_once 'essentials/admin-translations.php';
                                 style="padding:20px; border-bottom:1px solid rgba(239,68,68,0.1); display:flex; align-items:center; justify-content:space-between;">
                                 <div>
                                     <div style="font-size:14px; font-weight:600;"><?php echo at('clear_sales'); ?></div>
-                                    <div style="font-size:12px; color:var(--text-muted);">Permanently delete all
-                                        recorded sales history</div>
+                                    <div style="font-size:12px; color:var(--text-muted);"><?php echo at('permanently_delete_sales'); ?></div>
                                 </div>
-                                <button class="btn btn-danger btn-sm" onclick="clearSalesHistory()">Clear Data</button>
+                                <button class="btn btn-danger btn-sm" onclick="clearSalesHistory()"><?php echo at('clear_data'); ?></button>
                             </div>
                             <div style="padding:20px; display:flex; align-items:center; justify-content:space-between;">
                                 <div>
                                     <div style="font-size:14px; font-weight:600;"><?php echo at('delete_products'); ?></div>
-                                    <div style="font-size:12px; color:var(--text-muted);">Remove every product from your
-                                        inventory</div>
+                                    <div style="font-size:12px; color:var(--text-muted);"><?php echo at('remove_all_products'); ?></div>
                                 </div>
                                 <button class="btn btn-danger btn-sm"
-                                    onclick="if(confirm('Delete ALL products? This cannot be undone.')){products=[];saveProducts();renderProducts();renderSalesProductSelector();updateAllMetrics();showToast('All products deleted','error');}">Delete
-                                    All</button>
+                                    onclick="if(confirm(T.confirm_delete_all_products)){products=[];saveProducts();renderProducts();renderSalesProductSelector();updateAllMetrics();showToast(T.delete_all,'error');}"><?php echo at('delete_all'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -3595,37 +3632,33 @@ require_once 'essentials/admin-translations.php';
                             <div class="form-panel-body" style="padding:0;">
                                 <div class="form-section-divider" style="margin-top:0;"><span><?php echo at('product_names'); ?></span></div>
                                 <div class="lang-tabs" id="editNameLangTabs">
-                                    <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 Albanian</button>
-                                    <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
+                                    <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 <?php echo at('albanian'); ?></button>
+                                    <button type="button" class="lang-tab" data-lang="en">🇬🇧 <?php echo at('english'); ?></button>
                                 </div>
                                 <div class="lang-content active" id="edit-name-sq-content">
-                                    <div class="form-group"><label class="form-label">Product Name
-                                            (Albanian)</label><input type="text" name="name_sq" id="edit_name_sq"
+                                    <div class="form-group"><label class="form-label"><?php echo at('product_name_sq'); ?></label><input type="text" name="name_sq" id="edit_name_sq"
                                             class="form-input" required></div>
                                 </div>
                                 <div class="lang-content" id="edit-name-en-content">
-                                    <div class="form-group"><label class="form-label">Product Name
-                                            (English)</label><input type="text" name="name_en" id="edit_name_en"
+                                    <div class="form-group"><label class="form-label"><?php echo at('product_name_en'); ?></label><input type="text" name="name_en" id="edit_name_en"
                                             class="form-input" required></div>
                                 </div>
 
-                                <div class="form-section-divider"><span>Descriptions</span></div>
+                                <div class="form-section-divider"><span><?php echo at('descriptions'); ?></span></div>
                                 <div class="lang-tabs" id="editDescLangTabs">
-                                    <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 Albanian</button>
-                                    <button type="button" class="lang-tab" data-lang="en">🇬🇧 English</button>
+                                    <button type="button" class="lang-tab active" data-lang="sq">🇦🇱 <?php echo at('albanian'); ?></button>
+                                    <button type="button" class="lang-tab" data-lang="en">🇬🇧 <?php echo at('english'); ?></button>
                                 </div>
                                 <div class="lang-content active" id="edit-desc-sq-content">
-                                    <div class="form-group"><label class="form-label">Description
-                                            (Albanian)</label><textarea name="desc_sq" id="edit_desc_sq"
+                                    <div class="form-group"><label class="form-label"><?php echo at('description_sq'); ?></label><textarea name="desc_sq" id="edit_desc_sq"
                                             class="form-input" style="height:90px;resize:vertical;"></textarea></div>
                                 </div>
                                 <div class="lang-content" id="edit-desc-en-content">
-                                    <div class="form-group"><label class="form-label">Description
-                                            (English)</label><textarea name="desc_en" id="edit_desc_en"
+                                    <div class="form-group"><label class="form-label"><?php echo at('description_en'); ?></label><textarea name="desc_en" id="edit_desc_en"
                                             class="form-input" style="height:90px;resize:vertical;"></textarea></div>
                                 </div>
 
-                                <div class="form-section-divider"><span>Product Image</span></div>
+                                <div class="form-section-divider"><span><?php echo at('product_image'); ?></span></div>
                                 <div class="image-upload-zone" id="editUploadZone">
                                     <input type="file" name="image" id="editImageInput" accept="image/*"
                                         onchange="handleEditImagePreview(event)">
@@ -3636,7 +3669,7 @@ require_once 'essentials/admin-translations.php';
                                                 <circle cx="8.5" cy="8.5" r="1.5" />
                                                 <polyline points="21,15 16,10 5,21" />
                                             </svg></div>
-                                        <div class="upload-title">Click to change image</div>
+                                        <div class="upload-title"><?php echo at('click_change_image'); ?></div>
                                     </div>
                                     <div class="upload-preview" id="editUploadPreview"><img id="editPreviewImg" src=""
                                             alt="Preview"><button type="button" class="upload-preview-remove"
@@ -3649,7 +3682,7 @@ require_once 'essentials/admin-translations.php';
                                 <div class="sidebar-widget-header"><svg width="16" height="16" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M4 6h16M4 12h16M4 18h7" />
-                                    </svg>Category</div>
+                                    </svg><?php echo at('category'); ?></div>
                                 <div class="sidebar-widget-body">
                                     <div class="category-grid" id="editCategoryGrid">
                                         <label class="category-option"><input type="radio" name="category"
@@ -3872,19 +3905,27 @@ require_once 'essentials/admin-translations.php';
             const dateEl = document.getElementById('dateText');
             if (!clockEl || !dateEl) return;
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US', {
+            const locale = adminLang === 'sq' ? 'sq-AL' : 'en-US';
+            const timeStr = now.toLocaleTimeString(locale, {
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
                 hour12: true
             });
             clockEl.textContent = timeStr;
-            dateEl.textContent = now.toLocaleDateString('en-US', {
-                weekday: 'short',
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric'
-            });
+
+            if (adminLang === 'sq') {
+                const sqDays = ['E Diel', 'E Hënë', 'E Martë', 'E Mërkurë', 'E Enjte', 'E Premte', 'E Shtunë'];
+                const sqMonths = ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor'];
+                dateEl.textContent = `${sqDays[now.getDay()]}, ${now.getDate()} ${sqMonths[now.getMonth()]} ${now.getFullYear()}`;
+            } else {
+                dateEl.textContent = now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            }
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -3905,7 +3946,7 @@ require_once 'essentials/admin-translations.php';
                 const el = document.getElementById(id);
                 if (el) el.textContent = initials;
             });
-            showToast('Profile updated', 'success');
+            showToast(T.toast_profile_updated, 'success');
         }
 
         /* ═══════════════════════════════════════════════════
@@ -3979,10 +4020,10 @@ require_once 'essentials/admin-translations.php';
                 });
                 const d = await res.json();
                 if (d.success) {
-                    showToast('Business info updated', 'success');
+                    showToast(T.toast_business_updated, 'success');
                     setTimeout(() => window.location.reload(), 1000);
                 } else showToast(d.error || 'Error updating info', 'error');
-            } catch (err) { showToast('Connection error', 'error'); }
+            } catch (err) { showToast(T.toast_connection_error, 'error'); }
             finally { btn.textContent = originalText; btn.disabled = false; }
         });
 
@@ -4001,12 +4042,12 @@ require_once 'essentials/admin-translations.php';
                 });
                 const d = await res.json();
                 if (d.success) {
-                    showToast('Password changed successfully', 'success');
+                    showToast(T.toast_password_changed, 'success');
                     e.target.reset();
                 } else {
                     showToast(d.error || 'Error changing password', 'error');
                 }
-            } catch (err) { showToast('Connection error', 'error'); }
+            } catch (err) { showToast(T.toast_connection_error, 'error'); }
             finally { btn.textContent = originalText; btn.disabled = false; }
         });
 
@@ -4124,12 +4165,12 @@ require_once 'essentials/admin-translations.php';
         }
 
         async function deleteMessage(id) {
-            if (!confirm('Delete this message?')) return;
+            if (!confirm(T.confirm_delete_message)) return;
             try {
                 const r = await fetch(`essentials/contact-api.php?action=delete&id=${id}`);
                 const d = await r.json();
                 if (d.status === 'success') {
-                    showToast('Message deleted', 'error');
+                    showToast(T.toast_message_deleted, 'error');
                     await fetchMessages();
                 }
             } catch (err) { console.error('Delete message error:', err); }
@@ -4164,8 +4205,8 @@ require_once 'essentials/admin-translations.php';
                 container.innerHTML = `
                     <div class="sales-empty">
                         <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg></div>
-                        <h4>No Messages Yet</h4>
-                        <p>Inquiries from the website will appear here.</p>
+                        <h4>${T.no_messages_yet}</h4>
+                        <p>${T.inquiries_web_desc}</p>
                     </div>`;
                 return;
             }
@@ -4188,7 +4229,7 @@ require_once 'essentials/admin-translations.php';
                             <tr style="${m.status === 'read' ? 'opacity:0.7;' : 'font-weight:600; background:rgba(200,168,75,0.03);'}">
                                 <td>
                                     <span class="status-pill ${m.status === 'new' ? 'active' : 'inactive'}" style="font-size:10px; padding:2px 8px;">
-                                        <span class="status-dot"></span>${m.status === 'new' ? 'New' : 'Read'}
+                                        <span class="status-dot"></span>${m.status === 'new' ? T.new_status : T.read_status}
                                     </span>
                                 </td>
                                 <td>${m.first_name || ''} ${m.last_name || ''}</td>
@@ -4200,7 +4241,7 @@ require_once 'essentials/admin-translations.php';
                                 <td style="font-size:12px; color:var(--text-muted); white-space:nowrap;">${new Date(m.created_at).toLocaleString()}</td>
                                 <td>
                                     <div style="display:flex; gap:8px;">
-                                        ${m.status === 'new' ? `<button class="btn btn-secondary btn-sm" onclick="markMessageRead(${m.id})">Read</button>` : ''}
+                                        ${m.status === 'new' ? `<button class="btn btn-secondary btn-sm" onclick="markMessageRead(${m.id})">${T.read_status}</button>` : ''}
                                         <button class="btn btn-danger btn-sm btn-icon" onclick="deleteMessage(${m.id})" title="Delete Message">
                                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
                                         </button>
@@ -4213,12 +4254,12 @@ require_once 'essentials/admin-translations.php';
         }
 
         async function clearAllMessages() {
-            if (!confirm('Delete ALL messages? This cannot be undone.')) return;
+            if (!confirm(T.confirm_delete_all_messages)) return;
             try {
                 const r = await fetch('essentials/contact-api.php?action=delete_all');
                 const d = await r.json();
                 if (d.status === 'success') {
-                    showToast('All messages cleared', 'error');
+                    showToast(T.toast_messages_cleared, 'error');
                     await fetchMessages();
                 }
             } catch (err) { console.error('Clear messages error:', err); }
@@ -4256,8 +4297,8 @@ require_once 'essentials/admin-translations.php';
                 container.innerHTML = `
                     <div class="sales-empty">
                         <div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-                        <h4>No Collaborators Yet</h4>
-                        <p>Add companies that collaborate with AgroFanema.</p>
+                        <h4>${T.no_collaborators_yet}</h4>
+                        <p>${T.add_collaborators_desc}</p>
                     </div>`;
                 return;
             }
@@ -4266,9 +4307,9 @@ require_once 'essentials/admin-translations.php';
                 <table>
                     <thead>
                         <tr>
-                            <th>Company Name</th>
-                            <th>Website</th>
-                            <th>Actions</th>
+                            <th>${T.company_name}</th>
+                            <th>${T.website}</th>
+                            <th>${T.actions}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -4303,8 +4344,8 @@ require_once 'essentials/admin-translations.php';
                 <div class="modal collab-modal">
                     <div class="collab-modal-header">
                         <div class="collab-modal-title">
-                            <h2>New Partner</h2>
-                            <p style="font-size:12px; opacity:0.7; color:${dark ? '#fff' : 'var(--text-muted)'}; margin-top:4px;">Add a company to the partners carousel</p>
+                            <h2>${T.new_partner}</h2>
+                            <p style="font-size:12px; opacity:0.7; color:${dark ? '#fff' : 'var(--text-muted)'}; margin-top:4px;">${T.add_partner_desc}</p>
                         </div>
                         <button class="btn-close" onclick="closeActiveCollabModal()" style="background:none; border:none; color:${dark ? '#fff' : 'var(--text-muted)'}; cursor:pointer; opacity:0.6; transition:0.2s;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
                     </div>
@@ -4312,11 +4353,11 @@ require_once 'essentials/admin-translations.php';
                         <form id="collaboratorForm">
                             <input type="hidden" name="action" value="add">
                             <div class="collab-form-group">
-                                <label class="collab-form-label">Company Name</label>
+                                <label class="collab-form-label">${T.company_name}</label>
                                 <input type="text" name="name" class="form-input" placeholder="e.g. AgroCorp Ltd" required>
                             </div>
                             <div class="collab-form-group">
-                                <label class="collab-form-label">Website URL</label>
+                                <label class="collab-form-label">${T.website_url}</label>
                                 <div class="search-input-wrap">
                                     <input type="url" name="website" class="form-input" placeholder="https://example.com" required style="padding-left:44px;">
                                     <svg class="search-icon" style="left:16px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -4325,14 +4366,14 @@ require_once 'essentials/admin-translations.php';
                             <div class="collab-form-group" style="margin-bottom:0;">
                                 <div style="display:flex; align-items:center; gap:12px; padding:15px; background:rgba(0,0,0,0.05); border-radius:8px; border:1px solid rgba(0,0,0,0.1);">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                                    <div style="font-size:12px; line-height:1.4;">The partner name will be displayed in high-end typography as configured in the About page.</div>
+                                    <div style="font-size:12px; line-height:1.4;">${T.partner_display_note}</div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="collab-modal-footer">
-                        <button class="btn btn-secondary" onclick="closeActiveCollabModal()">Dismiss</button>
-                        <button class="btn btn-primary" onclick="saveCollaborator()" style="padding:10px 28px;">Add Partner</button>
+                        <button class="btn btn-secondary" onclick="closeActiveCollabModal()">${T.dismiss}</button>
+                        <button class="btn btn-primary" onclick="saveCollaborator()" style="padding:10px 28px;">${T.add_partner}</button>
                     </div>
                 </div>
             `;
@@ -4358,8 +4399,8 @@ require_once 'essentials/admin-translations.php';
                 <div class="modal collab-modal">
                     <div class="collab-modal-header">
                         <div class="collab-modal-title">
-                            <h2>Edit Partner</h2>
-                            <p style="font-size:12px; opacity:0.7; color:${dark ? '#fff' : 'var(--text-muted)'}; margin-top:4px;">Update details for ${collab.name}</p>
+                            <h2>${T.edit_partner}</h2>
+                            <p style="font-size:12px; opacity:0.7; color:${dark ? '#fff' : 'var(--text-muted)'}; margin-top:4px;">${T.update_details_for} ${collab.name}</p>
                         </div>
                         <button class="btn-close" onclick="closeActiveCollabModal()" style="background:none; border:none; color:${dark ? '#fff' : 'var(--text-muted)'}; cursor:pointer; opacity:0.6;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
                     </div>
@@ -4368,11 +4409,11 @@ require_once 'essentials/admin-translations.php';
                             <input type="hidden" name="action" value="edit">
                             <input type="hidden" name="id" value="${id}">
                             <div class="collab-form-group">
-                                <label class="collab-form-label">Company Name</label>
+                                <label class="collab-form-label">${T.company_name}</label>
                                 <input type="text" name="name" value="${collab.name}" class="form-input" required>
                             </div>
                             <div class="collab-form-group">
-                                <label class="collab-form-label">Website URL</label>
+                                <label class="collab-form-label">${T.website_url}</label>
                                 <div class="search-input-wrap">
                                     <input type="url" name="website" value="${collab.website}" class="form-input" required style="padding-left:44px;">
                                     <svg class="search-icon" style="left:16px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -4381,14 +4422,14 @@ require_once 'essentials/admin-translations.php';
                             <div class="collab-form-group" style="margin-bottom:0;">
                                 <div style="display:flex; align-items:center; gap:12px; padding:15px; background:rgba(0,0,0,0.05); border-radius:8px; border:1px solid rgba(0,0,0,0.1);">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                                    <div style="font-size:12px; line-height:1.4;">The partner name will be displayed in high-end typography (no logo required).</div>
+                                    <div style="font-size:12px; line-height:1.4;">${T.partner_typography_note}</div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="collab-modal-footer">
-                        <button class="btn btn-secondary" onclick="closeActiveCollabModal()">Cancel</button>
-                        <button class="btn btn-primary" onclick="updateCollaborator()" style="padding:10px 28px;">Save Changes</button>
+                        <button class="btn btn-secondary" onclick="closeActiveCollabModal()">${T.cancel}</button>
+                        <button class="btn btn-primary" onclick="updateCollaborator()" style="padding:10px 28px;">${T.save}</button>
                     </div>
                 </div>
             `;
@@ -4413,13 +4454,13 @@ require_once 'essentials/admin-translations.php';
                 if (d.success) {
                     await fetchCollaborators();
                     closeActiveCollabModal();
-                    showToast('Collaborator added successfully', 'success');
+                    showToast(T.toast_collab_added, 'success');
                 } else {
                     showToast(d.error || 'Error adding collaborator', 'error');
                 }
             } catch (err) {
                 console.error(err);
-                showToast('Server error', 'error');
+                showToast(T.toast_server_error, 'error');
             }
         }
 
@@ -4440,18 +4481,18 @@ require_once 'essentials/admin-translations.php';
                 if (d.success) {
                     await fetchCollaborators();
                     closeActiveCollabModal();
-                    showToast('Collaborator updated successfully', 'success');
+                    showToast(T.toast_collab_updated, 'success');
                 } else {
                     showToast(d.error || 'Error updating collaborator', 'error');
                 }
             } catch (err) {
                 console.error(err);
-                showToast('Server error', 'error');
+                showToast(T.toast_server_error, 'error');
             }
         }
 
         async function deleteCollaborator(id) {
-            if (!confirm('Delete this collaborator?')) return;
+            if (!confirm(T.confirm_delete_collaborator)) return;
             const formData = new FormData();
             formData.append('action', 'delete');
             formData.append('id', id);
@@ -4464,7 +4505,7 @@ require_once 'essentials/admin-translations.php';
                 const d = await res.json();
                 if (d.success) {
                     await fetchCollaborators();
-                    showToast('Collaborator deleted', 'error');
+                    showToast(T.toast_collab_deleted, 'error');
                 }
             } catch (err) {
                 console.error(err);
@@ -4492,7 +4533,7 @@ require_once 'essentials/admin-translations.php';
             updateInventoryMetrics();
 
             if (products.length === 0) {
-                grid.innerHTML = `<div style="grid-column:1/-1;"><div class="empty-state"><div class="empty-state-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div><h3>No products yet</h3><p>Start by adding your first product to the catalogue.</p><button class="btn btn-primary" onclick="switchSection('add-product')">Add First Product</button></div></div>`;
+                grid.innerHTML = `<div style="grid-column:1/-1;"><div class="empty-state"><div class="empty-state-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div><h3>${T.no_products_yet}</h3><p>${T.start_adding_product}</p><button class="btn btn-primary" onclick="switchSection('add-product')">${T.add_first_product}</button></div></div>`;
                 return;
             }
 
@@ -4530,13 +4571,13 @@ require_once 'essentials/admin-translations.php';
             if (countEl) countEl.textContent = filteredProducts.length;
 
             if (filteredProducts.length === 0) {
-                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">No products found matching your search.</div>`;
+                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">${T.no_products_found}</div>`;
                 return;
             }
 
             filteredProducts.forEach((product, index) => {
                 const stockStatus = product.quantity > 10 ? 'active' : (product.quantity > 0 ? 'pending' : 'inactive');
-                const stockLabel = product.quantity > 10 ? 'In Stock' : (product.quantity > 0 ? 'Low Stock' : 'Out of Stock');
+                const stockLabel = product.quantity > 10 ? T.in_stock : (product.quantity > 0 ? T.stock_low : T.out_of_stock);
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.onclick = (e) => {
@@ -4553,9 +4594,9 @@ require_once 'essentials/admin-translations.php';
           <span class="status-pill ${stockStatus}"><span class="status-dot"></span>${stockLabel} (${product.quantity})</span>
         </div>
         <div class="product-card-actions">
-          <button class="btn btn-secondary btn-sm edit-product" data-index="${index}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit</button>
+          <button class="btn btn-secondary btn-sm edit-product" data-index="${index}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>${T.edit}</button>
           <button class="btn btn-danger btn-sm delete-product" data-id="${product.id}">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>Delete
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>${T.delete}
           </button>
         </div>
       </div>`;
@@ -4571,7 +4612,7 @@ require_once 'essentials/admin-translations.php';
             document.querySelectorAll('.delete-product').forEach(btn => {
                 btn.addEventListener('click', async function () {
                     const id = this.dataset.id;
-                    if (!confirm('Are you sure you want to PERMANENTLY delete this product? This cannot be undone.')) return;
+                    if (!confirm(T.confirm_delete_product)) return;
 
                     try {
                         const res = await fetch(`essentials/product-api.php?action=delete_permanent&id=${id}`);
@@ -4579,13 +4620,13 @@ require_once 'essentials/admin-translations.php';
 
                         if (d.status === 'success') {
                             await fetchProducts(); // Refresh list
-                            showToast('Product deleted successfully', 'success');
+                            showToast(T.toast_product_deleted, 'success');
                         } else {
                             showToast(d.message || 'Error deleting product', 'error');
                         }
                     } catch (err) {
                         console.error('Delete error:', err);
-                        showToast('Server error', 'error');
+                        showToast(T.toast_server_error, 'error');
                     }
                 });
             });
@@ -4693,13 +4734,13 @@ require_once 'essentials/admin-translations.php';
                 if (d.status === 'success') {
                     closeEditModal();
                     await fetchProducts();
-                    showToast('Product updated successfully', 'success');
+                    showToast(T.toast_product_updated, 'success');
                 } else {
                     showToast(d.message || 'Error updating product', 'error');
                 }
             } catch (err) {
                 console.error(err);
-                showToast('API Connection Error', 'error');
+                showToast(T.toast_api_error, 'error');
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -4748,13 +4789,13 @@ require_once 'essentials/admin-translations.php';
                     resetProductForm();
                     switchSection('view-products');
                     await fetchProducts();
-                    showToast('Product added successfully', 'success');
+                    showToast(T.toast_product_added, 'success');
                 } else {
                     showToast(d.message || 'Error adding product', 'error');
                 }
             } catch (err) {
                 console.error(err);
-                showToast('API Connection Error', 'error');
+                showToast(T.toast_api_error, 'error');
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -4787,7 +4828,7 @@ require_once 'essentials/admin-translations.php';
             c.innerHTML = '';
 
             if (products.length === 0) {
-                c.innerHTML = `<div style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">No products found. <a href="#" onclick="switchSection('add-product');return false;" style="color:var(--accent-gold);">Add a product first →</a></div>`;
+                c.innerHTML = `<div style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">${T.no_products_found}. <a href="#" onclick="switchSection('add-product');return false;" style="color:var(--accent-gold);">${T.add_product_first}</a></div>`;
                 return;
             }
 
@@ -4799,7 +4840,7 @@ require_once 'essentials/admin-translations.php';
             });
 
             if (filtered.length === 0) {
-                c.innerHTML = `<div style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">No products match your search "${query}".</div>`;
+                c.innerHTML = `<div style="color:var(--text-muted);font-size:13px;grid-column:1/-1;padding:20px;text-align:center;">${T.no_match_search} "${query}".</div>`;
                 return;
             }
 
@@ -4877,7 +4918,7 @@ require_once 'essentials/admin-translations.php';
 
         async function recordSale() {
             if (!selectedSaleProductId) {
-                showToast('Please select a product first', 'error');
+                showToast(T.select_product_first, 'error');
                 return;
             }
             const qty = parseInt(document.getElementById('saleQty').value) || 1;
@@ -4900,7 +4941,7 @@ require_once 'essentials/admin-translations.php';
                 });
                 const d = await res.json();
                 if (d.status === 'success') {
-                    showToast(`Recorded: ${qty} units sold`, 'success');
+                    showToast(T.toast_sale_recorded.replace('{qty}', qty), 'success');
 
                     // Reset fields
                     selectedSaleProductId = null;
@@ -4917,7 +4958,7 @@ require_once 'essentials/admin-translations.php';
                     showToast(d.message || 'Error recording sale', 'error');
                 }
             } catch (err) {
-                showToast('Server error recording sale', 'error');
+                showToast(T.toast_sale_error, 'error');
             } finally {
                 if (btn) btn.disabled = false;
             }
@@ -4927,7 +4968,7 @@ require_once 'essentials/admin-translations.php';
             const c = document.getElementById('recentSalesList');
             if (!c) return;
             if (salesHistory.length === 0) {
-                c.innerHTML = '<div class="rsw-empty">No sales recorded yet.</div>';
+                c.innerHTML = `<div class="rsw-empty">${T.no_sales_yet}</div>`;
                 return;
             }
             c.innerHTML = salesHistory.slice(0, 8).map(sale => `
@@ -4935,9 +4976,9 @@ require_once 'essentials/admin-translations.php';
       <div class="rsw-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"/></svg></div>
       <div class="rsw-info">
         <div class="rsw-name">${sale.productName}</div>
-        <div class="rsw-qty">${sale.qty} unit${sale.qty > 1 ? 's' : ''} · ${sale.date}</div>
+        <div class="rsw-qty">${sale.qty} ${T.units} · ${sale.date}</div>
       </div>
-      <div class="rsw-profit" style="${sale.price > 0 ? '' : 'color:var(--text-muted);font-size:12px;'}">${sale.price > 0 ? formatCurrency(sale.total) : 'No price'}</div>
+      <div class="rsw-profit" style="${sale.price > 0 ? '' : 'color:var(--text-muted);font-size:12px;'}">${sale.price > 0 ? formatCurrency(sale.total) : T.no_price}</div>
     </div>`).join('');
         }
 
@@ -4958,17 +4999,17 @@ require_once 'essentials/admin-translations.php';
 
             if (!c) return;
             if (salesHistory.length === 0) {
-                c.innerHTML = `<div class="sales-empty"><div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/><polyline points="17,6 23,6 23,12"/></svg></div><h4>No Sales Yet</h4><p>Go to <strong>Add Sale</strong> to record your first sale.</p></div>`;
+                c.innerHTML = `<div class="sales-empty"><div class="sales-empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/><polyline points="17,6 23,6 23,12"/></svg></div><h4>${T.no_sales_yet}</h4><p>${T.go_add_sale}</p></div>`;
                 return;
             }
             if (filtered.length === 0) {
-                c.innerHTML = `<div style="padding:40px;text-align:center;color:var(--text-muted);">No sales match your filter.</div>`;
+                c.innerHTML = `<div style="padding:40px;text-align:center;color:var(--text-muted);">${T.no_sales_match_filter}</div>`;
                 return;
             }
 
             c.innerHTML = `<table>
     <thead><tr>
-      <th><?php echo at('sale_id'); ?></th><th><?php echo at('product'); ?></th><th><?php echo at('category'); ?></th><th><?php echo at('qty'); ?></th><th><?php echo at('unit_price'); ?></th><th><?php echo at('total'); ?></th><th><?php echo at('note'); ?></th><th><?php echo at('date'); ?></th><th></th>
+      <th><?php echo at('sale_id'); ?></th><th><?php echo at('product'); ?></th><th><?php echo at('category'); ?></th><th><?php echo at('qty'); ?></th><th><?php echo at('unit_price'); ?></th><th><?php echo at('total'); ?></th><th><?php echo at('note'); ?></th><th><?php echo at('date'); ?></th><th><?php echo at('actions'); ?></th>
     </tr></thead>
     <tbody>${filtered.map((sale, idx) => `
       <tr>
@@ -4980,7 +5021,7 @@ require_once 'essentials/admin-translations.php';
         <td><strong style="color:var(--success);">${sale.price > 0 ? formatCurrency(sale.total) : '<span style="color:var(--text-muted);">—</span>'}</strong></td>
         <td style="color:var(--text-muted);font-size:13px;">${sale.note || '—'}</td>
         <td style="font-size:12px;color:var(--text-muted);white-space:nowrap;">${sale.date}</td>
-        <td><button class="btn btn-danger btn-sm btn-icon" onclick="deleteSale('${sale.id}')" title="Delete sale"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></td>
+        <td><div style="display:flex;gap:6px;"><button class="btn btn-secondary btn-sm btn-icon" onclick="printReceipt('${sale.id}')" title="<?php echo at('print_receipt'); ?>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button><button class="btn btn-danger btn-sm btn-icon" onclick="deleteSale('${sale.id}')" title="Delete sale"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button></div></td>
       </tr>`).join('')}
     </tbody>
   </table>`;
@@ -4999,13 +5040,13 @@ require_once 'essentials/admin-translations.php';
         async function deleteSale(saleId) {
             const sale = salesHistory.find(s => s.id === saleId);
             if (!sale || !sale.dbId) return;
-            if (!confirm('Are you sure you want to delete this sale? Stock will be restored.')) return;
+            if (!confirm(T.confirm_delete_sale)) return;
 
             try {
                 const res = await fetch(`essentials/product-api.php?action=delete_sale&id=${sale.dbId}`);
                 const d = await res.json();
                 if (d.status === 'success') {
-                    showToast('Sale removed', 'error');
+                    showToast(T.toast_sale_removed, 'error');
                     await fetchProducts();
                     await updateAllMetrics();
                     renderRecentSales();
@@ -5014,12 +5055,206 @@ require_once 'essentials/admin-translations.php';
             } catch (err) { console.error('Delete sale error:', err); }
         }
 
+        function printReceipt(saleId) {
+            const sale = salesHistory.find(s => s.id === saleId);
+            if (!sale) return;
+
+            const bizPhone = document.getElementById('set_phone_1')?.value || '';
+            const bizEmail = document.getElementById('set_email')?.value || '';
+            const bizAddress = document.getElementById('set_address')?.value || '';
+            const currLabel = siteSettings.currency === 'EUR' ? '€' : 'Lek';
+
+            const receiptHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Faturë Tatimore ${sale.id}</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: #fff;
+    color: #111827;
+    padding: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .receipt-header {
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1.5px solid #000;
+    margin-bottom: 15px;
+  }
+  .receipt-logo {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+  }
+  .receipt-logo span { color: #D4A853; }
+  .receipt-contact {
+    font-size: 10px;
+    color: #4B5563;
+  }
+  .receipt-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0;
+    padding: 8px;
+    border: 1px solid #111;
+  }
+  .receipt-meta {
+    font-size: 11px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .receipt-meta-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  .receipt-items {
+    width: 100%;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #E5E7EB;
+  }
+  .receipt-items table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .receipt-items th {
+    text-align: left;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 6px 0;
+    border-bottom: 1px solid #000;
+  }
+  .receipt-items td {
+    padding: 8px 0;
+    font-size: 11px;
+  }
+  .receipt-totals {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1.5px solid #000;
+  }
+  .receipt-total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  .receipt-total-row.grand {
+    font-size: 16px;
+    font-weight: 900;
+    border-top: 1px dashed #000;
+    padding-top: 10px;
+    margin-top: 5px;
+  }
+  .receipt-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px dashed #D1D5DB;
+  }
+  .thank-you {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .legal-text {
+    font-size: 8px;
+    color: #9CA3AF;
+    text-transform: uppercase;
+  }
+  @media print {
+    body { padding: 5px; }
+  }
+</style>
+</head>
+<body>
+  <div class="receipt-header">
+    <div class="receipt-logo">Agro<span>Fanema</span></div>
+    <div class="receipt-contact">
+      ${bizAddress ? bizAddress + '<br>' : ''}
+      KOSOVË | ${bizPhone ? bizPhone : ''}${bizPhone && bizEmail ? ' | ' : ''}${bizEmail ? bizEmail : ''}
+    </div>
+  </div>
+
+  <div class="receipt-title">Faturë Tatimore</div>
+
+  <div class="receipt-meta">
+    <div class="receipt-meta-row"><span>Nr. Faturës:</span> <strong>${sale.id}</strong></div>
+    <div class="receipt-meta-row"><span>Data:</span> <strong>${new Date().toLocaleDateString('sq-AL')}</strong></div>
+    <div class="receipt-meta-row"><span>Koha:</span> <strong>${new Date().toLocaleTimeString('sq-AL', { hour: '2-digit', minute: '2-digit' })}</strong></div>
+  </div>
+
+  <div class="receipt-items">
+    <table>
+      <thead>
+        <tr>
+          <th>Përshkrimi</th>
+          <th style="text-align:center">Sasia</th>
+          <th style="text-align:right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;">${sale.productName}<br><span style="font-size:9px; font-weight:400; color:#6B7280;">Kategoria: ${sale.category}</span></td>
+          <td style="text-align:center">${sale.qty}</td>
+          <td style="text-align:right"><strong>${sale.total.toLocaleString('sq-AL')}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="receipt-totals">
+    <div class="receipt-total-row">
+      <span>Nëntotali:</span>
+      <span>${sale.total.toLocaleString('sq-AL')} ${currLabel}</span>
+    </div>
+    <div class="receipt-total-row">
+      <span>TVSH (0%):</span>
+      <span>0.00 ${currLabel}</span>
+    </div>
+    <div class="receipt-total-row grand">
+      <span>TOTAL-I:</span>
+      <span>${sale.total.toLocaleString('sq-AL')} ${currLabel}</span>
+    </div>
+  </div>
+
+  <div class="receipt-footer">
+    <p class="thank-you">Ju faleminderit për besimin tuaj!</p>
+    <p class="legal-text">Kjo faturë është gjeneruar në mënyrë elektronike.</p>
+  </div>
+</body>
+</html>`;
+
+            const printWindow = window.open('', '_blank', 'width=340,height=550');
+            printWindow.document.write(receiptHTML);
+            printWindow.document.close();
+            printWindow.onload = () => {
+                setTimeout(() => {
+                    printWindow.print();
+                    printWindow.close();
+                }, 300);
+            };
+        }
+
         function clearSalesHistory() {
             if (salesHistory.length === 0) {
-                showToast('No sales to clear', 'error');
+                showToast(T.toast_no_sales, 'error');
                 return;
             }
-            if (!confirm('Clear all sales history? Stock quantities will be restored.')) return;
+            if (!confirm(T.confirm_clear_sales)) return;
             salesHistory.forEach(sale => {
                 const p = products.find(p => p.id === sale.productId);
                 if (p) p.quantity += sale.qty;
@@ -5030,7 +5265,7 @@ require_once 'essentials/admin-translations.php';
             renderSalesTable();
             renderRecentSales();
             updateAllMetrics();
-            showToast('Sales history cleared', 'error');
+            showToast(T.toast_sales_cleared, 'error');
         }
 
         /* ═══════════════════════════════════════════════════
@@ -5038,15 +5273,21 @@ require_once 'essentials/admin-translations.php';
         ═══════════════════════════════════════════════════ */
         function refreshOverview() {
             updateOverviewMetrics();
-            showToast('Dashboard refreshed', 'success');
+            showToast(T.toast_dashboard_refreshed, 'success');
         }
 
         function updateOverviewMetrics() {
             const now = new Date();
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             const dateEl = document.getElementById('overviewDate');
-            if (dateEl) dateEl.textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+            if (dateEl) {
+                if (adminLang === 'sq') {
+                    const sqDays = ['E Diel', 'E Hënë', 'E Martë', 'E Mërkurë', 'E Enjte', 'E Premte', 'E Shtunë'];
+                    const sqMonths = ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor'];
+                    dateEl.textContent = `${sqDays[now.getDay()]}, ${now.getDate()} ${sqMonths[now.getMonth()]} ${now.getFullYear()}`;
+                } else {
+                    dateEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                }
+            }
 
             const totalRevenue = dashboardStats.revenue;
             const totalUnits = dashboardStats.units;
@@ -5058,13 +5299,13 @@ require_once 'essentials/admin-translations.php';
                 if (el) el.textContent = val;
             };
             setEl('ov-revenue', formatCurrency(totalRevenue));
-            setEl('ov-revenue-trend', dashboardStats.sale_count + ' sales');
+            setEl('ov-revenue-trend', dashboardStats.sale_count + ' ' + T.sales);
             setEl('ov-units', totalUnits.toLocaleString());
-            setEl('ov-units-trend', dashboardStats.sale_count + ' transactions');
+            setEl('ov-units-trend', dashboardStats.sale_count + ' ' + T.total_transactions);
             setEl('ov-stock', totalStock.toLocaleString());
-            setEl('ov-stock-trend', dashboardStats.total_items + ' products');
+            setEl('ov-stock-trend', dashboardStats.total_items + ' ' + T.total_products);
             setEl('ov-low', lowStock);
-            setEl('ov-low-trend', lowStock > 0 ? 'Needs restock' : 'Stock OK');
+            setEl('ov-low-trend', lowStock > 0 ? T.stock_low : T.in_stock);
 
             // Update metric trend classes
             ['ov-revenue-trend', 'ov-units-trend', 'ov-stock-trend'].forEach(id => {
@@ -5084,7 +5325,7 @@ require_once 'essentials/admin-translations.php';
             const bsc = document.getElementById('ov-best-sellers');
             if (bsc) {
                 if (salesHistory.length === 0) {
-                    bsc.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No sales yet. Go to Add Sale to get started.</div>';
+                    bsc.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">${T.no_sales_yet_overview}</div>`;
                 } else {
                     const agg = {};
                     salesHistory.forEach(sale => {
@@ -5104,7 +5345,7 @@ require_once 'essentials/admin-translations.php';
           </div>
           <div class="activity-info">
             <div class="activity-name">${p.name}</div>
-            <div class="activity-sub">${p.qty} unit${p.qty > 1 ? 's' : ''} sold</div>
+            <div class="activity-sub">${p.qty} ${T.units_sold_label}</div>
           </div>
           <div class="activity-val" style="color:var(--accent-gold);">$${p.revenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
         </div>`).join('');
@@ -5115,7 +5356,7 @@ require_once 'essentials/admin-translations.php';
             const ibc = document.getElementById('ov-inventory');
             if (ibc) {
                 if (products.length === 0) {
-                    ibc.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">No products added yet.</div>';
+                    ibc.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:13px;">${T.no_products_added}</div>`;
                 } else {
                     const cats = {};
                     products.forEach(p => {
@@ -5158,7 +5399,7 @@ require_once 'essentials/admin-translations.php';
             if (!wrap) return;
 
             if (salesHistory.length === 0) {
-                wrap.innerHTML = '<div class="no-data-msg">No sales recorded.</div>';
+                wrap.innerHTML = `<div class="no-data-msg">${T.no_sales_recorded}</div>`;
                 return;
             }
 
@@ -5201,7 +5442,7 @@ require_once 'essentials/admin-translations.php';
             if (!wrap) return;
 
             if (messages.length === 0) {
-                wrap.innerHTML = '<div class="no-data-msg">No messages yet.</div>';
+                wrap.innerHTML = `<div class="no-data-msg">${T.no_messages}</div>`;
                 return;
             }
 
@@ -5219,8 +5460,8 @@ require_once 'essentials/admin-translations.php';
                     <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--danger)" stroke-width="${sw}" stroke-dasharray="${unreadSda} ${circ}" stroke-dashoffset="${-readSda}" />
                 </svg>
                 <div style="flex:1;">
-                    <div class="donut-legend-item" style="gap:8px;margin-bottom:8px;"><div class="donut-legend-dot" style="background:var(--success);"></div><span style="font-size:12px;flex:1;">Read / Replied</span><span style="font-size:11px;font-weight:700;">${read} items</span></div>
-                    <div class="donut-legend-item" style="gap:8px;"><div class="donut-legend-dot" style="background:var(--danger);"></div><span style="font-size:12px;flex:1;">New / Unread</span><span style="font-size:11px;font-weight:700;">${unread} items</span></div>
+                    <div class="donut-legend-item" style="gap:8px;margin-bottom:8px;"><div class="donut-legend-dot" style="background:var(--success);"></div><span style="font-size:12px;flex:1;">${T.read_replied}</span><span style="font-size:11px;font-weight:700;">${read} ${T.items}</span></div>
+                    <div class="donut-legend-item" style="gap:8px;"><div class="donut-legend-dot" style="background:var(--danger);"></div><span style="font-size:12px;flex:1;">${T.new_unread}</span><span style="font-size:11px;font-weight:700;">${unread} ${T.items}</span></div>
                 </div>
             </div>`;
         }
@@ -5251,14 +5492,14 @@ require_once 'essentials/admin-translations.php';
             if (!wrap) return;
 
             if (products.length === 0) {
-                wrap.innerHTML = '<div class="no-data-msg"><h4>No products yet</h4><p>Add products to see inventory health.</p></div>';
+                wrap.innerHTML = `<div class="no-data-msg"><h4>${T.no_products_yet_analytics}</h4><p>${T.add_products_health}</p></div>`;
                 return;
             }
 
             const status = {
-                in_stock: { label: 'In Stock', count: 0, color: '#10B981', icon: '✅' },
-                low_stock: { label: 'Low Stock', count: 0, color: '#F59E0B', icon: '⚠' },
-                out_of_stock: { label: 'Out of Stock', count: 0, color: '#EF4444', icon: '❌' }
+                in_stock: { label: T.in_stock, count: 0, color: '#10B981', icon: '✅' },
+                low_stock: { label: T.stock_low, count: 0, color: '#F59E0B', icon: '⚠' },
+                out_of_stock: { label: T.out_of_stock, count: 0, color: '#EF4444', icon: '❌' }
             };
 
             products.forEach(p => {
@@ -5289,7 +5530,7 @@ require_once 'essentials/admin-translations.php';
                 return `<div class="donut-legend-item">
                     <div class="donut-legend-dot" style="background:${data.color};"></div>
                     <span class="donut-legend-text">${data.icon} ${data.label}</span>
-                    <span class="donut-legend-value">${data.count} items</span>
+                    <span class="donut-legend-value">${data.count} ${T.items}</span>
                     <span class="donut-legend-pct">${pct}%</span>
                 </div>`;
             }).join('');
@@ -5302,7 +5543,7 @@ require_once 'essentials/admin-translations.php';
                     </svg>
                     <div class="donut-center" style="width:100px;">
                       <div class="donut-value">${total}</div>
-                      <div class="donut-label" style="font-size:9px;">total products</div>
+                      <div class="donut-label" style="font-size:9px;">${T.total_products_label}</div>
                     </div>
                   </div>
                   <div class="donut-legend" style="flex:1;">${legend}</div>
@@ -5313,7 +5554,7 @@ require_once 'essentials/admin-translations.php';
             const c = document.getElementById('topProductsChart');
             if (!c) return;
             if (salesHistory.length === 0) {
-                c.innerHTML = '<div class="no-data-msg"><h4>No sales data yet</h4><p>Record sales to see your top performers.</p></div>';
+                c.innerHTML = `<div class="no-data-msg"><h4>${T.no_sales_data}</h4><p>${T.record_sales_top}</p></div>`;
                 return;
             }
             const agg = {};
@@ -5376,10 +5617,10 @@ require_once 'essentials/admin-translations.php';
             };
 
             c.innerHTML = `
-    <div class="metric-card"><div class="metric-header"><div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg></div></div><div class="metric-value">${formatCurrency(totalRevenue)}</div><div class="metric-label">Total Revenue</div></div>
-    <div class="metric-card"><div class="metric-header"><div class="metric-icon orders"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/></svg></div></div><div class="metric-value">${totalUnits.toLocaleString()}</div><div class="metric-label">Total Units Sold</div></div>
-    <div class="metric-card"><div class="metric-header"><div class="metric-icon customers"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div></div><div class="metric-value">${formatCurrency(avgOrderValue)}</div><div class="metric-label">Avg. Sale Value</div></div>
-    <div class="metric-card"><div class="metric-header"><div class="metric-icon growth"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div></div><div class="metric-value">${catIcons[topCat] || ''} ${topCat.charAt(0).toUpperCase() + topCat.slice(1)}</div><div class="metric-label">Top Category</div></div>
+    <div class="metric-card"><div class="metric-header"><div class="metric-icon revenue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"/></svg></div></div><div class="metric-value">${formatCurrency(totalRevenue)}</div><div class="metric-label">${T.total_revenue_short}</div></div>
+    <div class="metric-card"><div class="metric-header"><div class="metric-icon orders"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/></svg></div></div><div class="metric-value">${totalUnits.toLocaleString()}</div><div class="metric-label">${T.total_units_sold}</div></div>
+    <div class="metric-card"><div class="metric-header"><div class="metric-icon customers"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div></div><div class="metric-value">${formatCurrency(avgOrderValue)}</div><div class="metric-label">${T.avg_sale_value}</div></div>
+    <div class="metric-card"><div class="metric-header"><div class="metric-icon growth"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div></div><div class="metric-value">${catIcons[topCat] || ''} ${topCat.charAt(0).toUpperCase() + topCat.slice(1)}</div><div class="metric-label">${T.top_category}</div></div>
   `;
         }
 
